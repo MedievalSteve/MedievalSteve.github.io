@@ -1,7 +1,82 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Steve's Project Landing Page</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    header {
+      margin-top: 60px;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .projects {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      width: 100%;
+      max-width: 500px;
+    }
+    .project-link {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      padding: 24px;
+      text-decoration: none;
+      color: #222;
+      transition: box-shadow 0.2s;
+      font-size: 1.2rem;
+      display: block;
+    }
+    .project-link:hover {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+      color: #0077cc;
+    }
+    .project-title {
+      font-weight: bold;
+      font-size: 1.3rem;
+    }
+    .project-desc {
+      margin-top: 6px;
+      color: #555;
+      font-size: 1rem;
+    }
+  </style>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+  <header>
+    <h1>Steve's Projects</h1>
+    <p>Welcome! Explore my current personal projects below.</p>
+  </header>
+  <main>
+    <div class="projects">
+      <a class="project-link" href="big-space-travel-far.html">
+        <span class="project-title">Current RPG Campaign - Big Space, Travel Far</span>
+        <div class="project-desc">Mongoose Traveller 2e campaign resources and logs.</div>
+      </a>
+      <a class="project-link" href="wrestling-game.html">
+        <span class="project-title">The New Wrestling Game</span>
+        <div class="project-desc">A new tabletop wrestling game in development.</div>
+      </a>
+      <a class="project-link" href="medieval-reenactment.html">
+        <span class="project-title">Medieval Reenactment</span>
+        <div class="project-desc">My adventures and resources in medieval reenactment.</div>
+      </a>
+    </div>
+  </main>
 </body>
 </html>
