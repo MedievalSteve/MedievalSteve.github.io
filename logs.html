@@ -15,8 +15,41 @@
       align-items: center;
       min-height: 100vh;
     }
+    .nav-panel {
+      width: 100%;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+    }
+    .nav-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 60px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    .nav-links a {
+      color: #333;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: #6b4ca3;
+    }
+    .nav-links a.active {
+      color: #6b4ca3;
+    }
     header {
-      margin-top: 60px;
+      margin-top: 120px;  /* Increased to account for fixed nav */
       margin-bottom: 40px;
       text-align: center;
     }
@@ -72,6 +105,18 @@
   </style>
 </head>
 <body>
+  <nav class="nav-panel">
+    <div class="nav-content">
+      <a href="big-space-travel-far.html" style="color: #333; text-decoration: none; font-weight: bold;">Campaign Hub</a>
+      <div class="nav-links">
+        <a href="characters.html">Characters</a>
+        <a href="npcs.html">NPCs</a>
+        <a href="locations.html">Locations</a>
+        <a href="logs.html" class="active">Logs</a>
+      </div>
+    </div>
+  </nav>
+
   <header>
     <h1>Campaign Logs</h1>
   </header>

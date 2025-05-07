@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>RPG Campaign Hub</title>
+  <title>Places Visited</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
@@ -14,39 +14,6 @@
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
-    }
-    header {
-      margin-top: 120px;
-      margin-bottom: 40px;
-      text-align: center;
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-    }
-    .section-links {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-      width: 100%;
-      max-width: 500px;
-      padding: 0 20px;
-    }
-    .section-link {
-      background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-      padding: 24px;
-      text-decoration: none;
-      color: #222;
-      transition: all 0.2s;
-      font-size: 1.2rem;
-      display: block;
-    }
-    .section-link:hover {
-      box-shadow: 0 4px 16px rgba(0,0,0,0.13);
-      transform: translateY(-2px);
-      color: #6b4ca3;
     }
     .nav-panel {
       width: 100%;
@@ -81,6 +48,15 @@
     .nav-links a.active {
       color: #6b4ca3;
     }
+    header {
+      margin-top: 120px;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
   </style>
 </head>
 <body>
@@ -90,29 +66,18 @@
       <div class="nav-links">
         <a href="characters.html">Characters</a>
         <a href="npcs.html">NPCs</a>
-        <a href="locations.html">Locations</a>
+        <a href="locations.html" class="active">Locations</a>
         <a href="logs.html">Logs</a>
       </div>
     </div>
   </nav>
 
   <header>
-    <h1>Campaign Hub</h1>
+    <h1>Places Visited</h1>
   </header>
 
-  <main class="section-links">
-    <a href="characters.html" class="section-link">
-      Character Records
-    </a>
-    <a href="npcs.html" class="section-link">
-      NPC Records
-    </a>
-    <a href="locations.html" class="section-link">
-      Places Visited
-    </a>
-    <a href="logs.html#disqus_thread" class="section-link">
-      Campaign Logs
-    </a>
+  <main style="width: 100%; max-width: 800px; padding: 0 20px;">
+    <!-- Location content will go here -->
   </main>
 </body>
-</html>
+</html> 
