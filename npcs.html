@@ -57,6 +57,105 @@
       font-size: 2.5rem;
       margin-bottom: 0.5rem;
     }
+    .npc-section {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      padding: 24px;
+      margin-bottom: 24px;
+      width: 100%;
+      max-width: 800px;
+    }
+    .npc-title {
+      font-size: 1.8rem;
+      margin-bottom: 16px;
+      color: #333;
+      border-bottom: 2px solid #6b4ca3;
+      padding-bottom: 8px;
+    }
+    .npc-content {
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .npc-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .npc-tag {
+      background: #f0f0f0;
+      color: #666;
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .npc-tag:hover {
+      background: #6b4ca3;
+      color: white;
+    }
+    .npc-tag.active {
+      background: #6b4ca3;
+      color: white;
+    }
+    .filter-section {
+      background: #f8f8f8;
+      padding: 16px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+      width: 100%;
+      max-width: 800px;
+    }
+    .filter-title {
+      color: #6b4ca3;
+      margin-bottom: 12px;
+      font-size: 1.2rem;
+    }
+    .filter-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .filter-tag {
+      background: #fff;
+      color: #666;
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid #ddd;
+    }
+    .filter-tag:hover {
+      background: #6b4ca3;
+      color: white;
+      border-color: #6b4ca3;
+    }
+    .filter-tag.active {
+      background: #6b4ca3;
+      color: white;
+      border-color: #6b4ca3;
+    }
+    .npc-details {
+      background: #f8f8f8;
+      padding: 16px;
+      border-radius: 6px;
+      margin-top: 16px;
+    }
+    .npc-details h3 {
+      color: #6b4ca3;
+      margin-bottom: 12px;
+    }
+    .npc-details ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    .npc-details li {
+      margin-bottom: 8px;
+    }
   </style>
 </head>
 <body>
@@ -79,8 +178,122 @@
     <h1>NPC Records</h1>
   </header>
 
+  <div class="filter-section">
+    <h2 class="filter-title">Filter by Tags</h2>
+    <div class="filter-tags">
+      <span class="filter-tag" data-tag="university">University</span>
+      <span class="filter-tag" data-tag="zhodani">Zhodani</span>
+      <span class="filter-tag" data-tag="ghenani">Ghenani</span>
+      <span class="filter-tag" data-tag="collonades">Collonades</span>
+      <span class="filter-tag" data-tag="drenalch">Drenalch</span>
+      <span class="filter-tag" data-tag="nielkladlief">Nielkladlief</span>
+      <span class="filter-tag" data-tag="employer">Employer</span>
+      <span class="filter-tag" data-tag="act1">Act I: Shadows of the Past</span>
+      <span class="filter-tag" data-tag="mission1">Mission 1: The Seeds of Curiosity</span>
+    </div>
+  </div>
+
   <main style="width: 100%; max-width: 800px; padding: 0 20px;">
-    <!-- NPC content will go here -->
+    <section class="npc-section" data-tags="university,zhodani,collonades,nielkladlief,employer,act1,mission1">
+      <h2 class="npc-title">Professor Albericiepr</h2>
+      <div class="npc-tags">
+        <span class="npc-tag">University</span>
+        <span class="npc-tag">Zhodani</span>
+        <span class="npc-tag">Collonades</span>
+        <span class="npc-tag">Nielkladlief</span>
+        <span class="npc-tag">Employer</span>
+        <span class="npc-tag">Act I: Shadows of the Past</span>
+        <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+      </div>
+      <div class="npc-content">
+        <p>Professor at the university who provided the crew with their first mission.</p>
+      </div>
+    </section>
+
+    <section class="npc-section" data-tags="university,zhodani,collonades,drenalch,act1,mission1">
+      <h2 class="npc-title">Intendant Voriepr</h2>
+      <div class="npc-tags">
+        <span class="npc-tag">University</span>
+        <span class="npc-tag">Zhodani</span>
+        <span class="npc-tag">Collonades</span>
+        <span class="npc-tag">Drenalch</span>
+        <span class="npc-tag">Postgraduate Leader</span>
+        <span class="npc-tag">Act I: Shadows of the Past</span>
+        <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+      </div>
+      <div class="npc-content">
+        <p>Postgraduate leader of the research team on Drenalch.</p>
+      </div>
+    </section>
+
+    <section class="npc-section" data-tags="university,zhodani,collonades,drenalch,act1,mission1">
+      <h2 class="npc-title">Researcher Taeliepr</h2>
+      <div class="npc-tags">
+        <span class="npc-tag">University</span>
+        <span class="npc-tag">Zhodani</span>
+        <span class="npc-tag">Collonades</span>
+        <span class="npc-tag">Drenalch</span>
+        <span class="npc-tag">Xenoanthropology</span>
+        <span class="npc-tag">Act I: Shadows of the Past</span>
+        <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+      </div>
+      <div class="npc-content">
+        <p>Xenoanthropology student on the research team.</p>
+      </div>
+    </section>
+
+    <section class="npc-section" data-tags="university,zhodani,collonades,drenalch,act1,mission1">
+      <h2 class="npc-title">Technician Renniepr</h2>
+      <div class="npc-tags">
+        <span class="npc-tag">University</span>
+        <span class="npc-tag">Zhodani</span>
+        <span class="npc-tag">Collonades</span>
+        <span class="npc-tag">Drenalch</span>
+        <span class="npc-tag">Ancient Technology</span>
+        <span class="npc-tag">Act I: Shadows of the Past</span>
+        <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+      </div>
+      <div class="npc-content">
+        <p>Specialist in ancient technology on the research team.</p>
+      </div>
+    </section>
+
+    <section class="npc-section" data-tags="university,ghenani,drenalch,act1,mission1">
+      <h2 class="npc-title">Kael Vor</h2>
+      <div class="npc-tags">
+        <span class="npc-tag">University</span>
+        <span class="npc-tag">Ghenani</span>
+        <span class="npc-tag">Drenalch</span>
+        <span class="npc-tag">Undergraduate Assistant</span>
+        <span class="npc-tag">Act I: Shadows of the Past</span>
+        <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+      </div>
+      <div class="npc-content">
+        <p>Ghenani undergraduate student assisting Intendant Voriepr.</p>
+      </div>
+    </section>
   </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const filterTags = document.querySelectorAll('.filter-tag');
+      const npcSections = document.querySelectorAll('.npc-section');
+
+      filterTags.forEach(tag => {
+        tag.addEventListener('click', function() {
+          this.classList.toggle('active');
+          const activeTags = Array.from(document.querySelectorAll('.filter-tag.active'))
+            .map(tag => tag.dataset.tag);
+
+          npcSections.forEach(section => {
+            const sectionTags = section.dataset.tags.split(',');
+            const shouldShow = activeTags.length === 0 || 
+              activeTags.every(tag => sectionTags.includes(tag));
+            section.style.display = shouldShow ? 'block' : 'none';
+          });
+        });
+      });
+    });
+  </script>
 </body>
 </html> 

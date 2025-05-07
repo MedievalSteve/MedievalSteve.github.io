@@ -57,6 +57,73 @@
       font-size: 2.5rem;
       margin-bottom: 0.5rem;
     }
+    .location-section {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      padding: 24px;
+      margin-bottom: 24px;
+      width: 100%;
+      max-width: 800px;
+    }
+    .location-title {
+      font-size: 1.8rem;
+      margin-bottom: 16px;
+      color: #333;
+      border-bottom: 2px solid #6b4ca3;
+      padding-bottom: 8px;
+    }
+    .location-content {
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .location-content p {
+      margin-bottom: 16px;
+    }
+    .location-details {
+      background: #f8f8f8;
+      padding: 16px;
+      border-radius: 6px;
+      margin-top: 16px;
+    }
+    .location-details h3 {
+      color: #6b4ca3;
+      margin-bottom: 12px;
+    }
+    .location-details ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    .location-details li {
+      margin-bottom: 8px;
+    }
+    .location-nav {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 30px;
+      padding: 10px;
+      background: #f8f8f8;
+      border-radius: 6px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .location-nav a {
+      color: #6b4ca3;
+      text-decoration: none;
+      padding: 5px 12px;
+      border-radius: 4px;
+      transition: all 0.2s;
+      font-size: 0.9rem;
+    }
+    .location-nav a:hover {
+      background: #6b4ca3;
+      color: white;
+    }
+    .location-nav a.active {
+      background: #6b4ca3;
+      color: white;
+    }
   </style>
 </head>
 <body>
@@ -79,8 +146,31 @@
     <h1>Places Visited</h1>
   </header>
 
+  <nav class="location-nav">
+    <a href="#nielkladlief" class="active">Nielkladlief</a>
+    <!-- Future locations will be added here -->
+  </nav>
+
   <main style="width: 100%; max-width: 800px; padding: 0 20px;">
-    <!-- Location content will go here -->
+    <section id="nielkladlief" class="location-section">
+      <h2 class="location-title">Nielkladlief</h2>
+      <div class="location-content">
+        <div class="location-details">
+          <h3>Planetary Information</h3>
+          <ul>
+            <li>Type: Garden World (Cold)</li>
+            <li>Average Temperature: -2°C</li>
+            <li>Surface Coverage: 50% ice</li>
+            <li>Status: Capital of Zhodani Consulate Colonnade Province</li>
+            <li>Administrative Center: 88 Colonnade systems</li>
+          </ul>
+        </div>
+
+        <p>The tundra world of Nielkladlief technically qualifies as a garden world but its average surface temperature is -2°C, with ice covering half of the planet's surface area. Since 996 Nielkladlief has been the capital of the entire Zhodani Consulate Colonnade Province, serving as the administrative centre of the 88 Colonnade systems.</p>
+
+        <p>Tall cities concentrate the population in two dozen urban zones, which remain near wilderness areas. While those seeking warm beaches must look elsewhere, Nielkladlief remains a tourist destination for those who value leisure in a cooler clime. Those who truly want an oceanfront holiday can at least take solace in the installation of the Province's biggest wave machine deep within a warm chamber with holographic skies.</p>
+      </div>
+    </section>
   </main>
 </body>
 </html> 
