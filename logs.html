@@ -95,6 +95,30 @@
       background: #6b4ca3;
       color: white;
     }
+    .session-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-left: 20px;
+      margin-bottom: 20px;
+    }
+    .session-nav a {
+      color: #666;
+      text-decoration: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      transition: all 0.2s;
+      font-size: 0.85rem;
+    }
+    .session-nav a:hover {
+      background: #eee;
+      color: #6b4ca3;
+    }
+    .session-nav a.active {
+      background: #eee;
+      color: #6b4ca3;
+      font-weight: 500;
+    }
     .mission-title {
       font-size: 1.5rem;
       color: #444;
@@ -187,6 +211,12 @@
       
       <section id="mission-1" class="mission-section">
         <h3 class="mission-title">Mission 1: The Seeds of Curiosity</h3>
+        <div class="session-nav">
+          <a href="#session-1" class="active">Session 1: The Crew Assembles</a>
+          <a href="#session-2">Session 2: Drenalch's Secrets</a>
+          <a href="#session-3">Session 3: Diplomatic Security</a>
+          <a href="#session-4">Session 4: The Ancient Device</a>
+        </div>
         
         <article id="session-1" class="session-log">
           <h2 class="session-title">Session 1: The Crew Assembles</h2>
@@ -278,6 +308,10 @@
         <a href="#mission-4">Mission 4: [Coming Soon]</a>
         <a href="#mission-5">Mission 5: [Coming Soon]</a>
       </div>
+      <div class="session-nav">
+        <a href="#session-5">Session 5: [Coming Soon]</a>
+        <a href="#session-6">Session 6: [Coming Soon]</a>
+      </div>
       <!-- Future content will go here -->
     </section>
 
@@ -286,6 +320,10 @@
       <div class="mission-nav">
         <a href="#mission-6">Mission 6: [Coming Soon]</a>
         <a href="#mission-7">Mission 7: [Coming Soon]</a>
+      </div>
+      <div class="session-nav">
+        <a href="#session-7">Session 7: [Coming Soon]</a>
+        <a href="#session-8">Session 8: [Coming Soon]</a>
       </div>
       <!-- Future content will go here -->
     </section>
