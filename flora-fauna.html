@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flora & Fauna</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .nav-panel {
+      width: 100%;
+      background: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+    }
+    .nav-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 60px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+    .nav-links a {
+      color: #333;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover {
+      color: #6b4ca3;
+    }
+    .nav-links a.active {
+      color: #6b4ca3;
+    }
+    header {
+      margin-top: 120px;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .entry-section {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      padding: 24px;
+      margin-bottom: 24px;
+      width: 100%;
+      max-width: 800px;
+    }
+    .entry-title {
+      font-size: 1.8rem;
+      margin-bottom: 16px;
+      color: #333;
+      border-bottom: 2px solid #6b4ca3;
+      padding-bottom: 8px;
+    }
+    .entry-content {
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .entry-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 12px 0;
+    }
+    .entry-tag {
+      background: #f0f0f0;
+      color: #666;
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .entry-tag:hover {
+      background: #6b4ca3;
+      color: white;
+    }
+    .entry-tag.active {
+      background: #6b4ca3;
+      color: white;
+    }
+    .filter-section {
+      background: #f8f8f8;
+      padding: 16px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+      width: 100%;
+      max-width: 800px;
+    }
+    .filter-title {
+      color: #6b4ca3;
+      margin-bottom: 12px;
+      font-size: 1.2rem;
+    }
+    .filter-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .filter-tag {
+      background: #fff;
+      color: #666;
+      padding: 4px 12px;
+      border-radius: 16px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid #ddd;
+    }
+    .filter-tag:hover {
+      background: #6b4ca3;
+      color: white;
+      border-color: #6b4ca3;
+    }
+    .filter-tag.active {
+      background: #6b4ca3;
+      color: white;
+      border-color: #6b4ca3;
+    }
+    .entry-details {
+      background: #f8f8f8;
+      padding: 16px;
+      border-radius: 6px;
+      margin-top: 16px;
+    }
+    .entry-details h3 {
+      color: #6b4ca3;
+      margin-bottom: 12px;
+    }
+    .entry-details ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    .entry-details li {
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav-panel">
+    <div class="nav-content">
+      <div style="display: flex; gap: 20px; align-items: center;">
+        <a href="index.html" style="color: #333; text-decoration: none; font-weight: bold;">Main Page</a>
+        <a href="big-space-travel-far.html" style="color: #333; text-decoration: none; font-weight: bold;">Campaign Hub</a>
+      </div>
+      <div class="nav-links">
+        <a href="characters.html">Characters</a>
+        <a href="npcs.html">NPCs</a>
+        <a href="locations.html">Locations</a>
+        <a href="logs.html">Logs</a>
+        <a href="flora-fauna.html" class="active">Flora & Fauna</a>
+      </div>
+    </div>
+  </nav>
+
+  <header>
+    <h1>Flora & Fauna</h1>
+  </header>
+
+  <div class="filter-section">
+    <h2 class="filter-title">Filter by Tags</h2>
+    <div class="filter-tags">
+      <span class="filter-tag" data-tag="fauna">Fauna</span>
+      <span class="filter-tag" data-tag="flora">Flora</span>
+      <span class="filter-tag" data-tag="venomous">Venomous</span>
+      <span class="filter-tag" data-tag="drenalch">Drenalch</span>
+    </div>
+  </div>
+
+  <main style="width: 100%; max-width: 800px; padding: 0 20px;">
+    <section class="entry-section" data-tags="fauna,venomous,drenalch">
+      <h2 class="entry-title">T'klan Tick</h2>
+      <div class="entry-tags">
+        <span class="entry-tag">Fauna</span>
+        <span class="entry-tag">Venomous</span>
+        <span class="entry-tag">Drenalch</span>
+      </div>
+      <div class="entry-content">
+        <p>A hexapedal arachnid, the T'klan Tick is roughly the size of a human hand. Its most notable feature is its bulbous abdomen, which houses a potent venom sac. The T'klan's ticks are ambush predators, lying in wait in dark, moist environments.</p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const filterTags = document.querySelectorAll('.filter-tag');
+      const entrySections = document.querySelectorAll('.entry-section');
+
+      filterTags.forEach(tag => {
+        tag.addEventListener('click', function() {
+          this.classList.toggle('active');
+          const activeTags = Array.from(document.querySelectorAll('.filter-tag.active'))
+            .map(tag => tag.dataset.tag);
+
+          entrySections.forEach(section => {
+            const sectionTags = section.dataset.tags.split(',');
+            const shouldShow = activeTags.length === 0 || 
+              activeTags.every(tag => sectionTags.includes(tag));
+            section.style.display = shouldShow ? 'block' : 'none';
+          });
+        });
+      });
+    });
+  </script>
+</body>
+</html> 
