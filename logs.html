@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Campaign Logs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    header {
+      margin-top: 60px;
+      margin-bottom: 40px;
+      text-align: center;
+    }
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .session-log {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      padding: 24px;
+      margin-bottom: 24px;
+      width: 100%;
+      max-width: 800px;
+    }
+    .session-title {
+      font-size: 1.5rem;
+      margin-bottom: 16px;
+      color: #333;
+    }
+    .session-content {
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .comments-section {
+      border-top: 1px solid #eee;
+      padding-top: 20px;
+    }
+    .comment-form {
+      margin-bottom: 20px;
+    }
+    .comment-form textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      resize: vertical;
+    }
+    .comment-form button {
+      background: #6b4ca3;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .comment-form button:hover {
+      background: #563c82;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Campaign Logs</h1>
+  </header>
+
+  <main style="width: 100%; max-width: 800px; padding: 0 20px;">
+    <article class="session-log">
+      <h2 class="session-title">Session 1: The Crew Assembles</h2>
+      <div class="session-content">
+        <p>In a twist of fate, the disparate paths of our adventurers converged aboard a newly acquired vessel. Quinn, its enigmatic owner, swiftly secured the services of the skilled pilot, Khyel. To complete the crew, Khyel's resourceful sister recruited the multi-talented Awang-Vappu, whose financial acumen and adaptability proved invaluable, even as she pursued her own ambitions. The scholarly Lucius, an old acquaintance of Khyel, joined the team, his astrogation expertise promising to chart their course through the stars. Finally, Quinn's network led her to Nanak, a seasoned engineer whose tour of duty had just concluded, adding his technical prowess to their burgeoning venture.</p>
+        <p>Their maiden voyage was soon offered, crackling through the ship's comm system. Professor Albericieper, surprised by the vessel's change of ownership, presented a contract: a vital supply run to a remote postgraduate team on Drenalch. The mission, seemingly straightforward, carried an enticing compensation, yet a daunting obstacle lay in their path – a 3-parsec jump beyond the ship's range. Undeterred, the university arranged a precarious deep-space fuel dump, a testament to the urgency of the expedition.</p>
+      </div>
+      <div class="comments-section">
+        <h3>Comments</h3>
+        <form class="comment-form">
+          <textarea placeholder="Add your comments or suggestions..." rows="4"></textarea>
+          <button type="submit">Submit Comment</button>
+        </form>
+      </div>
+    </article>
+  </main>
+</body>
+</html>
