@@ -189,6 +189,21 @@
     .npc-details li {
       margin-bottom: 8px;
     }
+    .npc-flex {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+    }
+    .npc-flex img {
+      flex-shrink: 0;
+      border-radius: 8px;
+      max-width: 180px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      margin-bottom: 0;
+    }
+    .npc-flex-content {
+      flex: 1;
+    }
   </style>
 </head>
 <body>
@@ -263,86 +278,147 @@
 
   <main style="width: 100%; max-width: 800px; padding: 0 20px;">
     <section class="npc-section" data-tags="university,zhodani,collonades,nielkladlief,employer,act1,mission1">
-      <img src="Images/Prof Albericiepr.jpg" alt="Professor Albericiepr" style="display:block;margin:0 auto 16px auto;border-radius:8px;max-width:220px;box-shadow:0 2px 8px rgba(0,0,0,0.12);">
-      <h2 class="npc-title">Professor Albericiepr</h2>
-      <div class="npc-tags">
-        <span class="npc-tag">University</span>
-        <span class="npc-tag">Zhodani</span>
-        <span class="npc-tag">Collonades</span>
-        <span class="npc-tag">Nielkladlief</span>
-        <span class="npc-tag">Employer</span>
-        <span class="npc-tag">Act I: Shadows of the Past</span>
-        <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
-      </div>
-      <div class="npc-content">
-        <p>Professor at the university who provided the crew with their first mission.</p>
-      </div>
-    </section>
-
-    <section class="npc-section" data-tags="university,zhodani,collonades,drenalch,act1,mission1">
-      <img src="Images/Voriepr.jpg" alt="Intendant Voriepr" style="display:block;margin:0 auto 16px auto;border-radius:8px;max-width:220px;box-shadow:0 2px 8px rgba(0,0,0,0.12);">
-      <h2 class="npc-title">Intendant Voriepr</h2>
-      <div class="npc-tags">
-        <span class="npc-tag">University</span>
-        <span class="npc-tag">Zhodani</span>
-        <span class="npc-tag">Collonades</span>
-        <span class="npc-tag">Drenalch</span>
-        <span class="npc-tag">Postgraduate Leader</span>
-        <span class="npc-tag">Act I: Shadows of the Past</span>
-        <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
-      </div>
-      <div class="npc-content">
-        <p>Postgraduate leader of the research team on Drenalch.</p>
+      <div class="npc-flex">
+        <img src="Images/Prof Albericiepr.jpg" alt="Professor Albericiepr">
+        <div class="npc-flex-content">
+          <h2 class="npc-title">Professor Albericiepr</h2>
+          <div class="npc-tags">
+            <span class="npc-tag">University</span>
+            <span class="npc-tag">Zhodani</span>
+            <span class="npc-tag">Collonades</span>
+            <span class="npc-tag">Nielkladlief</span>
+            <span class="npc-tag">Employer</span>
+            <span class="npc-tag">Act I: Shadows of the Past</span>
+            <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+          </div>
+          <div class="npc-content">
+            <p>Professor at the university who provided the crew with their first mission.</p>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="npc-section" data-tags="university,zhodani,collonades,drenalch,act1,mission1">
-      <img src="Images/Taeliepr.jpg" alt="Researcher Taeliepr" style="display:block;margin:0 auto 16px auto;border-radius:8px;max-width:220px;box-shadow:0 2px 8px rgba(0,0,0,0.12);">
-      <h2 class="npc-title">Researcher Taeliepr</h2>
-      <div class="npc-tags">
-        <span class="npc-tag">University</span>
-        <span class="npc-tag">Zhodani</span>
-        <span class="npc-tag">Collonades</span>
-        <span class="npc-tag">Drenalch</span>
-        <span class="npc-tag">Xenoanthropology</span>
-        <span class="npc-tag">Act I: Shadows of the Past</span>
-        <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
-      </div>
-      <div class="npc-content">
-        <p>Xenoanthropology student on the research team.</p>
+      <div class="npc-flex">
+        <img src="Images/Voriepr.jpg" alt="Intendant Voriepr">
+        <div class="npc-flex-content">
+          <h2 class="npc-title">Intendant Voriepr</h2>
+          <div class="npc-tags">
+            <span class="npc-tag">University</span>
+            <span class="npc-tag">Zhodani</span>
+            <span class="npc-tag">Collonades</span>
+            <span class="npc-tag">Drenalch</span>
+            <span class="npc-tag">Postgraduate Leader</span>
+            <span class="npc-tag">Act I: Shadows of the Past</span>
+            <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+          </div>
+          <div class="npc-content">
+            <p>Postgraduate leader of the research team on Drenalch.</p>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="npc-section" data-tags="university,zhodani,collonades,drenalch,act1,mission1">
-      <img src="Images/Renniepr.jpg" alt="Technician Renniepr" style="display:block;margin:0 auto 16px auto;border-radius:8px;max-width:220px;box-shadow:0 2px 8px rgba(0,0,0,0.12);">
-      <h2 class="npc-title">Technician Renniepr</h2>
-      <div class="npc-tags">
-        <span class="npc-tag">University</span>
-        <span class="npc-tag">Zhodani</span>
-        <span class="npc-tag">Collonades</span>
-        <span class="npc-tag">Drenalch</span>
-        <span class="npc-tag">Ancient Technology</span>
-        <span class="npc-tag">Act I: Shadows of the Past</span>
-        <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+      <div class="npc-flex">
+        <img src="Images/Taeliepr.jpg" alt="Researcher Taeliepr">
+        <div class="npc-flex-content">
+          <h2 class="npc-title">Researcher Taeliepr</h2>
+          <div class="npc-tags">
+            <span class="npc-tag">University</span>
+            <span class="npc-tag">Zhodani</span>
+            <span class="npc-tag">Collonades</span>
+            <span class="npc-tag">Drenalch</span>
+            <span class="npc-tag">Xenoanthropology</span>
+            <span class="npc-tag">Act I: Shadows of the Past</span>
+            <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+          </div>
+          <div class="npc-content">
+            <p>Xenoanthropology student on the research team.</p>
+          </div>
+        </div>
       </div>
-      <div class="npc-content">
-        <p>Specialist in ancient technology on the research team.</p>
+    </section>
+
+    <section class="npc-section" data-tags="university,zhodani,collonades,drenalch,act1,mission1">
+      <div class="npc-flex">
+        <img src="Images/Renniepr.jpg" alt="Technician Renniepr">
+        <div class="npc-flex-content">
+          <h2 class="npc-title">Technician Renniepr</h2>
+          <div class="npc-tags">
+            <span class="npc-tag">University</span>
+            <span class="npc-tag">Zhodani</span>
+            <span class="npc-tag">Collonades</span>
+            <span class="npc-tag">Drenalch</span>
+            <span class="npc-tag">Ancient Technology</span>
+            <span class="npc-tag">Act I: Shadows of the Past</span>
+            <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+          </div>
+          <div class="npc-content">
+            <p>Specialist in ancient technology on the research team.</p>
+          </div>
+        </div>
       </div>
     </section>
 
     <section class="npc-section" data-tags="university,ghenani,drenalch,act1,mission1">
-      <img src="Images/Kael-Vor.jpg" alt="Kael Vor" style="display:block;margin:0 auto 16px auto;border-radius:8px;max-width:220px;box-shadow:0 2px 8px rgba(0,0,0,0.12);">
-      <h2 class="npc-title">Kael Vor</h2>
-      <div class="npc-tags">
-        <span class="npc-tag">University</span>
-        <span class="npc-tag">Ghenani</span>
-        <span class="npc-tag">Drenalch</span>
-        <span class="npc-tag">Undergraduate Assistant</span>
-        <span class="npc-tag">Act I: Shadows of the Past</span>
-        <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+      <div class="npc-flex">
+        <img src="Images/Kael-Vor.jpg" alt="Kael Vor">
+        <div class="npc-flex-content">
+          <h2 class="npc-title">Kael Vor</h2>
+          <div class="npc-tags">
+            <span class="npc-tag">University</span>
+            <span class="npc-tag">Ghenani</span>
+            <span class="npc-tag">Drenalch</span>
+            <span class="npc-tag">Undergraduate Assistant</span>
+            <span class="npc-tag">Act I: Shadows of the Past</span>
+            <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+          </div>
+          <div class="npc-content">
+            <p>Ghenani undergraduate student assisting Intendant Voriepr.</p>
+          </div>
+        </div>
       </div>
-      <div class="npc-content">
-        <p>Ghenani undergraduate student assisting Intendant Voriepr.</p>
+    </section>
+
+    <section class="npc-section" data-tags="ghenani,settlement,overseer,act1">
+      <div class="npc-flex">
+        <img src="Images/overseer.jpg" alt="Settlement Overseer Jarnak">
+        <div class="npc-flex-content">
+          <h2 class="npc-title">Settlement Overseer Jarnak</h2>
+          <div class="npc-tags">
+            <span class="npc-tag">Ghenani</span>
+            <span class="npc-tag">Settlement</span>
+            <span class="npc-tag">Overseer</span>
+            <span class="npc-tag">Act I: Shadows of the Past</span>
+          </div>
+          <div class="npc-content">
+            <strong>Race:</strong> Ghenani<br>
+            <strong>Gender:</strong> Male<br>
+            <strong>Age:</strong> Middle-aged, but appearing older due to the stresses of his position<br>
+            <strong>Appearance:</strong>
+            <ul>
+              <li>Muscular build, short legs, pale skin, and fair eyes, typical of the Ghenani.</li>
+              <li>Wears simple, practical clothing suitable for the warm climate, but with subtle touches of authority, such as a decorated belt or armband.</li>
+              <li>His face is weathered and lined, reflecting the years spent dealing with the challenges of his settlement.</li>
+              <li>His eyes are often tired and carry a hint of weariness.</li>
+            </ul>
+            <strong>Personality:</strong>
+            <ul>
+              <li><b>Duty-Bound:</b> Jarnak takes his responsibilities as Overseer very seriously. He is committed to the well-being of his settlement and believes in maintaining order and stability.</li>
+              <li><b>Cautious:</b> He is wary of outsiders and hesitant to take risks, especially when it comes to matters that could affect the safety of his people.</li>
+              <li><b>Pragmatic:</b> While he respects Ghenani traditions, he is also pragmatic and willing to compromise if it serves the greater good.</li>
+              <li><b>Stressed:</b> The situation with the Keepers of the Echoes has put him under considerable strain. He is torn between his duty to protect his people and his desire to cooperate with the researchers.</li>
+              <li><b>Respectful of Tradition:</b> He deeply respects Ghenani culture and traditions, but he also recognizes the need for progress and change.</li>
+            </ul>
+            <strong>Motivations:</strong>
+            <ul>
+              <li><b>Protect His People:</b> His primary motivation is to ensure the safety and well-being of his settlement. He is willing to make difficult decisions to achieve this goal.</li>
+              <li><b>Maintain Balance:</b> He strives to balance respect for Ghenani traditions with the need for progress and cooperation with the wider world.</li>
+              <li><b>Resolve the Conflict:</b> He wants to find a peaceful resolution to the conflict with the Keepers of the Echoes, but he is also prepared to take action if necessary.</li>
+            </ul>
+          </div>
+        </div>
       </div>
     </section>
   </main>
