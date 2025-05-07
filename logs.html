@@ -77,12 +77,12 @@
   </header>
 
   <nav style="width: 100%; max-width: 800px; padding: 0 20px; margin-bottom: 20px;">
-    <a href="logs.html#session-1" style="color: #6b4ca3; text-decoration: none; margin-right: 20px;">Session 1: The Crew Assembles</a>
-    <a href="logs.html#session-2" style="color: #6b4ca3; text-decoration: none;">Session 2: Drenalch's Secrets</a>
+    <a href="#session-1" style="color: #6b4ca3; text-decoration: none; margin-right: 20px;">Session 1: The Crew Assembles</a>
+    <a href="#session-2" style="color: #6b4ca3; text-decoration: none;">Session 2: Drenalch's Secrets</a>
   </nav>
 
   <main style="width: 100%; max-width: 800px; padding: 0 20px;">
-    <article class="session-log">
+    <article id="session-1" class="session-log">
       <h2 class="session-title">Session 1: The Crew Assembles</h2>
       <div class="session-content">
         <p>In a twist of fate, the disparate paths of our adventurers converged aboard a newly acquired vessel. Quinn, its enigmatic owner, swiftly secured the services of the skilled pilot, Khyel. To complete the crew, Khyel's resourceful sister recruited the multi-talented Awang-Vappu, whose financial acumen and adaptability proved invaluable, even as she pursued her own ambitions. The scholarly Lucius, an old acquaintance of Khyel, joined the team, his astrogation expertise promising to chart their course through the stars. Finally, Quinn's network led her to Nanak, a seasoned engineer whose tour of duty had just concluded, adding his technical prowess to their burgeoning venture.</p>
@@ -90,24 +90,18 @@
       </div>
       <div class="comments-section">
         <h3>Comments</h3>
-        <div id="disqus_thread"></div>
-        <script>
-            var disqus_config = function () {
-                this.page.url = window.location.href;  // Current page URL
-                this.page.identifier = 'session-1-the-crew-assembles'; // Unique identifier for this session
-            };
-            (function() { // DON'T EDIT BELOW THIS LINE
-                var d = document, s = d.createElement('script');
-                s.src = 'https://medievalsteve.disqus.com/embed.js';
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-            })();
+        <script src="https://utteranc.es/client.js"
+                repo="MedievalSteve/MedievalSteve.github.io"
+                issue-term="pathname"
+                label="comment"
+                theme="github-light"
+                crossorigin="anonymous"
+                async>
         </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
       </div>
     </article>
 
-    <article class="session-log">
+    <article id="session-2" class="session-log">
       <h2 class="session-title">Session 2: Drenalch's Secrets</h2>
       <div class="session-content">
         <p>The journey proved unexpectedly fruitful. Amidst the crew's bonding and skill enhancement, they stumbled upon a spatial anomaly during the refuelling stop. Seizing the opportunity, they meticulously gathered data, recognizing its potential for future profit or trade. With tanks replenished, they successfully navigated the final jump to Drenalch.</p>
@@ -122,23 +116,16 @@
       </div>
       <div class="comments-section">
         <h3>Comments</h3>
-        <div id="disqus_thread"></div>
-        <script>
-            var disqus_config = function () {
-                this.page.url = window.location.href;  // Current page URL
-                this.page.identifier = 'session-2-drenalchs-secrets'; // Unique identifier for this session
-            };
-            (function() { // DON'T EDIT BELOW THIS LINE
-                var d = document, s = d.createElement('script');
-                s.src = 'https://medievalsteve.disqus.com/embed.js';
-                s.setAttribute('data-timestamp', +new Date());
-                (d.head || d.body).appendChild(s);
-            })();
+        <script src="https://utteranc.es/client.js"
+                repo="MedievalSteve/MedievalSteve.github.io"
+                issue-term="pathname"
+                label="comment"
+                theme="github-light"
+                crossorigin="anonymous"
+                async>
         </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
       </div>
     </article>
   </main>
-  <script id="dsq-count-scr" src="//medievalsteve.disqus.com/count.js" async></script>
 </body>
 </html>
