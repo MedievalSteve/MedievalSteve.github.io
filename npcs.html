@@ -442,15 +442,15 @@
         tag.addEventListener('click', function() {
           this.classList.toggle('active');
           const activeTags = Array.from(document.querySelectorAll('.filter-tag.active'))
-            .map(t => t.dataset.tag); // Changed variable name from tag to t to avoid conflict
+            .map(t => t.dataset.tag);
 
           npcSections.forEach(section => {
-            // Ensure section.dataset.tags is defined before splitting
             const sectionTagsString = section.dataset.tags || "";
             const sectionTags = sectionTagsString.split(',');
             
+            // Show if no filters are active or if any active tag matches
             const shouldShow = activeTags.length === 0 || 
-              activeTags.every(activeTag => sectionTags.includes(activeTag)); // Changed variable name from tag to activeTag
+              activeTags.some(activeTag => sectionTags.includes(activeTag));
             section.style.display = shouldShow ? 'block' : 'none';
           });
         });
