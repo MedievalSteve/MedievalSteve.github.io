@@ -7,70 +7,258 @@
   <style>
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f4f4f4;
+      background: #111 url('Images/wrestlers/nww-bg.png') center center/cover no-repeat;
       margin: 0;
       padding: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      color: #fff;
     }
     header {
-      margin-top: 60px;
-      margin-bottom: 40px;
+      margin-top: 40px;
+      margin-bottom: 20px;
       text-align: center;
+    }
+    .nww-logo {
+      width: 220px;
+      max-width: 90vw;
+      margin-bottom: 10px;
+      filter: drop-shadow(0 0 12px #c00);
     }
     h1 {
       font-size: 2.5rem;
       margin-bottom: 0.5rem;
+      color: #ff2222;
+      letter-spacing: 2px;
+      text-shadow: 2px 2px 8px #000, 0 0 8px #c00;
+      font-family: Impact, 'Segoe UI', Arial, sans-serif;
     }
     .section-links {
       display: flex;
       flex-direction: column;
       gap: 24px;
       width: 100%;
-      max-width: 500px;
+      max-width: 900px;
       padding: 0 20px;
     }
     .section-link {
-      background: #fff;
+      background: rgba(30,0,0,0.92);
+      border: 2px solid #ff2222;
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      box-shadow: 0 2px 16px rgba(255,0,0,0.13);
       padding: 24px;
       text-decoration: none;
-      color: #222;
+      color: #fff;
       transition: all 0.2s;
       font-size: 1.2rem;
       display: block;
+      font-weight: bold;
+      text-align: center;
+      letter-spacing: 1px;
     }
     .section-link:hover {
-      box-shadow: 0 4px 16px rgba(0,0,0,0.13);
-      transform: translateY(-2px);
-      color: #6b4ca3;
+      box-shadow: 0 4px 24px #ff2222;
+      transform: translateY(-2px) scale(1.03);
+      color: #ff2222;
+      background: #1a0000;
+    }
+    .character-box {
+      background: rgba(20,0,0,0.95);
+      border: 2px solid #ff2222;
+      border-radius: 10px;
+      box-shadow: 0 2px 16px #c00, 0 0 0 4px #111 inset;
+      padding: 24px;
+      margin-bottom: 32px;
+    }
+    .character-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    .character-image {
+      width: 150px;
+      height: 150px;
+      border-radius: 8px;
+      object-fit: cover;
+      border: 2px solid #ff2222;
+      background: #222;
+      box-shadow: 0 0 12px #c00;
+    }
+    .character-info {
+      flex: 1;
+    }
+    .character-name {
+      font-size: 1.8rem;
+      margin: 0 0 8px 0;
+      color: #ff2222;
+      font-family: Impact, 'Segoe UI', Arial, sans-serif;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px 6px #000;
+    }
+    .character-nickname {
+      font-size: 1.1rem;
+      color: #ffbaba;
+      margin: 0 0 8px 0;
+      font-style: italic;
+    }
+    .character-details {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .detail-item {
+      font-size: 0.95rem;
+      color: #fff;
+    }
+    .detail-label {
+      font-weight: bold;
+      color: #ff2222;
+    }
+    .character-bio {
+      margin-top: 20px;
+      line-height: 1.6;
+      color: #fff;
+    }
+    .character-bio h3 {
+      color: #ff2222;
+      margin-bottom: 12px;
+      font-family: Impact, 'Segoe UI', Arial, sans-serif;
+      letter-spacing: 1px;
+    }
+    .character-bio p {
+      margin-bottom: 16px;
+    }
+    @media (max-width: 700px) {
+      .character-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .character-image {
+        width: 100%;
+        height: auto;
+        max-width: 220px;
+      }
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>Wrestling Game</h1>
+    <img src="Images/wrestlers/nww-logo.png" alt="Night Wolf Wrestling Logo" class="nww-logo">
+    <h1>Night Wolf Wrestling Game</h1>
   </header>
 
   <main class="section-links">
-    <a href="https://wrestling-game.example.com" class="section-link">
+    <a href="https://new.thewrestlinggame.com/" class="section-link">
       Play The New Wrestling Game
     </a>
-    <a href="https://discord.gg/wrestling" class="section-link">
-      Join the Wrestling Discord
-    </a>
-    <a href="characters/disaster-zone.html" class="section-link">
-      Disaster Zone Character Bio
-    </a>
-    <a href="characters/mike-loder.html" class="section-link">
-      Mike "The Frontend" Loder Character Bio
-    </a>
-    <a href="characters/mei-ling-tan.html" class="section-link">
-      Mei Ling Tan Character Bio
-    </a>
+
+    <div class="character-box">
+      <div class="character-header">
+        <img src="Images/wrestlers/disaster-zone.jpg" alt="Disaster Zone" class="character-image">
+        <div class="character-info">
+          <h2 class="character-name">Disaster Zone</h2>
+          <p class="character-nickname">The Self-Made Machine, The Glitch, The Nanometer Nightmare</p>
+          <div class="character-details">
+            <div class="detail-item">
+              <span class="detail-label">Billed From:</span> A clandestine workshop on the outskirts of Silicon City
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Age:</span> 32
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Height:</span> 6'2" (188 cm)
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Weight:</span> 220 lbs (100 kg)
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Alignment:</span> Heel
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="character-bio">
+        <h3>Character Bio</h3>
+        <p>Disaster Zone, real name Elias Vance, is a chilling embodiment of transhuman ambition gone awry. He wasn't born; he was built. Driven by an obsessive desire for wrestling perfection, Elias sacrificed his natural physique and embraced the cold embrace of technology. He became the Self-Made Machine, a walking testament to the power (and peril) of cybernetic enhancement.</p>
+        <p>His workshop, a cluttered haven of sparking wires and discarded tech, is his sanctuary and his laboratory. Here, he meticulously crafted his augmentations, pushing the boundaries of bio-mechanical engineering. Micro-servo motors enhance his strength and speed, a neural interface sharpens his reflexes and technical precision, and specialized sensors allow him to analyze his opponents' weaknesses with nanometer accuracy.</p>
+        <h3>Fighting Style</h3>
+        <p>Technical, Submission-based, with elements of Striking and Power. He relies on precision and calculated force rather than brute strength.</p>
+        <h3>Gimmick</h3>
+        <p>Cybernetically enhanced wrestling prodigy. He's cold, calculating, and arrogant, believing himself to be superior to his "unaugmented" opponents. He speaks in technical jargon, often using scientific terms to describe his moves and his opponents' weaknesses.</p>
+      </div>
+    </div>
+
+    <div class="character-box">
+      <div class="character-header">
+        <img src="Images/wrestlers/mike-loder.jpg" alt="Mike Loder" class="character-image">
+        <div class="character-info">
+          <h2 class="character-name">Mike Loder</h2>
+          <p class="character-nickname">The Frontend, Digger</p>
+          <div class="character-details">
+            <div class="detail-item">
+              <span class="detail-label">Billed From:</span> Sydney, New South Wales, Australia
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Age:</span> 27
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Height:</span> 6'4" (183cm)
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Weight:</span> 220lbs (100kg)
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Alignment:</span> Tweener leaning toward Babyface
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="character-bio">
+        <h3>Character Bio</h3>
+        <p>From the rugged New South Wales mining town of Cobar, Mike "The Frontend" Loder has carved a reputation as a force to be reckoned with. A FIFO mine worker by trade, Mike spends his days operating heavy machinery and moving tons of earth. But his true passion lies in the squared circle.</p>
+        <h3>Fighting Style</h3>
+        <p>Mike is a powerhouse striker, a bush brawler rather than a trained martial artist. He relies on brute strength and isn't shy of "letting loose a little of the old claret" to get his point across.</p>
+        <h3>Gimmick</h3>
+        <p>The no-nonsense, hard-hitting, Aussie battler. By day, Mike Loder works the mines, moving earth and hauling loads. By night (or whenever he's on his R&R), he unleashes his raw power in the wrestling ring.</p>
+      </div>
+    </div>
+
+    <div class="character-box">
+      <div class="character-header">
+        <img src="Images/wrestlers/mei-ling.jpg" alt="Mei Ling Tan" class="character-image">
+        <div class="character-info">
+          <h2 class="character-name">Mei Ling Tan</h2>
+          <p class="character-nickname">"The Lioness" of Singapore</p>
+          <div class="character-details">
+            <div class="detail-item">
+              <span class="detail-label">Billed From:</span> Singapore
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Age:</span> 26
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Height:</span> 5'3" (160cm)
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Weight:</span> 115 lbs. (52kg)
+            </div>
+            <div class="detail-item">
+              <span class="detail-label">Alignment:</span> Babyface
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="character-bio">
+        <h3>Character Bio</h3>
+        <p>Mei Ling grew up in a small HDB flat in Toa Payoh, a typical heartland neighborhood in Singapore. Her parents were hardworking hawkers, running a popular chicken rice stall in a nearby hawker center. From a young age, Mei Ling was exposed to the vibrant and diverse culture of Singapore, with its mix of Chinese, Malay, Indian, and Eurasian influences.</p>
+        <h3>Fighting Style</h3>
+        <p>Speed, Cruiserweight style. Mei Ling's greatest assets are her speed and agility. She uses these to outmaneuver her opponents, delivering a flurry of strikes before they can react. She's also adept at using the ropes and turnbuckles to her advantage, launching herself into high-flying attacks.</p>
+      </div>
+    </div>
   </main>
 </body>
 </html>
