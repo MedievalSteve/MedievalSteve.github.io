@@ -156,6 +156,21 @@
     .entry-details li {
       margin-bottom: 8px;
     }
+    .entry-flex {
+      display: flex;
+      align-items: flex-start;
+      gap: 24px;
+    }
+    .entry-flex img {
+      flex-shrink: 0;
+      border-radius: 8px;
+      max-width: 180px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+      margin-bottom: 0;
+    }
+    .entry-flex-content {
+      flex: 1;
+    }
   </style>
 </head>
 <body>
@@ -191,14 +206,19 @@
 
   <main style="width: 100%; max-width: 800px; padding: 0 20px;">
     <section class="entry-section" data-tags="fauna,venomous,drenalch">
-      <h2 class="entry-title">T'klan Tick</h2>
-      <div class="entry-tags">
-        <span class="entry-tag">Fauna</span>
-        <span class="entry-tag">Venomous</span>
-        <span class="entry-tag">Drenalch</span>
-      </div>
-      <div class="entry-content">
-        <p>A hexapedal arachnid, the T'klan Tick is roughly the size of a human hand. Its most notable feature is its bulbous abdomen, which houses a potent venom sac. The T'klan's ticks are ambush predators, lying in wait in dark, moist environments.</p>
+      <div class="entry-flex">
+        <img src="Images/creatures/tklan_tick.jpg" alt="T'klan Tick" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=T\'klan+Tick';">
+        <div class="entry-flex-content">
+          <h2 class="entry-title">T'klan Tick</h2>
+          <div class="entry-tags">
+            <span class="entry-tag">Fauna</span>
+            <span class="entry-tag">Venomous</span>
+            <span class="entry-tag">Drenalch</span>
+          </div>
+          <div class="entry-content">
+            <p>A hexapedal arachnid, the T'klan Tick is roughly the size of a human hand. Its most notable feature is its bulbous abdomen, which houses a potent venom sac. The T'klan's ticks are ambush predators, lying in wait in dark, moist environments.</p>
+          </div>
+        </div>
       </div>
     </section>
   </main>
