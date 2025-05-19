@@ -167,6 +167,46 @@
       border: 1px solid var(--accent-color);
     }
 
+    .location-info {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: rgba(41, 98, 255, 0.1);
+      border-radius: 4px;
+      border: 1px solid var(--accent-color);
+    }
+
+    .location-info h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .location-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(41, 98, 255, 0.1);
+      border-radius: 4px;
+      border: 1px solid var(--accent-color);
+    }
+
+    .location-links a {
+      color: var(--accent-color);
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 8px 16px;
+      border-radius: 4px;
+      background: rgba(41, 98, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .location-links a:hover {
+      background: rgba(41, 98, 255, 0.2);
+      color: #64b5f6;
+    }
+
     @media (max-width: 768px) {
       .nav-content {
         flex-direction: column;
@@ -184,6 +224,11 @@
       .location-section {
         margin: 10px;
         padding: 16px;
+      }
+
+      .location-links {
+        flex-direction: column;
+        align-items: center;
       }
 
       h1 {
@@ -259,6 +304,11 @@
             <li><strong>Embassy Row:</strong> Home to diplomatic missions from various interstellar powers.</li>
           </ul>
         </div>
+
+        <div class="location-links">
+          <a href="https://wiki.travellerrpg.com/Nielkladlief" target="_blank">Traveller Wiki</a>
+          <a href="https://travellermap.com/?x=-123.5&y=45.5&scale=64&options=49155" target="_blank">TravellerMap</a>
+        </div>
       </div>
     </section>
 
@@ -312,6 +362,11 @@
             <li><strong>Local Government:</strong> Manages the day-to-day affairs of the planet's settlements.</li>
             <li><strong>Trade Guilds:</strong> Control commerce and resource distribution.</li>
           </ul>
+        </div>
+
+        <div class="location-links">
+          <a href="https://wiki.travellerrpg.com/Drenalch" target="_blank">Traveller Wiki</a>
+          <a href="https://travellermap.com/?x=-123.5&y=45.5&scale=64&options=49155" target="_blank">TravellerMap</a>
         </div>
       </div>
     </section>
