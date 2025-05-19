@@ -15,27 +15,26 @@
       align-items: center;
       min-height: 100vh;
     }
-    .nav-links {
+    .main-nav {
+      margin: 24px 0 0 0;
+      display: flex;
+      gap: 16px;
       width: 100%;
       max-width: 500px;
-      display: flex;
       justify-content: flex-start;
-      gap: 16px;
-      margin-top: 18px;
-      margin-bottom: 0;
       padding: 0 20px;
     }
-    .nav-link {
+    .main-nav a {
       color: #6b4ca3;
       text-decoration: none;
       font-weight: bold;
-      font-size: 1rem;
       background: #eae6f7;
       border-radius: 4px;
       padding: 6px 14px;
+      font-size: 1rem;
       transition: background 0.2s;
     }
-    .nav-link:hover {
+    .main-nav a:hover {
       background: #d1c4e9;
     }
     header {
@@ -94,8 +93,8 @@
   </style>
 </head>
 <body>
-  <nav class="nav-links">
-    <a href="index.html" class="nav-link">Home</a>
+  <nav class="main-nav">
+    <a href="index.html">Home</a>
   </nav>
   <header>
     <h1>Medieval Reenactment</h1>
