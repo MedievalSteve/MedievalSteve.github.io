@@ -15,8 +15,31 @@
       align-items: center;
       min-height: 100vh;
     }
+    .nav-links {
+      width: 100%;
+      max-width: 500px;
+      display: flex;
+      justify-content: flex-start;
+      gap: 16px;
+      margin-top: 18px;
+      margin-bottom: 0;
+      padding: 0 20px;
+    }
+    .nav-link {
+      color: #6b4ca3;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1rem;
+      background: #eae6f7;
+      border-radius: 4px;
+      padding: 6px 14px;
+      transition: background 0.2s;
+    }
+    .nav-link:hover {
+      background: #d1c4e9;
+    }
     header {
-      margin-top: 60px;
+      margin-top: 30px;
       margin-bottom: 40px;
       text-align: center;
     }
@@ -71,10 +94,12 @@
   </style>
 </head>
 <body>
+  <nav class="nav-links">
+    <a href="index.html" class="nav-link">Home</a>
+  </nav>
   <header>
     <h1>Medieval Reenactment</h1>
   </header>
-
   <main class="section-links">
     <a href="bio.html" class="section-link">
       <span class="link-text">Personal Biography</span>

@@ -16,6 +16,29 @@
       min-height: 100vh;
       color: #fff;
     }
+    .nav-links {
+      width: 100%;
+      max-width: 900px;
+      display: flex;
+      justify-content: flex-start;
+      gap: 16px;
+      margin-top: 18px;
+      margin-bottom: 0;
+      padding: 0 20px;
+    }
+    .nav-link {
+      color: #ff2222;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1rem;
+      background: #fff1f1;
+      border-radius: 4px;
+      padding: 6px 14px;
+      transition: background 0.2s;
+    }
+    .nav-link:hover {
+      background: #ffcccc;
+    }
     header {
       margin-top: 40px;
       margin-bottom: 20px;
@@ -146,16 +169,17 @@
   </style>
 </head>
 <body>
+  <nav class="nav-links">
+    <a href="index.html" class="nav-link">Home</a>
+  </nav>
   <header>
     <img src="Images/wrestlers/NWW.webp" alt="Night Wolf Wrestling Logo" class="nww-logo">
     <h1>Night Wolf Wrestling Game</h1>
   </header>
-
   <main class="section-links">
     <a href="https://new.thewrestlinggame.com/" class="section-link">
       Play The New Wrestling Game
     </a>
-
     <div class="character-box">
       <div class="character-header">
         <img src="Images/wrestlers/DisasterZone.png" alt="Disaster Zone" class="character-image">
@@ -191,7 +215,6 @@
         <p>Cybernetically enhanced wrestling prodigy. He's cold, calculating, and arrogant, believing himself to be superior to his "unaugmented" opponents. He speaks in technical jargon, often using scientific terms to describe his moves and his opponents' weaknesses.</p>
       </div>
     </div>
-
     <div class="character-box">
       <div class="character-header">
         <img src="Images/wrestlers/MikeLoder.png" alt="Mike Loder" class="character-image">
@@ -226,7 +249,6 @@
         <p>The no-nonsense, hard-hitting, Aussie battler. By day, Mike Loder works the mines, moving earth and hauling loads. By night (or whenever he's on his R&R), he unleashes his raw power in the wrestling ring.</p>
       </div>
     </div>
-
     <div class="character-box">
       <div class="character-header">
         <img src="Images/wrestlers/MeiLingTan.png" alt="Mei Ling Tan" class="character-image">

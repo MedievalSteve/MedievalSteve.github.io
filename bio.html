@@ -13,6 +13,25 @@
             padding: 20px;
             background: #f4f4f4;
         }
+        .nav-links {
+            display: flex;
+            gap: 16px;
+            margin-top: 18px;
+            margin-bottom: 0;
+        }
+        .nav-link {
+            color: #6b4ca3;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+            background: #eae6f7;
+            border-radius: 4px;
+            padding: 6px 14px;
+            transition: background 0.2s;
+        }
+        .nav-link:hover {
+            background: #d1c4e9;
+        }
         header {
             text-align: center;
             margin-bottom: 40px;
@@ -72,6 +91,10 @@
     </style>
 </head>
 <body>
+    <nav class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="medieval-reenactment.html" class="nav-link">Back to Medieval Reenactment</a>
+    </nav>
     <header>
         <h1>Stephanus Attebregge</h1>
         <p class="subtitle">Veteran Man-at-Arms (1372 - Present)</p>
