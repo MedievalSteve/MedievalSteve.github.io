@@ -155,17 +155,45 @@
       background: rgba(41, 98, 255, 0.1);
       border-radius: 4px;
       border: 1px solid var(--accent-color);
+      height: 400px;
+      overflow-y: auto;
+      position: relative;
+    }
+
+    .log-entry::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .log-entry::-webkit-scrollbar-track {
+      background: var(--card-bg);
+      border-radius: 4px;
+    }
+
+    .log-entry::-webkit-scrollbar-thumb {
+      background: var(--accent-color);
+      border-radius: 4px;
+    }
+
+    .log-entry::-webkit-scrollbar-thumb:hover {
+      background: var(--nav-hover);
     }
 
     .log-entry h3 {
       margin-top: 0;
       margin-bottom: 10px;
+      position: sticky;
+      top: 0;
+      background: var(--card-bg);
+      padding: 10px 0;
+      z-index: 1;
     }
 
     .comments-section {
       margin-top: 20px;
       padding-top: 20px;
       border-top: 1px solid var(--accent-color);
+      position: relative;
+      z-index: 2;
     }
 
     @media (max-width: 768px) {
