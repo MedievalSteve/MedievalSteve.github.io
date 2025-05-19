@@ -158,6 +158,92 @@
       margin-bottom: 5px;
     }
 
+    .npc-flex {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+    }
+
+    .npc-flex img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid var(--accent-color);
+    }
+
+    .npc-flex-content {
+      flex: 1;
+    }
+
+    .npc-title {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .npc-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .npc-tag {
+      background: rgba(41, 98, 255, 0.1);
+      color: var(--accent-color);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .filter-section {
+      width: 100%;
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background: var(--card-bg);
+      border-radius: 8px;
+      border: 1px solid var(--accent-color);
+    }
+
+    .filter-title {
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.2rem;
+    }
+
+    .filter-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .filter-tag {
+      background: rgba(41, 98, 255, 0.1);
+      color: var(--text-color);
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .filter-tag:hover {
+      background: rgba(41, 98, 255, 0.2);
+      color: var(--accent-color);
+    }
+
+    .filter-tag.active {
+      background: var(--accent-color);
+      color: var(--background-color);
+    }
+
     @media (max-width: 768px) {
       .nav-content {
         flex-direction: column;
@@ -175,6 +261,21 @@
       .npc-section {
         margin: 10px;
         padding: 16px;
+      }
+
+      .npc-flex {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .npc-flex img {
+        width: 150px;
+        height: 150px;
+      }
+
+      .npc-tags {
+        justify-content: center;
       }
 
       h1 {
@@ -491,23 +592,29 @@
       const filterTags = document.querySelectorAll('.filter-tag');
       const npcSections = document.querySelectorAll('.npc-section');
 
+      // Function to update visibility
+      function updateVisibility() {
+        const activeTags = Array.from(document.querySelectorAll('.filter-tag.active'))
+          .map(t => t.dataset.tag);
+
+        npcSections.forEach(section => {
+          const sectionTags = section.dataset.tags.split(',');
+          const shouldShow = activeTags.length === 0 || 
+            activeTags.some(activeTag => sectionTags.includes(activeTag));
+          section.style.display = shouldShow ? 'block' : 'none';
+        });
+      }
+
+      // Add click handlers to filter tags
       filterTags.forEach(tag => {
         tag.addEventListener('click', function() {
           this.classList.toggle('active');
-          const activeTags = Array.from(document.querySelectorAll('.filter-tag.active'))
-            .map(t => t.dataset.tag);
-
-          npcSections.forEach(section => {
-            const sectionTagsString = section.dataset.tags || "";
-            const sectionTags = sectionTagsString.split(',');
-            
-            // Show if no filters are active or if any active tag matches
-            const shouldShow = activeTags.length === 0 || 
-              activeTags.some(activeTag => sectionTags.includes(activeTag));
-            section.style.display = shouldShow ? 'block' : 'none';
-          });
+          updateVisibility();
         });
       });
+
+      // Initial visibility update
+      updateVisibility();
     });
   </script>
 </body>
