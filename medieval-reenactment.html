@@ -4,48 +4,69 @@
   <meta charset="UTF-8">
   <title>Medieval Reenactment Hub</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary-color: #8B4513;
+      --secondary-color: #D2691E;
+      --accent-color: #CD853F;
+      --text-color: #333;
+      --background-color: #FDF5E6;
+      --header-bg: #2C1810;
+    }
+
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f4f4f4;
+      font-family: 'Open Sans', sans-serif;
+      background: var(--background-color);
       margin: 0;
       padding: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      color: var(--text-color);
+      line-height: 1.6;
     }
+
     .main-nav {
-      margin: 24px 0 0 0;
-      display: flex;
-      gap: 16px;
       width: 100%;
-      max-width: 500px;
-      justify-content: flex-start;
-      padding: 0 20px;
+      background: var(--header-bg);
+      padding: 1rem 0;
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
+
     .main-nav a {
-      color: #6b4ca3;
+      color: white;
       text-decoration: none;
-      font-weight: bold;
-      background: #eae6f7;
+      font-weight: 600;
+      background: transparent;
       border-radius: 4px;
       padding: 6px 14px;
       font-size: 1rem;
-      transition: background 0.2s;
+      transition: color 0.3s ease;
     }
+
     .main-nav a:hover {
-      background: #d1c4e9;
+      color: var(--accent-color);
+      background: transparent;
     }
+
     header {
-      margin-top: 30px;
+      margin-top: 100px;
       margin-bottom: 40px;
       text-align: center;
     }
+
     h1 {
+      font-family: 'Cinzel', serif;
       font-size: 2.5rem;
       margin-bottom: 0.5rem;
+      color: var(--primary-color);
     }
+
     .section-links {
       display: flex;
       flex-direction: column;
@@ -54,24 +75,27 @@
       max-width: 500px;
       padding: 0 20px;
     }
+
     .section-link {
-      background: #fff;
+      background: white;
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.07);
       padding: 24px;
       text-decoration: none;
-      color: #222;
+      color: var(--text-color);
       transition: all 0.2s;
       font-size: 1.2rem;
       display: flex;
       align-items: center;
       gap: 18px;
     }
+
     .section-link:hover {
       box-shadow: 0 4px 16px rgba(0,0,0,0.13);
       transform: translateY(-2px);
-      color: #6b4ca3;
+      color: var(--primary-color);
     }
+
     .section-link img {
       width: 60px;
       height: 60px;
@@ -80,15 +104,32 @@
       box-shadow: 0 1px 4px rgba(0,0,0,0.10);
       flex-shrink: 0;
     }
+
     .coming-soon {
       font-size: 0.9rem;
-      color: #666;
+      color: var(--secondary-color);
       font-style: italic;
       margin-top: 8px;
     }
+
     .link-text {
       display: flex;
       flex-direction: column;
+    }
+
+    @media (max-width: 768px) {
+      .main-nav {
+        padding: 0.5rem 0;
+      }
+
+      .section-link {
+        padding: 16px;
+      }
+
+      .section-link img {
+        width: 50px;
+        height: 50px;
+      }
     }
   </style>
 </head>

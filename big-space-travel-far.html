@@ -4,26 +4,51 @@
   <meta charset="UTF-8">
   <title>RPG Campaign Hub</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary-color: #1a237e;
+      --secondary-color: #0d47a1;
+      --accent-color: #2962ff;
+      --text-color: #e0e0e0;
+      --background-color: #121212;
+      --card-bg: #1e1e1e;
+      --header-bg: #000051;
+      --nav-hover: #304ffe;
+    }
+
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f4f4f4;
+      font-family: 'Roboto', sans-serif;
+      background: var(--background-color);
       margin: 0;
       padding: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      color: var(--text-color);
+      line-height: 1.6;
     }
+
     header {
-      margin-top: 120px;
+      margin-top: 100px;
       margin-bottom: 40px;
       text-align: center;
+      width: 100%;
+      background: linear-gradient(to bottom, var(--header-bg), var(--background-color));
+      padding: 2rem 0;
     }
+
     h1 {
+      font-family: 'Orbitron', sans-serif;
       font-size: 2.5rem;
       margin-bottom: 0.5rem;
+      color: var(--accent-color);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(41, 98, 255, 0.3);
     }
+
     .section-links {
       display: flex;
       flex-direction: column;
@@ -32,30 +57,57 @@
       max-width: 500px;
       padding: 0 20px;
     }
+
     .section-link {
-      background: #fff;
+      background: var(--card-bg);
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
       padding: 24px;
       text-decoration: none;
-      color: #222;
-      transition: all 0.2s;
+      color: var(--text-color);
+      transition: all 0.3s ease;
       font-size: 1.2rem;
       display: block;
+      border: 1px solid var(--accent-color);
+      position: relative;
+      overflow: hidden;
     }
+
+    .section-link::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(41, 98, 255, 0.2),
+        transparent
+      );
+      transition: 0.5s;
+    }
+
     .section-link:hover {
-      box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+      box-shadow: 0 4px 16px rgba(41, 98, 255, 0.2);
       transform: translateY(-2px);
-      color: #6b4ca3;
+      color: var(--accent-color);
     }
+
+    .section-link:hover::before {
+      left: 100%;
+    }
+
     .nav-panel {
       width: 100%;
-      background: #fff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      background: var(--header-bg);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
       position: fixed;
       top: 0;
       z-index: 1000;
     }
+
     .nav-content {
       max-width: 1200px;
       margin: 0 auto;
@@ -65,54 +117,56 @@
       align-items: center;
       height: 60px;
     }
+
     .nav-links {
       display: flex;
       gap: 20px;
     }
+
     .nav-links a {
-      color: #333;
+      color: var(--text-color);
       text-decoration: none;
       font-weight: 500;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover {
-      color: #6b4ca3;
-    }
-    .nav-links a.active {
-      color: #6b4ca3;
-    }
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #fff;
-      min-width: 160px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      padding: 8px 16px;
       border-radius: 4px;
-      z-index: 1001;
-      top: 100%;
-      left: 0;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
-    .dropdown:hover .dropdown-content {
-      display: block;
+
+    .nav-links a:hover {
+      color: var(--accent-color);
+      background: rgba(41, 98, 255, 0.1);
     }
-    .dropdown-content a {
-      color: #333;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-      transition: all 0.2s;
+
+    .nav-links a.active {
+      color: var(--accent-color);
+      border-bottom: 2px solid var(--accent-color);
     }
-    .dropdown-content a:hover {
-      background-color: #f8f8f8;
-      color: #6b4ca3;
-    }
-    .dropdown-content a.active {
-      background-color: #f0f0f0;
-      color: #6b4ca3;
+
+    @media (max-width: 768px) {
+      .nav-content {
+        flex-direction: column;
+        height: auto;
+        padding: 1rem;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .section-link {
+        padding: 16px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
     }
   </style>
 </head>
@@ -124,45 +178,11 @@
         <a href="big-space-travel-far.html" style="color: #333; text-decoration: none; font-weight: bold;">Campaign Hub</a>
       </div>
       <div class="nav-links">
-        <div class="dropdown">
-          <a href="characters.html">Characters</a>
-          <div class="dropdown-content">
-            <a href="characters.html#awang-vappu">Awang-Vappu</a>
-            <a href="characters.html#lucius">Lucius Vin Geitenhoven</a>
-            <a href="characters.html#nanak">Nanak Bahadur</a>
-            <a href="characters.html#khyel">Khyelyeweih Yahfoi</a>
-            <a href="characters.html#quin">Quinstebr</a>
-          </div>
-        </div>
-        <div class="dropdown">
-          <a href="npcs.html">NPCs</a>
-          <div class="dropdown-content">
-            <a href="npcs.html#professor">Professor Albericiepr</a>
-            <a href="npcs.html#intendant">Intendant Voriepr</a>
-            <a href="npcs.html#researcher">Researcher Taeliepr</a>
-            <a href="npcs.html#technician">Technician Renniepr</a>
-            <a href="npcs.html#kael">Kael Vor</a>
-          </div>
-        </div>
-        <div class="dropdown">
-          <a href="locations.html">Locations</a>
-          <div class="dropdown-content">
-            <a href="locations.html#nielkladlief">Nielkladlief</a>
-          </div>
-        </div>
-        <div class="dropdown">
-          <a href="logs.html">Logs</a>
-          <div class="dropdown-content">
-            <a href="logs.html#act1">Act I: Shadows of the Past</a>
-            <a href="logs.html#mission1">Mission 1: The Seeds of Curiosity</a>
-          </div>
-        </div>
-        <div class="dropdown">
-          <a href="flora-fauna.html">Flora & Fauna</a>
-          <div class="dropdown-content">
-            <a href="flora-fauna.html#tklan-tick">T'klan Tick</a>
-          </div>
-        </div>
+        <a href="characters.html">Characters</a>
+        <a href="npcs.html">NPCs</a>
+        <a href="locations.html">Locations</a>
+        <a href="logs.html">Logs</a>
+        <a href="flora-fauna.html">Flora & Fauna</a>
       </div>
     </div>
   </nav>
