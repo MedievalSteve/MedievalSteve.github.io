@@ -2,27 +2,65 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>NPC Records</title>
+  <title>NPC Records - Big Space Campaign</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary-color: #1a237e;
+      --secondary-color: #0d47a1;
+      --accent-color: #2962ff;
+      --text-color: #e0e0e0;
+      --background-color: #121212;
+      --card-bg: #1e1e1e;
+      --header-bg: #000051;
+      --nav-hover: #304ffe;
+    }
+
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f4f4f4;
+      font-family: 'Roboto', sans-serif;
+      background: var(--background-color);
       margin: 0;
       padding: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      color: var(--text-color);
+      line-height: 1.6;
     }
+
+    header {
+      margin-top: 100px;
+      margin-bottom: 40px;
+      text-align: center;
+      width: 100%;
+      background: linear-gradient(to bottom, var(--header-bg), var(--background-color));
+      padding: 2rem 0;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--accent-color);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(41, 98, 255, 0.3);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
     .nav-panel {
       width: 100%;
-      background: #fff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      background: var(--header-bg);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
       position: fixed;
       top: 0;
       z-index: 1000;
     }
+
     .nav-content {
       max-width: 1200px;
       margin: 0 auto;
@@ -32,230 +70,132 @@
       align-items: center;
       height: 60px;
     }
+
+    .main-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .main-links a {
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: bold;
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 8px 16px;
+      border-radius: 4px;
+      background: rgba(41, 98, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .main-links a:hover {
+      background: rgba(41, 98, 255, 0.2);
+      color: #64b5f6;
+    }
+
     .nav-links {
       display: flex;
       gap: 20px;
     }
+
     .nav-links a {
-      color: #333;
+      color: var(--text-color);
       text-decoration: none;
       font-weight: 500;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover {
-      color: #6b4ca3;
-    }
-    .nav-links a.active {
-      color: #6b4ca3;
-    }
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #fff;
-      min-width: 160px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      padding: 8px 16px;
       border-radius: 4px;
-      z-index: 1001;
-      top: 100%;
-      left: 0;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
-    .dropdown:hover .dropdown-content {
-      display: block;
+
+    .nav-links a:hover {
+      color: var(--accent-color);
+      background: rgba(41, 98, 255, 0.1);
     }
-    .dropdown-content a {
-      color: #333;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-      transition: all 0.2s;
+
+    .nav-links a.active {
+      color: var(--accent-color);
+      border-bottom: 2px solid var(--accent-color);
     }
-    .dropdown-content a:hover {
-      background-color: #f8f8f8;
-      color: #6b4ca3;
-    }
-    .dropdown-content a.active {
-      background-color: #f0f0f0;
-      color: #6b4ca3;
-    }
-    header {
-      margin-top: 120px;
-      margin-bottom: 40px;
-      text-align: center;
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-    }
+
     .npc-section {
-      background: #fff;
+      background: var(--card-bg);
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
       padding: 24px;
-      margin-bottom: 24px;
-      width: 100%;
+      margin: 20px;
       max-width: 800px;
-    }
-    .npc-title {
-      font-size: 1.8rem;
-      margin-bottom: 16px;
-      color: #333;
-      border-bottom: 2px solid #6b4ca3;
-      padding-bottom: 8px;
-    }
-    .npc-content {
-      line-height: 1.6;
-      margin-bottom: 24px;
-    }
-    .npc-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 12px 0;
-    }
-    .npc-tag {
-      background: #f0f0f0;
-      color: #666;
-      padding: 4px 12px;
-      border-radius: 16px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .npc-tag:hover {
-      background: #6b4ca3;
-      color: white;
-    }
-    .npc-tag.active {
-      background: #6b4ca3;
-      color: white;
-    }
-    .filter-section {
-      background: #f8f8f8;
-      padding: 16px;
-      border-radius: 6px;
-      margin-bottom: 24px;
       width: 100%;
-      max-width: 800px;
+      border: 1px solid var(--accent-color);
     }
-    .filter-title {
-      color: #6b4ca3;
-      margin-bottom: 12px;
-      font-size: 1.2rem;
+
+    .npc-section:hover {
+      box-shadow: 0 4px 16px rgba(41, 98, 255, 0.2);
     }
-    .filter-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
+
+    .npc-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
     }
-    .filter-tag {
-      background: #fff;
-      color: #666;
-      padding: 4px 12px;
-      border-radius: 16px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      transition: all 0.2s;
-      border: 1px solid #ddd;
+
+    .stat-box {
+      background: rgba(41, 98, 255, 0.1);
+      padding: 15px;
+      border-radius: 4px;
+      border: 1px solid var(--accent-color);
     }
-    .filter-tag:hover {
-      background: #6b4ca3;
-      color: white;
-      border-color: #6b4ca3;
+
+    .stat-label {
+      color: var(--accent-color);
+      font-weight: bold;
+      margin-bottom: 5px;
     }
-    .filter-tag.active {
-      background: #6b4ca3;
-      color: white;
-      border-color: #6b4ca3;
-    }
-    .npc-details {
-      background: #f8f8f8;
-      padding: 16px;
-      border-radius: 6px;
-      margin-top: 16px;
-    }
-    .npc-details h3 {
-      color: #6b4ca3;
-      margin-bottom: 12px;
-    }
-    .npc-details ul {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-    }
-    .npc-details li {
-      margin-bottom: 8px;
-    }
-    .npc-flex {
-      display: flex;
-      align-items: flex-start;
-      gap: 24px;
-    }
-    .npc-flex img {
-      flex-shrink: 0;
-      border-radius: 8px;
-      max-width: 180px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-      margin-bottom: 0;
-    }
-    .npc-flex-content {
-      flex: 1;
+
+    @media (max-width: 768px) {
+      .nav-content {
+        flex-direction: column;
+        height: auto;
+        padding: 1rem;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .npc-section {
+        margin: 10px;
+        padding: 16px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
     }
   </style>
 </head>
 <body>
   <nav class="nav-panel">
     <div class="nav-content">
-      <div style="display: flex; gap: 20px; align-items: center;">
-        <a href="index.html" style="color: #333; text-decoration: none; font-weight: bold;">Main Page</a>
-        <a href="big-space-travel-far.html" style="color: #333; text-decoration: none; font-weight: bold;">Campaign Hub</a>
+      <div class="main-links">
+        <a href="index.html">Main Page</a>
+        <a href="big-space-travel-far.html">Campaign Hub</a>
       </div>
       <div class="nav-links">
-        <div class="dropdown">
-          <a href="characters.html">Characters</a>
-          <div class="dropdown-content">
-            <a href="characters.html#awang-vappu">Awang-Vappu</a>
-            <a href="characters.html#lucius">Lucius Vin Geitenhoven</a>
-            <a href="characters.html#nanak">Nanak Bahadur</a>
-            <a href="characters.html#khyel">Khyelyeweih Yahfoi</a>
-            <a href="characters.html#quin">Quinstebr</a>
-          </div>
-        </div>
-        <div class="dropdown">
-          <a href="npcs.html" class="active">NPCs</a>
-          <div class="dropdown-content">
-            <a href="npcs.html#professor">Professor Albericiepr</a>
-            <a href="npcs.html#intendant">Intendant Voriepr</a>
-            <a href="npcs.html#researcher">Researcher Taeliepr</a>
-            <a href="npcs.html#technician">Technician Renniepr</a>
-            <a href="npcs.html#kael">Kael Vor</a>
-            <a href="npcs.html#jarnak">Settlement Overseer Jarnak</a>
-            <a href="npcs.html#tarani">High Archivist Tarani</a> {/* Added Tarani Link */}
-          </div>
-        </div>
-        <div class="dropdown">
-          <a href="locations.html">Locations</a>
-          <div class="dropdown-content">
-            <a href="locations.html#nielkladlief">Nielkladlief</a>
-            <a href="locations.html#drenalch">Drenalch</a>
-          </div>
-        </div>
-        <div class="dropdown">
-          <a href="logs.html">Logs</a>
-          <div class="dropdown-content">
-            <a href="logs.html#act1">Act I: Shadows of the Past</a>
-            <a href="logs.html#mission1">Mission 1: The Seeds of Curiosity</a>
-          </div>
-        </div>
-        <div class="dropdown">
-          <a href="flora-fauna.html">Flora & Fauna</a>
-          <div class="dropdown-content">
-            <a href="flora-fauna.html#tklan-tick">T'klan Tick</a>
-          </div>
-        </div>
+        <a href="characters.html">Characters</a>
+        <a href="npcs.html" class="active">NPCs</a>
+        <a href="locations.html">Locations</a>
+        <a href="logs.html">Logs</a>
+        <a href="flora-fauna.html">Flora & Fauna</a>
       </div>
     </div>
   </nav>

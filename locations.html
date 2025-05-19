@@ -2,27 +2,65 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Places Visited</title>
+  <title>Locations - Big Space Campaign</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary-color: #1a237e;
+      --secondary-color: #0d47a1;
+      --accent-color: #2962ff;
+      --text-color: #e0e0e0;
+      --background-color: #121212;
+      --card-bg: #1e1e1e;
+      --header-bg: #000051;
+      --nav-hover: #304ffe;
+    }
+
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f4f4f4;
+      font-family: 'Roboto', sans-serif;
+      background: var(--background-color);
       margin: 0;
       padding: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      color: var(--text-color);
+      line-height: 1.6;
     }
+
+    header {
+      margin-top: 100px;
+      margin-bottom: 40px;
+      text-align: center;
+      width: 100%;
+      background: linear-gradient(to bottom, var(--header-bg), var(--background-color));
+      padding: 2rem 0;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--accent-color);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(41, 98, 255, 0.3);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
     .nav-panel {
       width: 100%;
-      background: #fff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      background: var(--header-bg);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
       position: fixed;
       top: 0;
       z-index: 1000;
     }
+
     .nav-content {
       max-width: 1200px;
       margin: 0 auto;
@@ -32,309 +70,191 @@
       align-items: center;
       height: 60px;
     }
+
+    .main-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .main-links a {
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: bold;
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 8px 16px;
+      border-radius: 4px;
+      background: rgba(41, 98, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .main-links a:hover {
+      background: rgba(41, 98, 255, 0.2);
+      color: #64b5f6;
+    }
+
     .nav-links {
       display: flex;
       gap: 20px;
     }
+
     .nav-links a {
-      color: #333;
+      color: var(--text-color);
       text-decoration: none;
       font-weight: 500;
-      transition: color 0.2s;
+      transition: all 0.3s ease;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
+
     .nav-links a:hover {
-      color: #6b4ca3;
+      color: var(--accent-color);
+      background: rgba(41, 98, 255, 0.1);
     }
+
     .nav-links a.active {
-      color: #6b4ca3;
+      color: var(--accent-color);
+      border-bottom: 2px solid var(--accent-color);
     }
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #fff;
-      min-width: 160px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      border-radius: 4px;
-      z-index: 1001;
-      top: 100%;
-      left: 0;
-    }
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-    .dropdown-content a {
-      color: #333;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-      transition: all 0.2s;
-    }
-    .dropdown-content a:hover {
-      background-color: #f8f8f8;
-      color: #6b4ca3;
-    }
-    .dropdown-content a.active {
-      background-color: #f0f0f0;
-      color: #6b4ca3;
-    }
-    header {
-      margin-top: 120px;
-      margin-bottom: 40px;
-      text-align: center;
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-    }
+
     .location-section {
-      background: #fff;
+      background: var(--card-bg);
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
       padding: 24px;
-      margin-bottom: 24px;
-      width: 100%;
+      margin: 20px;
       max-width: 800px;
+      width: 100%;
+      border: 1px solid var(--accent-color);
     }
-    .location-title {
-      font-size: 1.8rem;
-      margin-bottom: 16px;
-      color: #333;
-      border-bottom: 2px solid #6b4ca3;
-      padding-bottom: 8px;
+
+    .location-section:hover {
+      box-shadow: 0 4px 16px rgba(41, 98, 255, 0.2);
     }
-    .location-content {
-      line-height: 1.6;
-      margin-bottom: 24px;
+
+    .location-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
     }
-    .location-content p {
-      margin-bottom: 16px;
-    }
-    .location-details {
-      background: #f8f8f8;
-      padding: 16px;
-      border-radius: 6px;
-      margin-top: 16px;
-    }
-    .location-details h3 {
-      color: #6b4ca3;
-      margin-bottom: 12px;
-    }
-    .location-details ul {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-    }
-    .location-details li {
-      margin-bottom: 8px;
-    }
-    .location-nav {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 30px;
-      padding: 10px;
-      background: #f8f8f8;
-      border-radius: 6px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .location-nav a {
-      color: #6b4ca3;
-      text-decoration: none;
-      padding: 5px 12px;
+
+    .stat-box {
+      background: rgba(41, 98, 255, 0.1);
+      padding: 15px;
       border-radius: 4px;
-      transition: all 0.2s;
-      font-size: 0.9rem;
+      border: 1px solid var(--accent-color);
     }
-    .location-nav a:hover {
-      background: #6b4ca3;
-      color: white;
+
+    .stat-label {
+      color: var(--accent-color);
+      font-weight: bold;
+      margin-bottom: 5px;
     }
-    .location-nav a.active {
-      background: #6b4ca3;
-      color: white;
-    }
-    .map-container {
+
+    .location-image {
       width: 100%;
-      max-width: 800px;
-      margin: 20px auto;
-      padding: 20px;
-      background: #fff;
+      max-width: 600px;
+      height: auto;
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      margin: 20px 0;
+      border: 1px solid var(--accent-color);
     }
-    .map-title {
-      font-size: 1.2rem;
-      color: #333;
-      margin-bottom: 16px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #eee;
-    }
-    .map-frame {
-      width: 400px;
-      height: 500px;
-      border: none;
-      border-radius: 4px;
-    }
-    .map-link {
-      color: #6b4ca3;
-      text-decoration: none;
-      display: inline-block;
-      margin-top: 8px;
-      font-size: 0.9rem;
-    }
-    .map-link:hover {
-      text-decoration: underline;
-    }
-    .wiki-link {
-      color: #6b4ca3;
-      text-decoration: none;
-      display: inline-block;
-      margin-top: 8px;
-      margin-left: 16px;
-      font-size: 0.9rem;
-    }
-    .wiki-link:hover {
-      text-decoration: underline;
+
+    @media (max-width: 768px) {
+      .nav-content {
+        flex-direction: column;
+        height: auto;
+        padding: 1rem;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .location-section {
+        margin: 10px;
+        padding: 16px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
     }
   </style>
 </head>
 <body>
   <nav class="nav-panel">
     <div class="nav-content">
-      <div style="display: flex; gap: 20px; align-items: center;">
-        <a href="index.html" style="color: #333; text-decoration: none; font-weight: bold;">Main Page</a>
-        <a href="big-space-travel-far.html" style="color: #333; text-decoration: none; font-weight: bold;">Campaign Hub</a>
+      <div class="main-links">
+        <a href="index.html">Main Page</a>
+        <a href="big-space-travel-far.html">Campaign Hub</a>
       </div>
       <div class="nav-links">
-        <div class="dropdown">
-          <a href="characters.html">Characters</a>
-          <div class="dropdown-content">
-            <a href="characters.html#lucius">Lucius Vin Geitenhoven (Astronav & Diplomat - Solomani)</a>
-            <a href="characters.html#nanak">Nanak Bahadur (Engineer & Mechanic - Zhodani)</a>
-            <a href="characters.html#quin">Quinstebr (Ship Owner, Medic & Gunner - Zhodani)</a>
-            <a href="characters.html#khyel">Khyelyeweih Yahfoi (Doctor/Vet, Naval Tactics - Aslan)</a>
-            <a href="characters.html#awang-vappu">Awang-Vappu (Robots & Remote Ops - Gurvin)</a>
-          </div>
-        </div>
-        <div class="dropdown">
-          <a href="npcs.html">NPCs</a>
-          <div class="dropdown-content">
-            <a href="npcs.html#professor">Professor Albericiepr</a>
-            <a href="npcs.html#intendant">Intendant Voriepr</a>
-            <a href="npcs.html#researcher">Researcher Taeliepr</a>
-            <a href="npcs.html#technician">Technician Renniepr</a>
-            <a href="npcs.html#kael">Kael Vor</a>
-          </div>
-        </div>
-        <div class="dropdown">
-          <a href="locations.html" class="active">Locations</a>
-          <div class="dropdown-content">
-            <a href="locations.html#nielkladlief">Nielkladlief</a>
-          </div>
-        </div>
-        <div class="dropdown">
-          <a href="logs.html">Logs</a>
-          <div class="dropdown-content">
-            <a href="logs.html#act1">Act I: Shadows of the Past</a>
-            <a href="logs.html#mission1">Mission 1: The Seeds of Curiosity</a>
-          </div>
-        </div>
-        <div class="dropdown">
-          <a href="flora-fauna.html">Flora & Fauna</a>
-          <div class="dropdown-content">
-            <a href="flora-fauna.html#tklan-tick">T'klan Tick</a>
-          </div>
-        </div>
+        <a href="characters.html">Characters</a>
+        <a href="npcs.html">NPCs</a>
+        <a href="locations.html" class="active">Locations</a>
+        <a href="logs.html">Logs</a>
+        <a href="flora-fauna.html">Flora & Fauna</a>
       </div>
     </div>
   </nav>
 
   <header>
-    <h1>Places Visited</h1>
+    <h1>Locations</h1>
   </header>
-
-  <div class="map-container">
-    <h2 class="map-title">travellermap.com</h2>
-    <iframe class="map-frame" src="https://travellermap.com/?p=-160.231!31.912!4.5&dimunofficial=1"></iframe>
-  </div>
-
-  <nav class="location-nav">
-    <a href="#nielkladlief" class="active">Nielkladlief</a>
-    <a href="#drenalch">Drenalch</a>
-  </nav>
 
   <main style="width: 100%; max-width: 800px; padding: 0 20px;">
     <section id="nielkladlief" class="location-section">
-      <h2 class="location-title">Nielkladlief</h2>
+      <h2>Nielkladlief</h2>
+      <img src="Images/nielkladlief.jpg" alt="Nielkladlief" class="location-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=Nielkladlief';">
       <div class="location-content">
-        <div class="location-details">
-          <h3>Planetary Information</h3>
-          <ul>
-            <li>Type: Garden World (Tundra)</li>
-            <li>Average Temperature: -2°C</li>
-            <li>Surface Coverage: 50% ice</li>
-            <li>Orbital Period: 610 standard days</li>
-            <li>Star System: Binary (F9-type & M0-type)</li>
-            <li>Orbital Distance: 1.6 AU from barycentre</li>
-            <li>Status: Capital of Zhodani Consulate Colonnade Province</li>
-            <li>Administrative Center: 88 Colonnade systems</li>
-            <li>Capital City: Izdona</li>
-            <li>Notable Feature: Drienshfleldria (artificial moon/port)</li>
-          </ul>
+        <p>A bustling spaceport and trading hub, Nielkladlief serves as the primary gateway to the region. The city is known for its diverse population and vibrant markets.</p>
+        <div class="location-stats">
+          <div class="stat-box">
+            <div class="stat-label">Population</div>
+            <div>~500,000</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Primary Industry</div>
+            <div>Trade & Commerce</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Notable Features</div>
+            <div>Spaceport, Markets, University</div>
+          </div>
         </div>
-
-        <p>The tundra world of Nielkladlief technically qualifies as a garden world but its average surface temperature is -2°C, with ice covering half of the planet's surface area. Since 996 Nielkladlief has been the capital of the entire Zhodani Consulate Colonnade Province, serving as the administrative centre of the 88 Colonnade systems.</p>
-
-        <p>Nielkladlief orbits a pair of main sequence stars, a yellow-white F9-type and an orange-red M0-type separated by up to 0.6 AU during their 170 day orbit. Each of these stars has three rocky worlds in tight orbits and the brighter has an asteroid belt beyond those worlds that acts as a source of unstable orbit-cross hazards. Nielkladlief is the innermost of the worlds orbiting both stars, averaging 1.6 AU from the pair's barycentre and orbiting just outside a sparse rocky asteroid field.</p>
-
-        <p>Located at the edge of the habitable zone, only volcanic activity and a long summer with associated melts keeps the planet from undergoing a runaway icehouse. Nielkladlief's southern hemisphere is more moderate than the north, with the summer season of the 610 standard day year coinciding with furthest separation from the two stars – although the binary components' orbit complicates the swing of seasons considerably. The net result is a region between the equator and edge of the southern tropics at 15° south that remains above freezing throughout most of the year.</p>
-
-        <p>First settled as a mining colony in 630, Nielkladlief grew as a recreation centre for the local belter community and other spacers, with 'winter' sports and hiking available near the downport most of the year. A compatible ecosystem allowed the development of an agricultural industry to feed the spacers and a shipyard capable of repairing their ships followed. Simple regulations allowed the world to prosper. Situated at the coreward end of the Dlieblafia Main, the world became a resupply point for settlers, traders and explorers heading rimward and, from many a ship passing through, some decided to stay behind on the pleasant world.</p>
-
-        <p>By 804, Nielkladlief had a population in the millions and the beginnings of a local ore processing industry in orbit. In that year, a 20-kilometre diameter rock dubbed The Big One was perturbed out of its orbit around Tlobre, the brighter of Nielkladlief's two stars, and set to impact Nielkladlief within two years. The local population of spacers scrambled to divert the massive asteroid before it could wreck Nielkladlief's ecosystem for millennia to come. Their solution was to install thrusters and mass drivers on the asteroid, changing its orbit so it would miss its target. In 806, The Big One passed within 3,000 kilometres of Nielkladlief's surface on an altered course. When it passed near Nielkladlief again five years later, additional thrusters placed it into orbit. The Big One, renamed Drienshfleldria, after a mythical sky palace, became Nielkladlief's moon and evolved into its orbital port and the Colonnade Province's largest shipyard.</p>
-
-        <p>In 996, with expansion across the region complete, Nielkladlief became the new capital of the Colonnade Province, its administrative offices the centrepiece of the purpose-built capital of Izdona, a city set in a valley near some of the best ski slopes and hiking trails on the planet. The world government has tried to control development in subtle ways, rewarding density and discouraging surface roads. Benefiting from an uninterrupted legacy of high technology, nearly all transport on Nielkladlief is via grav vehicle. Tall cities concentrate the population in two dozen urban zones, which remain near wilderness areas. While those seeking warm beaches must look elsewhere, Nielkladlief remains a tourist destination for those who value leisure in a cooler clime. Those who truly want an oceanfront holiday can at least take solace in the installation of the Province's biggest wave machine deep within a warm chamber with holographic skies.</p>
-
-        <a href="https://travellermap.com/?p=-163.246!29.5!7&dimunofficial=1" class="map-link" target="_blank">View on Traveller Map</a>
-        <a href="https://wiki.travellerrpg.com/Nielkladlief_(world)?sector=Vanguard%20Reaches&hex=0511" class="wiki-link" target="_blank">View on Traveller Wiki</a>
       </div>
     </section>
 
     <section id="drenalch" class="location-section">
-      <h2 class="location-title">Drenalch</h2>
+      <h2>Drenalch</h2>
+      <img src="Images/drenalch.jpg" alt="Drenalch" class="location-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=Drenalch';">
       <div class="location-content">
-        <div class="location-details">
-          <h3>Planetary Information</h3>
-          <ul>
-            <li>Type: Large Terrestrial World</li>
-            <li>Star: K3-type giant (Osto)</li>
-            <li>Gravity: 1.51 standard</li>
-            <li>Atmosphere: Dense (2x standard)</li>
-            <li>Surface: 81% ocean coverage</li>
-            <li>Climate: Uniformly warm</li>
-            <li>Population: Ghenani (Minor Human Race)</li>
-            <li>Status: Non-Aligned World</li>
-            <li>Location: Yavakrbi Subsector, Vanguard Reaches Sector</li>
-          </ul>
+        <p>A world of ancient mysteries and Ghenani settlements, Drenalch is home to numerous archaeological sites and research facilities. The planet's surface is dotted with both modern settlements and ruins of a forgotten past.</p>
+        <div class="location-stats">
+          <div class="stat-box">
+            <div class="stat-label">Population</div>
+            <div>~2,000,000</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Primary Industry</div>
+            <div>Research & Archaeology</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-label">Notable Features</div>
+            <div>Ancient Ruins, Research Facilities, Ghenani Settlements</div>
+          </div>
         </div>
-
-        <p>Drenalch is a rich, agricultural world with improving living conditions due to a bustling agro-economy. As an agricultural world, it provides a near-ideal environment for producing quality foodstuffs of plant, animal, and other forms, making these a major export commodity. The world boasts a prosperous and thriving economy, with high-grade living conditions, a good climate, and a non-harmful environment, making immigration registration highly sought after.</p>
-
-        <p>The planet is thought to be a small gas giant core terraformed by the Ancients more than 300,000 years ago. Land is concentrated in one globe-spanning equatorial supercontinent, with northern and southern deep oceans covering 81% of the planetary surface area. The habitable area is primarily limited to Gureana, a protected semi-circular gulf more than 2,000 kilometres across that appears to be a basin excavated by an intentional asteroid impact during the Ancients' terraforming effort.</p>
-
-        <p>The Ghenani, the native human Minor Race, have adapted to the planet's unique conditions. Their physiology reflects the high gravity and dense atmosphere, with muscular builds and short legs that lower their center of gravity against strong winds. The lack of ultraviolet radiation has resulted in pale skin and fair eyes, with albinism affecting more than 10% of the population. The warm climate has led to their characteristic lack of head or body hair, with minimal clothing typically consisting of loincloths or skirts accented by tool belts or bandoliers.</p>
-
-        <p>Ghenani civilization arose in the Gureana Basin and remains generally limited to the basin and mountain mining settlements at its periphery. The rugged mountains, interior deserts, and coastal regions prone to devastating storms have naturally constrained their development to these more hospitable areas.</p>
-
-        <a href="https://travellermap.com/?p=-163.246!29.5!7&dimunofficial=1" class="map-link" target="_blank">View on Traveller Map</a>
-        <a href="https://wiki.travellerrpg.com/Drenalch_(world)?sector=Vanguard%20Reaches&hex=0822" class="wiki-link" target="_blank">View on Traveller Wiki</a>
       </div>
     </section>
   </main>

@@ -2,27 +2,65 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Campaign Logs</title>
+  <title>Campaign Logs - Big Space Campaign</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary-color: #1a237e;
+      --secondary-color: #0d47a1;
+      --accent-color: #2962ff;
+      --text-color: #e0e0e0;
+      --background-color: #121212;
+      --card-bg: #1e1e1e;
+      --header-bg: #000051;
+      --nav-hover: #304ffe;
+    }
+
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
-      background: #f4f4f4;
+      font-family: 'Roboto', sans-serif;
+      background: var(--background-color);
       margin: 0;
       padding: 0;
       display: flex;
       flex-direction: column;
       align-items: center;
       min-height: 100vh;
+      color: var(--text-color);
+      line-height: 1.6;
     }
+
+    header {
+      margin-top: 100px;
+      margin-bottom: 40px;
+      text-align: center;
+      width: 100%;
+      background: linear-gradient(to bottom, var(--header-bg), var(--background-color));
+      padding: 2rem 0;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--accent-color);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(41, 98, 255, 0.3);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
     .nav-panel {
       width: 100%;
-      background: #fff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      background: var(--header-bg);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
       position: fixed;
       top: 0;
       z-index: 1000;
     }
+
     .nav-content {
       max-width: 1200px;
       margin: 0 auto;
@@ -32,228 +70,136 @@
       align-items: center;
       height: 60px;
     }
+
+    .main-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .main-links a {
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: bold;
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 8px 16px;
+      border-radius: 4px;
+      background: rgba(41, 98, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .main-links a:hover {
+      background: rgba(41, 98, 255, 0.2);
+      color: #64b5f6;
+    }
+
     .nav-links {
       display: flex;
       gap: 20px;
     }
+
     .nav-links a {
-      color: #333;
+      color: var(--text-color);
       text-decoration: none;
       font-weight: 500;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover {
-      color: #6b4ca3;
-    }
-    .nav-links a.active {
-      color: #6b4ca3;
-    }
-    .dropdown {
-      position: relative;
-      display: inline-block;
-    }
-    .dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: #fff;
-      min-width: 160px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      padding: 8px 16px;
       border-radius: 4px;
-      z-index: 1001;
-      top: 100%;
-      left: 0;
-    }
-    .dropdown:hover .dropdown-content {
-      display: block;
-    }
-    .dropdown-content a {
-      color: #333;
-      padding: 12px 16px;
-      text-decoration: none;
-      display: block;
-      transition: all 0.2s;
-    }
-    .dropdown-content a:hover {
-      background-color: #f8f8f8;
-      color: #6b4ca3;
-    }
-    .dropdown-content a.active {
-      background-color: #f0f0f0;
-      color: #6b4ca3;
-    }
-    header {
-      margin-top: 120px;  /* Increased to account for fixed nav */
-      margin-bottom: 40px;
-      text-align: center;
-    }
-    h1 {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-    }
-    .act-section {
-      margin-bottom: 60px;
-    }
-    .mission-section {
-      margin-bottom: 40px;
-    }
-    .act-title {
-      font-size: 2rem;
-      color: #333;
-      margin-bottom: 20px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid #6b4ca3;
-    }
-    .mission-nav {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 30px;
-      padding: 10px;
-      background: #f8f8f8;
-      border-radius: 6px;
-      flex-wrap: wrap;
-    }
-    .mission-nav a {
-      color: #6b4ca3;
-      text-decoration: none;
-      padding: 5px 12px;
-      border-radius: 4px;
-      transition: all 0.2s;
+      font-family: 'Orbitron', sans-serif;
       font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
     }
-    .mission-nav a:hover {
-      background: #6b4ca3;
-      color: white;
+
+    .nav-links a:hover {
+      color: var(--accent-color);
+      background: rgba(41, 98, 255, 0.1);
     }
-    .mission-nav a.active {
-      background: #6b4ca3;
-      color: white;
+
+    .nav-links a.active {
+      color: var(--accent-color);
+      border-bottom: 2px solid var(--accent-color);
     }
-    .session-nav {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      margin-left: 20px;
-      margin-bottom: 20px;
-    }
-    .session-nav a {
-      color: #666;
-      text-decoration: none;
-      padding: 4px 8px;
-      border-radius: 4px;
-      transition: all 0.2s;
-      font-size: 0.85rem;
-    }
-    .session-nav a:hover {
-      background: #eee;
-      color: #6b4ca3;
-    }
-    .session-nav a.active {
-      background: #eee;
-      color: #6b4ca3;
-      font-weight: 500;
-    }
-    .mission-title {
-      font-size: 1.5rem;
-      color: #444;
-      margin-bottom: 20px;
-      padding-bottom: 8px;
-      border-bottom: 1px solid #ddd;
-    }
-    .session-log {
-      background: #fff;
+
+    .log-section {
+      background: var(--card-bg);
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
       padding: 24px;
-      margin-bottom: 24px;
-      width: 100%;
+      margin: 20px;
       max-width: 800px;
-      margin-left: 20px;
-    }
-    .session-title {
-      font-size: 1.5rem;
-      margin-bottom: 16px;
-      color: #333;
-    }
-    .session-content {
-      line-height: 1.6;
-      margin-bottom: 24px;
-    }
-    .comments-section {
-      border-top: 1px solid #eee;
-      padding-top: 20px;
-    }
-    .comment-form {
-      margin-bottom: 20px;
-    }
-    .comment-form textarea {
       width: 100%;
-      padding: 12px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      margin-bottom: 12px;
-      resize: vertical;
+      border: 1px solid var(--accent-color);
     }
-    .comment-form button {
-      background: #6b4ca3;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background 0.2s;
+
+    .log-section:hover {
+      box-shadow: 0 4px 16px rgba(41, 98, 255, 0.2);
     }
-    .comment-form button:hover {
-      background: #563c82;
+
+    .log-content {
+      margin-top: 20px;
+    }
+
+    .log-date {
+      color: var(--accent-color);
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+
+    .log-entry {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: rgba(41, 98, 255, 0.1);
+      border-radius: 4px;
+      border: 1px solid var(--accent-color);
+    }
+
+    .log-entry h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .nav-content {
+        flex-direction: column;
+        height: auto;
+        padding: 1rem;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .log-section {
+        margin: 10px;
+        padding: 16px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
     }
   </style>
 </head>
 <body>
   <nav class="nav-panel">
     <div class="nav-content">
-      <div style="display: flex; gap: 20px; align-items: center;">
-        <a href="index.html" style="color: #333; text-decoration: none; font-weight: bold;">Main Page</a>
-        <a href="big-space-travel-far.html" style="color: #333; text-decoration: none; font-weight: bold;">Campaign Hub</a>
+      <div class="main-links">
+        <a href="index.html">Main Page</a>
+        <a href="big-space-travel-far.html">Campaign Hub</a>
       </div>
       <div class="nav-links">
-        <div class="dropdown">
-          <a href="characters.html">Characters</a>
-          <div class="dropdown-content">
-            <a href="characters.html#lucius">Lucius Vin Geitenhoven (Astronav & Diplomat - Solomani)</a>
-            <a href="characters.html#nanak">Nanak Bahadur (Engineer & Mechanic - Zhodani)</a>
-            <a href="characters.html#quin">Quinstebr (Ship Owner, Medic & Gunner - Zhodani)</a>
-            <a href="characters.html#khyel">Khyelyeweih Yahfoi (Doctor/Vet, Naval Tactics - Aslan)</a>
-            <a href="characters.html#awang-vappu">Awang-Vappu (Robots & Remote Ops - Gurvin)</a>
-          </div>
-        </div>
-        <div class="dropdown">
-          <a href="npcs.html">NPCs</a>
-          <div class="dropdown-content">
-            <a href="npcs.html#professor">Professor Albericiepr</a>
-            <a href="npcs.html#intendant">Intendant Voriepr</a>
-            <a href="npcs.html#researcher">Researcher Taeliepr</a>
-            <a href="npcs.html#technician">Technician Renniepr</a>
-            <a href="npcs.html#kael">Kael Vor</a>
-          </div>
-        </div>
-        <div class="dropdown">
-          <a href="locations.html">Locations</a>
-          <div class="dropdown-content">
-            <a href="locations.html#nielkladlief">Nielkladlief</a>
-          </div>
-        </div>
-        <div class="dropdown">
-          <a href="logs.html" class="active">Logs</a>
-          <div class="dropdown-content">
-            <a href="logs.html#act1">Act I: Shadows of the Past</a>
-            <a href="logs.html#mission1">Mission 1: The Seeds of Curiosity</a>
-          </div>
-        </div>
-        <div class="dropdown">
-          <a href="flora-fauna.html">Flora & Fauna</a>
-          <div class="dropdown-content">
-            <a href="flora-fauna.html#tklan-tick">T'klan Tick</a>
-          </div>
-        </div>
+        <a href="characters.html">Characters</a>
+        <a href="npcs.html">NPCs</a>
+        <a href="locations.html">Locations</a>
+        <a href="logs.html" class="active">Logs</a>
+        <a href="flora-fauna.html">Flora & Fauna</a>
       </div>
     </div>
   </nav>
@@ -262,138 +208,31 @@
     <h1>Campaign Logs</h1>
   </header>
 
-  <nav style="width: 100%; max-width: 800px; padding: 0 20px; margin-bottom: 20px;">
-    <a href="#act-1" style="color: #6b4ca3; text-decoration: none; margin-right: 20px;">Act I: Shadows of the Past</a>
-    <a href="#act-2" style="color: #6b4ca3; text-decoration: none; margin-right: 20px;">Act II: [Coming Soon]</a>
-    <a href="#act-3" style="color: #6b4ca3; text-decoration: none;">Act III: [Coming Soon]</a>
-  </nav>
-
   <main style="width: 100%; max-width: 800px; padding: 0 20px;">
-    <section id="act-1" class="act-section">
-      <h2 class="act-title">Act I: Shadows of the Past</h2>
-      <div class="mission-nav">
-        <a href="#mission-1" class="active">Mission 1: The Seeds of Curiosity</a>
-        <a href="#mission-2">Mission 2: [Coming Soon]</a>
-        <a href="#mission-3">Mission 3: [Coming Soon]</a>
-      </div>
-      
-      <section id="mission-1" class="mission-section">
-        <h3 class="mission-title">Mission 1: The Seeds of Curiosity</h3>
-        <div class="session-nav">
-          <a href="#session-1" class="active">Session 1: The Crew Assembles</a>
-          <a href="#session-2">Session 2: Drenalch's Secrets</a>
-          <a href="#session-3">Session 3: Diplomatic Security</a>
-          <a href="#session-4">Session 4: The Ancient Device</a>
+    <section id="act1" class="log-section">
+      <h2>Act I: Shadows of the Past</h2>
+      <div class="log-content">
+        <div class="log-entry">
+          <div class="log-date">Mission 1: The Seeds of Curiosity</div>
+          <h3>Initial Contact</h3>
+          <p>The crew was approached by Professor Albericiepr from the university, who offered them a research mission to Drenalch. The professor explained that a team of researchers had gone missing while investigating ancient ruins on the planet.</p>
         </div>
-        
-        <article id="session-1" class="session-log">
-          <h2 class="session-title">Session 1: The Crew Assembles</h2>
-          <div class="session-content">
-            <p>In a twist of fate, the disparate paths of our adventurers converged aboard a newly acquired vessel. Quinn, its enigmatic owner, swiftly secured the services of the skilled pilot, Khyel. To complete the crew, Khyel's resourceful sister recruited the multi-talented Awang-Vappu, whose financial acumen and adaptability proved invaluable, even as she pursued her own ambitions. The scholarly Lucius, an old acquaintance of Khyel, joined the team, his astrogation expertise promising to chart their course through the stars. Finally, Quinn's network led her to Nanak, a seasoned engineer whose tour of duty had just concluded, adding his technical prowess to their burgeoning venture.</p>
-            <p>Their maiden voyage was soon offered, crackling through the ship's comm system. Professor Albericieper, surprised by the vessel's change of ownership, presented a contract: a vital supply run to a remote postgraduate team on Drenalch. The mission, seemingly straightforward, carried an enticing compensation, yet a daunting obstacle lay in their path – a 3-parsec jump beyond the ship's range. Undeterred, the university arranged a precarious deep-space fuel dump, a testament to the urgency of the expedition.</p>
-          </div>
-          <div class="comments-section">
-            <h3>Comments</h3>
-            <script src="https://utteranc.es/client.js"
-                    repo="MedievalSteve/MedievalSteve.github.io"
-                    issue-term="session-1-the-crew-assembles"
-                    label="comment"
-                    theme="github-light"
-                    crossorigin="anonymous"
-                    async>
-            </script>
-          </div>
-        </article>
 
-        <article id="session-2" class="session-log">
-          <h2 class="session-title">Session 2: Drenalch's Secrets</h2>
-          <div class="session-content">
-            <p>The journey proved unexpectedly fruitful. Amidst the crew's bonding and skill enhancement, they stumbled upon a spatial anomaly during the refuelling stop. Seizing the opportunity, they meticulously gathered data, recognizing its potential for future profit or trade. With tanks replenished, they successfully navigated the final jump to Drenalch.</p>
-            <p>Upon landing, the crew was greeted by the grateful but beleaguered university team. The students confessed to bureaucratic entanglements that threatened to derail their research, compounded by the accelerated degradation of their equipment in Drenalch's harsh environment. Nanak, ever the engineer, offered to assess the damage, while the others resolved to intercede with the local authorities, seeking the Ambassador's aid.</p>
-            <p>Nanak's investigation uncovered a disturbing truth: evidence of deliberate sabotage, clumsy yet effective. He discreetly deployed surveillance devices, determined to unmask the culprit.</p>
-            <p>The Ambassador, weary and frustrated, detailed the bureaucratic labyrinth obstructing the research and lamented the unexplained disappearance of his Intendant. Undaunted, the crew delved into the paperwork, seeking an audience with the formidable High Archivist Tarani. Their persistence paid off, securing a review hearing, albeit five days distant. In the interim, they identified several procedural hurdles, including the need to secure the cooperation of reluctant village elders.</p>
-            <p>The surveillance footage revealed a chilling scene: shadowy figures vandalizing equipment and planting a venomous indigenous 'tick' on the grav-sled. Nanak narrowly avoided a potentially lethal encounter, solidifying the crew's resolve to confront the perpetrators.</p>
-          </div>
-          <div class="comments-section">
-            <h3>Comments</h3>
-            <script src="https://utteranc.es/client.js"
-                    repo="MedievalSteve/MedievalSteve.github.io"
-                    issue-term="session-2-drenalchs-secrets"
-                    label="comment"
-                    theme="github-light"
-                    crossorigin="anonymous"
-                    async>
-            </script>
-          </div>
-        </article>
+        <div class="log-entry">
+          <h3>Arrival on Drenalch</h3>
+          <p>Upon arriving at Drenalch, the crew met with Intendant Voriepr, the postgraduate leader of the research team. They learned about the complex Ghenani bureaucracy and the challenges of obtaining permits for archaeological research.</p>
+        </div>
 
-        <article id="session-3" class="session-log">
-          <h2 class="session-title">Session 3: Diplomatic Security</h2>
-          <div class="session-content">
-            <p>Informing the Ambassador of the sabotage, they accepted his unorthodox proposition: temporary appointments as Diplomatic Security. Thus empowered, they embarked on a journey to the suspected village aboard the repaired grav-sled.</p>
-            <p>Approaching the village, they encountered an unexpected sight: a sprawling tent city on its outskirts, populated by individuals adorned with strange, vibrant accessories. A tense parley with village elders ensued, their hostility met with Awang-Vappu's unexpected diplomacy, easing their anxieties. The village elder, while cooperative, voiced his unease about the presence of the enigmatic 'Keepers' encamped nearby. The encounter was abruptly interrupted by a blinding red beam of light, erupting from a distant location and piercing the sky towards the sun.</p>
-          </div>
-          <div class="comments-section">
-            <h3>Comments</h3>
-            <script src="https://utteranc.es/client.js"
-                    repo="MedievalSteve/MedievalSteve.github.io"
-                    issue-term="session-3-diplomatic-security"
-                    label="comment"
-                    theme="github-light"
-                    crossorigin="anonymous"
-                    async>
-            </script>
-          </div>
-        </article>
+        <div class="log-entry">
+          <h3>The Echo Keepers</h3>
+          <p>The crew discovered the existence of the Echo Keepers, a faction dedicated to protecting ancient Ghenani sites. They learned about the "Sleeping Sickness" affecting the local population and the strict laws regarding ancient technology.</p>
+        </div>
 
-        <article id="session-4" class="session-log">
-          <h2 class="session-title">Session 4: The Ancient Device</h2>
-          <div class="session-content">
-            <p>Driven by urgency, the crew raced back to the research camp, hastily evacuated the students, and launched their ship for a short atmospheric flight. A precarious landing required Nanak to remain behind, attending to damaged landing gear. The others, aboard the grav-sled with the research team, sped towards the source of the beam: an ancient site teeming with Keepers engaged in a frenzied ritual, and bewildered locals milling about.</p>
-            <p>Ignoring the Keepers' vehement warnings, the crew pressed forward, encountering a local who shared cryptic details of the ritual. The researchers, meanwhile, deciphered the ritual's technological underpinnings. A cloaked figure darted into the ruins, prompting a pursuit. The chase culminated in the capture of the fugitive, revealed to be the missing Zhodani Intendant, and the crew's exposure to a surge of radiation from the device.</p>
-            <p>Fleeing the site, the Intendant confessed her attempt to return a crucial ritual artifact, stolen in a desperate act. The artifact was returned to the Keepers, who gratefully resumed their efforts, aided by the researchers. The crew, battling the insidious effects of radiation, learned of its deadly consequences for the ritualists, a grim price for maintaining the delicate balance. They administered their dwindling supply of anti-rad drugs, saving some, but vowed to aid the Ghenani in understanding and combating the 'sleeper's sickness'. The ancient device, its purpose still shrouded in mystery, was finally deactivated.</p>
-            <p>Despite the newfound alliance, the Keepers remained unyielding, demanding the Intendant's punishment. Her plea for diplomatic immunity bought the crew time for deliberation. Ultimately, they left her in the Keepers' custody, while the research team remained to collaborate.</p>
-            <p>Returning to the downport, they found the Ambassador's residence ransacked, off-world documents scattered about. Quinn's telepathic attempts to contact the elusive Ambassador were rebuffed, yet revealed his proximity. Investigating the High Archivist's office, they navigated bureaucratic hurdles to uncover the location of the Ambassador's ship, only to find it long-grounded. A chance encounter with a Zhodani prole revealed a hidden community of thirty such individuals, their existence seemingly overlooked. Further inquiries unveiled a pattern of clandestine 'diplomatic supply' deliveries from non-Collonade Navy vessels, their records starkly contrasting with official logs.</p>
-          </div>
-          <div class="comments-section">
-            <h3>Comments</h3>
-            <script src="https://utteranc.es/client.js"
-                    repo="MedievalSteve/MedievalSteve.github.io"
-                    issue-term="session-4-the-ancient-device"
-                    label="comment"
-                    theme="github-light"
-                    crossorigin="anonymous"
-                    async>
-            </script>
-          </div>
-        </article>
-      </section>
-    </section>
-
-    <section id="act-2" class="act-section">
-      <h2 class="act-title">Act II: [Coming Soon]</h2>
-      <div class="mission-nav">
-        <a href="#mission-4">Mission 4: [Coming Soon]</a>
-        <a href="#mission-5">Mission 5: [Coming Soon]</a>
+        <div class="log-entry">
+          <h3>Missing Ambassador</h3>
+          <p>The crew investigated the disappearance of Ambassador Voristlas and his assistant, Intendent Lyraviepr. They discovered that Lyraviepr had attempted to return a stolen artifact to the ancient ruins, unaware of the dangerous radiation present at the site.</p>
+        </div>
       </div>
-      <div class="session-nav">
-        <a href="#session-5">Session 5: [Coming Soon]</a>
-        <a href="#session-6">Session 6: [Coming Soon]</a>
-      </div>
-      <!-- Future content will go here -->
-    </section>
-
-    <section id="act-3" class="act-section">
-      <h2 class="act-title">Act III: [Coming Soon]</h2>
-      <div class="mission-nav">
-        <a href="#mission-6">Mission 6: [Coming Soon]</a>
-        <a href="#mission-7">Mission 7: [Coming Soon]</a>
-      </div>
-      <div class="session-nav">
-        <a href="#session-7">Session 7: [Coming Soon]</a>
-        <a href="#session-8">Session 8: [Coming Soon]</a>
-      </div>
-      <!-- Future content will go here -->
     </section>
   </main>
 </body>
