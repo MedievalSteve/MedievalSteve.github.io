@@ -55,9 +55,38 @@
       color: #555;
       font-size: 1rem;
     }
+    .main-nav {
+      margin: 24px 0 0 0;
+      display: flex;
+      gap: 16px;
+    }
+    .main-nav a {
+      color: #6b4ca3;
+      text-decoration: none;
+      font-weight: bold;
+      background: #eae6f7;
+      border-radius: 4px;
+      padding: 6px 14px;
+      font-size: 1rem;
+      transition: background 0.2s;
+    }
+    .main-nav a:last-child {
+      color: #ff2222;
+      background: #fff1f1;
+    }
+    .main-nav a:hover {
+      background: #d1c4e9;
+    }
+    .main-nav a:last-child:hover {
+      background: #ffcccc;
+    }
   </style>
 </head>
 <body>
+  <nav class="main-nav">
+    <a href="medieval-reenactment.html">Medieval Reenactment Hub</a>
+    <a href="wrestling-game.html">Night Wolf Wrestling Game</a>
+  </nav>
   <header>
     <h1>Steve's Projects</h1>
     <p>Welcome! Explore my current personal projects below.</p>
@@ -78,10 +107,5 @@
       </a>
     </div>
   </main>
-  <!-- Add navigation links to child pages if they exist -->
-  <nav style="margin: 24px 0; display: flex; gap: 16px;">
-    <a href="medieval-reenactment.html" style="color: #6b4ca3; text-decoration: none; font-weight: bold; background: #eae6f7; border-radius: 4px; padding: 6px 14px;">Medieval Reenactment Hub</a>
-    <a href="wrestling-game.html" style="color: #ff2222; text-decoration: none; font-weight: bold; background: #fff1f1; border-radius: 4px; padding: 6px 14px;">Night Wolf Wrestling Game</a>
-  </nav>
 </body>
 </html>
