@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ships - Big Space Campaign</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #1a237e;
+      --secondary-color: #0d47a1;
+      --accent-color: #2962ff;
+      --text-color: #e0e0e0;
+      --background-color: #121212;
+      --card-bg: #1e1e1e;
+      --header-bg: #000051;
+      --nav-hover: #304ffe;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: var(--background-color);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    header {
+      margin-top: 100px;
+      margin-bottom: 40px;
+      text-align: center;
+      width: 100%;
+      background: linear-gradient(to bottom, var(--header-bg), var(--background-color));
+      padding: 2rem 0;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--accent-color);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(41, 98, 255, 0.3);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .nav-panel {
+      width: 100%;
+      background: var(--header-bg);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      position: fixed;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 60px;
+    }
+
+    .main-links {
+      display: flex;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .main-links a {
+      color: var(--accent-color);
+      text-decoration: none;
+      font-weight: bold;
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 8px 16px;
+      border-radius: 4px;
+      background: rgba(41, 98, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .main-links a:hover {
+      background: rgba(41, 98, 255, 0.2);
+      color: #64b5f6;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-family: 'Orbitron', sans-serif;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent-color);
+      background: rgba(41, 98, 255, 0.1);
+    }
+
+    .nav-links a.active {
+      color: var(--accent-color);
+      border-bottom: 2px solid var(--accent-color);
+    }
+
+    .ship-section {
+      background: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      padding: 24px;
+      margin: 20px;
+      max-width: 800px;
+      width: 100%;
+      border: 1px solid var(--accent-color);
+    }
+
+    .ship-section:hover {
+      box-shadow: 0 4px 16px rgba(41, 98, 255, 0.2);
+    }
+
+    .ship-content {
+      margin-top: 20px;
+    }
+
+    .ship-info {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: rgba(41, 98, 255, 0.1);
+      border-radius: 4px;
+      border: 1px solid var(--accent-color);
+    }
+
+    .ship-info h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .ship-info p {
+      margin: 0;
+    }
+
+    .ship-info ul {
+      margin: 10px 0;
+      padding-left: 20px;
+    }
+
+    .ship-info li {
+      margin-bottom: 5px;
+    }
+
+    .ship-image {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      border-radius: 8px;
+      margin: 20px 0;
+      border: 1px solid var(--accent-color);
+    }
+
+    @media (max-width: 768px) {
+      .nav-content {
+        flex-direction: column;
+        height: auto;
+        padding: 1rem;
+      }
+
+      .nav-links {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1rem;
+      }
+
+      .ship-section {
+        margin: 10px;
+        padding: 16px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav-panel">
+    <div class="nav-content">
+      <div class="main-links">
+        <a href="index.html">Main Page</a>
+        <a href="big-space-travel-far.html">Campaign Hub</a>
+      </div>
+      <div class="nav-links">
+        <a href="characters.html">Characters</a>
+        <a href="npcs.html">NPCs</a>
+        <a href="locations.html">Locations</a>
+        <a href="ships.html" class="active">Ships</a>
+        <a href="logs.html">Logs</a>
+        <a href="flora-fauna.html">Flora & Fauna</a>
+      </div>
+    </div>
+  </nav>
+
+  <header>
+    <h1>Ships</h1>
+  </header>
+
+  <main style="width: 100%; max-width: 800px; padding: 0 20px;">
+    <section id="varyrthar" class="ship-section">
+      <h2>Varyrthar</h2>
+      <img src="Images/ships/varyrthar.png" alt="Varyrthar" class="ship-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=Varyrthar';">
+      <div class="ship-content">
+        <div class="ship-info">
+          <h3>Overview</h3>
+          <p>The "Varyrthar," a Ninz-class scout ship under the ownership of Quinstebr, is a vessel with a story etched into its well-worn hull. At roughly fifteen years of service, she's an older model, yet she carries her age with a rugged dignity born from considerable use across the star lanes. Her streamlined form, designed for atmospheric entry and function akin to a conventional aircraft, has weathered countless journeys, a testament to her Zhodani engineering.</p>
+        </div>
+
+        <div class="ship-info">
+          <h3>Bridge & Controls</h3>
+          <p>Stepping onto the bridge, one is struck by its surprisingly large and spacious layout for a scout ship of this class. From here, the pilot coaxes life from thrusters that, while diligently maintained, betray their age and wear; experienced hands know to compensate for a persistent subtle shudder, effectively a -1DM to all piloting checks.</p>
+        </div>
+
+        <div class="ship-info">
+          <h3>Technical Specifications</h3>
+          <ul>
+            <li>Class: Ninz-class Scout Ship</li>
+            <li>Age: ~15 years</li>
+            <li>Computer: Processing Score 5 (TL7)</li>
+            <li>Jump Drive: Jump-2 with "bis" enhancement package</li>
+            <li>Power Plant: TL12 Fusion (105 power units)</li>
+            <li>Fuel Capacity: 24 tons</li>
+            <li>Cargo Space: 6 tons</li>
+            <li>Armament: Single Double Laser Turret</li>
+            <li>Probe Drones: 10 units</li>
+            <li>Accommodation: 4 staterooms (double-occupancy)</li>
+          </ul>
+        </div>
+
+        <div class="ship-info">
+          <h3>Sensor Suite</h3>
+          <p>The ship's advanced sensor suite is a notable strength, outclassing most civilian vessels with its improved signal processing, inbuilt jamming capabilities, radar, lidar, and even a specialist suite of Life Scanners. However, this sophistication is somewhat undercut by the onboard computer. While functional, its Processing Score of 5 at Tech Level 7 is considered underpowered for a vessel with such advanced capabilities.</p>
+        </div>
+
+        <div class="ship-info">
+          <h3>Data Systems</h3>
+          <p>The ship's data library, though well-maintained physically, is a source of quiet frustration; it's riddled with erroneous information, a chaotic archive that automated systems fail to navigate, demanding manual, painstaking verification of any critical data.</p>
+        </div>
+
+        <div class="ship-info">
+          <h3>Endurance & Self-Sufficiency</h3>
+          <p>One of the "Varyrthar's" most prized assets is her impressive operational endurance. The ship is decidedly overpowered, with its TL12 Fusion Power Plant generating 105 power units while all systems typically draw a maximum of 74, leaving a comfortable surplus. Her fuel tankage (24 tons) is primarily geared to support her Jump-2 capability, allowing for at least one such jump with a reserve. However, her true extended endurance, allowing for up to 20 weeks of sub-jump operation, stems from her self-sufficiency. Equipped with efficient fuel scoops and an onboard processing plant capable of refining enough raw hydrogen (or water) in a single day for a day's operations, the "Varyrthar" can operate far from established supply lines, provided natural resources can be exploited.</p>
+        </div>
+
+        <div class="ship-info">
+          <h3>Accommodation</h3>
+          <p>Accommodation is typical for a scout of her era, comprising four standard staterooms, each fitted with double-occupancy bunkbeds. This usually translates to a room for the captain/owner, two for crew, and one for guests or mission specialists. The trade-off for this relative comfort on a compact hull is severely limited cargo space, with only a mere 6 tons available for any mission-specific samples or acquisitions beyond personal and food supplies.</p>
+        </div>
+
+        <div class="ship-info">
+          <h3>Character</h3>
+          <p>The "Varyrthar" is a ship of character: a veteran explorer, reliable if sometimes cantankerous, bearing the marks of her journeys and the quirks of her long service. She's a vessel that demands skill and understanding from her crew but repays it with resilience and the ability to venture far into the unknown.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="errant-parcel" class="ship-section">
+      <h2>Errant Parcel</h2>
+      <img src="Images/ships/errant-parcel.png" alt="Errant Parcel" class="ship-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=Errant+Parcel';">
+      <div class="ship-content">
+        <div class="ship-info">
+          <h3>Overview</h3>
+          <p>The "Errant Parcel," once a relatively unassuming modified freighter, has undergone further, more aggressive refits under Void Vulture command, transforming it into a potent long-range raider and high-value asset transport. While still maintaining the outward appearance of a heavily used 200-ton civilian vessel to aid in deception, its capabilities now far exceed its original design.</p>
+        </div>
+
+        <div class="ship-info">
+          <h3>Technical Specifications</h3>
+          <ul>
+            <li>Class: Modified 200-ton Freighter</li>
+            <li>Jump Drive: Jump-3</li>
+            <li>Cargo Capacity: 20 tons</li>
+            <li>Armour Rating: 4</li>
+            <li>Hull Points: 80</li>
+            <li>Agility DM: 0 (Thrust 2)</li>
+            <li>Power Output: 146 units</li>
+            <li>Armament: 
+              <ul>
+                <li>1x Double Laser Turret</li>
+                <li>1x Dual-Purpose Turret (Sandcaster + Missile Rack)</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+        <div class="ship-info">
+          <h3>Power Distribution</h3>
+          <ul>
+            <li>Basic Ship Systems: 40 units</li>
+            <li>Manoeuvre Drive (Thrust 2): 40 units</li>
+            <li>Jump Drive (Jump-3 Charging): 60 units</li>
+            <li>Sensors (Civilian Grade): 1 unit</li>
+            <li>Weapons Systems: 5 units
+              <ul>
+                <li>Double Laser Turret: 4 units</li>
+                <li>S/M Turret: 1 unit</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+
+        <div class="ship-info">
+          <h3>Crew & Accommodation</h3>
+          <p>Core crew consists of 5-6 members (Captain, Pilot, Astrogator, Engineer, 1-2 Gunners). The ship can accommodate an additional 2-3 personnel in staterooms, plus 10 in low berths.</p>
+        </div>
+
+        <div class="ship-info">
+          <h3>Armament & Defense</h3>
+          <p>The ship's defensive and offensive capabilities have been substantially boosted. In addition to its existing double laser turret, a second dual-purpose turret now houses a sandcaster for protection against energy weapons and a missile rack, giving it a respectable punch against more formidable opponents. The Armour-4 rating provides a good degree of protection for a ship of its size.</p>
+          <p>Typical ammunition loadout for the S/M Turret includes 4-6 missiles internally (included in turret/ammo tonnage), such as 6x Basic High Explosive Missiles (Damage: 4D).</p>
+        </div>
+
+        <div class="ship-info">
+          <h3>Operational Costs</h3>
+          <ul>
+            <li>Monthly Maintenance: Cr112,655 (0.1% of theoretical new purchase cost)</li>
+            <li>Theoretical New Purchase Cost: MCr 112.655 (Pirate acquisition cost significantly lower)</li>
+          </ul>
+        </div>
+
+        <div class="ship-info">
+          <h3>Role & Capabilities</h3>
+          <p>The "Errant Parcel" in this configuration is no longer just a simple transport for "diplomatic supplies." It's a fast, well-armed vessel capable of independent operations, hit-and-run attacks, or acting as a flagship for smaller pirate groups. The increased power demands and sophisticated systems mean it requires a skilled engineer (like Glitch) to keep it running optimally, especially given the pirates' tendency for field expediency over proper maintenance. Its high operational cost and reduced cargo space signify its role as a specialized tool in Captain Vayne's arsenal, likely assigned to more critical and dangerous missions.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html> 
