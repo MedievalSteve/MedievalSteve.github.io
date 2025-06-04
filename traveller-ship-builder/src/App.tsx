@@ -78,6 +78,19 @@ interface StealthOption extends HullOption {
   };
 }
 
+// Add after other interfaces
+interface Hardpoint {
+  id: string;
+  type: 'Fixed Mount' | 'Turret' | 'Barbette' | 'Small Bay' | 'Medium Bay' | 'Large Bay' | 'Spinal Mount' | 'Point Defense' | 'Screen' | 'Black Globe';
+  weapon?: string;
+  isFirmpoint?: boolean;
+  isUpgradedToTurret?: boolean;
+  ammo?: {
+    tons: number;
+    rounds: number;
+  };
+}
+
 // Hull configuration details
 const hullConfigurations = {
   'Standard': {
@@ -717,6 +730,230 @@ const computerOptions = [
   { name: 'Core/100', processing: 100, tl: 15, cost: 130 },
 ];
 
+// Sensor options data (keep outside)
+const sensorOptions = [
+  { name: 'Basic', tl: 8, suite: 'Lidar, Radar', dm: -4, power: 0, tons: 0, cost: 0 },
+  { name: 'Civilian Grade', tl: 9, suite: 'Lidar, Radar', dm: -2, power: 1, tons: 1, cost: 3 },
+  { name: 'Military Grade', tl: 10, suite: 'Jammers, Lidar, Radar', dm: 0, power: 2, tons: 2, cost: 4.1 },
+  { name: 'Improved', tl: 12, suite: 'Densitometer, Jammers, Lidar, Radar', dm: 1, power: 4, tons: 3, cost: 4.3 },
+  { name: 'Advanced', tl: 15, suite: 'Densitometer, Jammers, Lidar, Neural Activity Sensor, Radar', dm: 2, power: 6, tons: 5, cost: 5.3 },
+];
+
+// Add weapon data structures above App
+const turretWeapons = [
+  { name: 'Beam Laser', tl: 10, range: 'Medium', power: 4, damage: '1D', cost: 0.5, traits: '' },
+  { name: 'Fusion Gun', tl: 14, range: 'Medium', power: 12, damage: '4D', cost: 2, traits: 'Radiation' },
+  { name: 'Laser Drill', tl: 8, range: 'Adjacent', power: 4, damage: '2D', cost: 0.15, traits: 'AP 4' },
+  { name: 'Missile Rack', tl: 7, range: 'Special', power: 0, damage: '4D', cost: 0.75, traits: 'Smart' },
+  { name: 'Particle Beam', tl: 12, range: 'Very Long', power: 8, damage: '3D', cost: 4, traits: 'Radiation' },
+  { name: 'Plasma Gun', tl: 11, range: 'Medium', power: 6, damage: '3D', cost: 2.5, traits: '' },
+  { name: 'Pulse Laser', tl: 9, range: 'Long', power: 4, damage: '2D', cost: 1, traits: '' },
+  { name: 'Railgun', tl: 10, range: 'Short', power: 2, damage: '2D', cost: 1, traits: 'AP 4' },
+  { name: 'Sandcaster', tl: 9, range: 'Special', power: 0, damage: 'Special', cost: 0.25, traits: '' },
+];
+const barbetteWeapons = [
+  { name: 'Beam Laser Barbette', tl: 10, range: 'Medium', power: 12, damage: '2D', cost: 3, traits: '' },
+  { name: 'Fusion Barbette', tl: 12, range: 'Medium', power: 20, damage: '5D', cost: 4, traits: 'AP 3, Radiation' },
+  { name: 'Ion Cannon', tl: 12, range: 'Medium', power: 10, damage: '7D', cost: 6, traits: 'Ion' },
+  { name: 'Missile Barbette', tl: 7, range: 'Special', power: 0, damage: '4D', cost: 4, traits: 'Smart' },
+  { name: 'Particle Barbette', tl: 11, range: 'Very Long', power: 15, damage: '4D', cost: 8, traits: 'Radiation' },
+  { name: 'Plasma Barbette', tl: 11, range: 'Medium', power: 12, damage: '4D', cost: 5, traits: 'AP 2' },
+  { name: 'Pulse Laser Barbette', tl: 9, range: 'Long', power: 12, damage: '3D', cost: 6, traits: '' },
+  { name: 'Railgun Barbette', tl: 10, range: 'Medium', power: 5, damage: '3D', cost: 2, traits: 'AP 5' },
+  { name: 'Torpedo', tl: 7, range: 'Special', power: 2, damage: '6D', cost: 3, traits: 'Smart' },
+];
+
+// Add weapon mode options for turrets
+const turretModes = [
+  { label: 'Single', value: 'single', tl: 7, tons: 1, power: 1, cost: 0.2 },
+  { label: 'Double', value: 'double', tl: 8, tons: 1, power: 1, cost: 0.5 },
+  { label: 'Triple', value: 'triple', tl: 9, tons: 1, power: 1, cost: 1 },
+];
+
+// Define WeaponSelection type
+interface WeaponSelection {
+  type: string;
+  tonnage?: number;
+  multiple?: number;
+}
+
+// Helper functions for weapon/mount tonnage and cost
+function getMountStats(type: string, popUp: boolean, isFirmpoint: boolean) {
+  if (type === 'Fixed Mount') return { tons: 0 + (popUp ? 1 : 0), cost: 0.1 + (popUp ? 1 : 0) };
+  if (type === 'Turret') return { tons: 1 + (popUp ? 1 : 0), cost: 0.2 + (popUp ? 1 : 0) };
+  if (type === 'Barbette') return { tons: isFirmpoint ? 7 : 5, cost: 4 };
+  if (type === 'Small Bay') return { tons: 50, cost: 0 };
+  if (type === 'Medium Bay') return { tons: 100, cost: 0 };
+  if (type === 'Large Bay') return { tons: 500, cost: 0 };
+  return { tons: 0, cost: 0 };
+}
+
+function getWeaponStats(type: string, mountType?: string) {
+  let w = turretWeapons.find(w => w.name === type) || barbetteWeapons.find(w => w.name === type);
+  if (!w && mountType === 'Small Bay') w = smallBayWeapons.find(w => w.name === type);
+  if (!w && mountType === 'Medium Bay') w = mediumBayWeapons.find(w => w.name === type);
+  if (!w && mountType === 'Large Bay') w = largeBayWeapons.find(w => w.name === type);
+  if (!w) return { tons: 0, cost: 0 };
+  return { tons: 0, cost: w.cost };
+}
+
+// Add bay weapon data
+const smallBayWeapons: Array<{ name: string; tl: number; range: string; power: number; damage: string; cost: number; traits: string; tons: number; }> = [
+  { name: 'Fusion Gun Bay', tl: 12, range: 'Medium', power: 50, damage: '6D', cost: 8, traits: 'AP 6, Radiation', tons: 50 },
+  { name: 'Ion Cannon Bay', tl: 12, range: 'Medium', power: 20, damage: '6D', cost: 15, traits: 'Ion', tons: 50 },
+  { name: 'Mass Driver Bay', tl: 8, range: 'Short', power: 15, damage: '3D', cost: 40, traits: 'Orbital Bombardment', tons: 50 },
+  { name: 'Meson Gun Bay', tl: 11, range: 'Long', power: 20, damage: '5D', cost: 50, traits: 'AP ∞, Radiation', tons: 50 },
+  { name: 'Missile Bay', tl: 7, range: 'Special', power: 5, damage: '4D', cost: 12, traits: 'Smart', tons: 50 },
+  { name: 'Orbital Strike Mass Driver Bay', tl: 10, range: 'Short', power: 35, damage: '7D', cost: 25, traits: 'Orbital Strike', tons: 50 },
+  { name: 'Orbital Strike Missile Bay', tl: 10, range: 'Medium', power: 5, damage: '3D', cost: 16, traits: 'Orbital Strike', tons: 50 },
+  { name: 'Particle Beam Bay', tl: 11, range: 'Very Long', power: 30, damage: '6D', cost: 20, traits: 'Radiation', tons: 50 },
+  { name: 'Railgun Bay', tl: 10, range: 'Short', power: 10, damage: '3D', cost: 30, traits: 'AP 10', tons: 50 },
+  { name: 'Repulsor Bay', tl: 15, range: 'Short', power: 50, damage: 'Special', cost: 30, traits: '', tons: 50 },
+  { name: 'Torpedo Bay', tl: 7, range: 'Special', power: 2, damage: '6D', cost: 3, traits: 'Smart', tons: 50 },
+];
+const mediumBayWeapons: Array<{ name: string; tl: number; range: string; power: number; damage: string; cost: number; traits: string; tons: number; }> = [
+  { name: 'Fusion Gun Bay', tl: 12, range: 'Medium', power: 80, damage: '7D', cost: 14, traits: 'AP 6, Radiation', tons: 100 },
+  { name: 'Ion Cannon Bay', tl: 12, range: 'Medium', power: 30, damage: '8D', cost: 25, traits: 'Ion', tons: 100 },
+  { name: 'Mass Driver Bay', tl: 8, range: 'Short', power: 25, damage: '4D', cost: 60, traits: 'Orbital Bombardment', tons: 100 },
+  { name: 'Meson Gun Bay', tl: 12, range: 'Long', power: 30, damage: '6D', cost: 60, traits: 'AP ∞, Radiation', tons: 100 },
+  { name: 'Missile Bay', tl: 7, range: 'Special', power: 10, damage: '4D', cost: 20, traits: 'Smart', tons: 100 },
+  { name: 'Orbital Strike Mass Driver Bay', tl: 10, range: 'Short', power: 50, damage: '10D', cost: 35, traits: 'Orbital Strike', tons: 100 },
+  { name: 'Orbital Strike Missile Bay', tl: 10, range: 'Medium', power: 15, damage: '5D', cost: 20, traits: 'Orbital Strike', tons: 100 },
+  { name: 'Particle Beam Bay', tl: 12, range: 'Very Long', power: 50, damage: '8D', cost: 40, traits: 'Radiation', tons: 100 },
+  { name: 'Railgun Bay', tl: 10, range: 'Short', power: 15, damage: '5D', cost: 50, traits: 'AP 10', tons: 100 },
+  { name: 'Repulsor Bay', tl: 14, range: 'Short', power: 100, damage: 'Special', cost: 60, traits: '', tons: 100 },
+  { name: 'Torpedo Bay', tl: 7, range: 'Special', power: 5, damage: '6D', cost: 6, traits: 'Smart', tons: 100 },
+];
+const largeBayWeapons: Array<{ name: string; tl: number; range: string; power: number; damage: string; cost: number; traits: string; tons: number; }> = [
+  { name: 'Fusion Gun Bay', tl: 12, range: 'Long', power: 100, damage: '10D', cost: 25, traits: 'AP 8, Radiation', tons: 500 },
+  { name: 'Ion Cannon Bay', tl: 12, range: 'Long', power: 40, damage: '10D', cost: 40, traits: 'Ion', tons: 500 },
+  { name: 'Mass Driver Bay', tl: 8, range: 'Medium', power: 35, damage: '6D', cost: 80, traits: 'Orbital Bombardment', tons: 500 },
+  { name: 'Meson Gun Bay', tl: 13, range: 'Long', power: 120, damage: '6D', cost: 250, traits: 'AP ∞, Radiation', tons: 500 },
+  { name: 'Missile Bay', tl: 7, range: 'Special', power: 20, damage: '4D', cost: 25, traits: 'Smart', tons: 500 },
+  { name: 'Orbital Strike Mass Driver Bay', tl: 10, range: 'Short', power: 75, damage: '12D', cost: 50, traits: 'Orbital Strike', tons: 500 },
+  { name: 'Orbital Strike Missile Bay', tl: 10, range: 'Medium', power: 25, damage: '8D', cost: 24, traits: 'Orbital Strike', tons: 500 },
+  { name: 'Particle Beam Bay', tl: 13, range: 'Distant', power: 80, damage: '10D', cost: 60, traits: 'Radiation', tons: 500 },
+  { name: 'Railgun Bay', tl: 10, range: 'Medium', power: 25, damage: '6D', cost: 70, traits: 'AP 10', tons: 500 },
+  { name: 'Repulsor Bay', tl: 13, range: 'Short', power: 200, damage: 'Special', cost: 90, traits: '', tons: 500 },
+  { name: 'Torpedo Bay', tl: 7, range: 'Special', power: 10, damage: '6D', cost: 10, traits: 'Smart', tons: 500 },
+];
+
+// Spinal mount weapons data
+const spinalMountWeapons = [
+  { 
+    name: 'Mass Driver Spinal Mount', 
+    tl: 10, 
+    range: 'Short', 
+    baseSize: 5000, 
+    power: 250, 
+    damage: '4D', 
+    cost: 1500, 
+    maxSize: 100000, 
+    traits: 'AP 15, Orbital Bombardment' 
+  },
+  { 
+    name: 'Meson Spinal Mount', 
+    tl: 12, 
+    range: 'Long', 
+    baseSize: 7500, 
+    power: 1000, 
+    damage: '6D', 
+    cost: 2000, 
+    maxSize: 75000, 
+    traits: 'AP ∞, Radiation' 
+  },
+  { 
+    name: 'Particle Spinal Mount', 
+    tl: 11, 
+    range: 'Very Long', 
+    baseSize: 3500, 
+    power: 1000, 
+    damage: '8D', 
+    cost: 1000, 
+    maxSize: 28000, 
+    traits: 'Radiation' 
+  },
+  { 
+    name: 'Railgun Spinal Mount', 
+    tl: 10, 
+    range: 'Medium', 
+    baseSize: 3500, 
+    power: 500, 
+    damage: '4D', 
+    cost: 500, 
+    maxSize: 21000, 
+    traits: 'AP 20' 
+  }
+];
+
+// Point-defense weapons data
+const pointDefenseWeapons = [
+  {
+    name: 'Point Defense Laser',
+    tl: 7,
+    intercept: 4,
+    power: 1,
+    tons: 1,
+    cost: 0.5
+  },
+  {
+    name: 'Point Defense Gauss Gun',
+    tl: 8,
+    intercept: 5,
+    power: 1,
+    tons: 1,
+    cost: 0.5,
+    ammo: {
+      rounds: 100,
+      cost: 0.1
+    }
+  },
+  {
+    name: 'Point Defense Particle Beam',
+    tl: 9,
+    intercept: 6,
+    power: 2,
+    tons: 1,
+    cost: 1
+  }
+];
+
+// Screen data
+const screens = [
+  {
+    name: 'Meson Screen',
+    tl: 9,
+    power: 10,
+    tons: 1,
+    cost: 2,
+    effect: 'Reduces meson gun damage by 1D'
+  },
+  {
+    name: 'Nuclear Damper',
+    tl: 10,
+    power: 10,
+    tons: 1,
+    cost: 2,
+    effect: 'Reduces nuclear missile damage by 1D'
+  }
+];
+
+// Black Globe Generator data
+const blackGlobeGenerator = {
+  name: 'Black Globe Generator',
+  tl: 15,
+  power: 20,
+  tons: 1,
+  cost: 5,
+  flickerRates: [
+    { rate: 1, attacks: 1, thrust: 1, sensor: 1 },
+    { rate: 2, attacks: 2, thrust: 2, sensor: 2 },
+    { rate: 3, attacks: 3, thrust: 3, sensor: 3 },
+    { rate: 4, attacks: 4, thrust: 4, sensor: 4 },
+    { rate: 5, attacks: 5, thrust: 5, sensor: 5 }
+  ]
+};
+
 function App() {
   const [step, setStep] = useState(0);
   const [shipSize, setShipSize] = useState<number>(100);
@@ -743,6 +980,16 @@ function App() {
   const manoeuvreDrives = drives.filter(d => d.type === 'Manoeuvre');
   const jumpDrives = drives.filter(d => d.type === 'Jump');
   const reactionDrives = drives.filter(d => d.type === 'Reaction');
+
+  // Sensor step state (move inside App)
+  const [selectedSensor, setSelectedSensor] = useState('Basic');
+
+  // Add new state for hardpoints
+  const [hardpoints, setHardpoints] = useState<Hardpoint[]>([]);
+  const [upgradedFirmpoint, setUpgradedFirmpoint] = useState<number | null>(null);
+
+  // FIX: Move weaponSelections state here
+  const [weaponSelections, setWeaponSelections] = useState<{[id: string]: { mountType: string; weapons: WeaponSelection[]; popUp: boolean; } }>({});
 
   const calculateShipStats = (): ShipStats => {
     if (!selectedHull) return {
@@ -780,9 +1027,29 @@ function App() {
     const powerPlantCost = selectedPowerPlant ? 
       shipSize * selectedPowerPlant.costPerTon : 0;
 
+    // Calculate weapons cost
+    const weaponsCost = hardpoints.reduce((sum, hp) => {
+      const sel = weaponSelections[hp.id];
+      if (!sel || !sel.weapons.some(w => w.type)) return sum;
+      return sum + sel.weapons.reduce((weaponSum, w) => {
+        let weapon = turretWeapons.find(x => x.name === w.type) || 
+                    barbetteWeapons.find(x => x.name === w.type) ||
+                    spinalMountWeapons.find(x => x.name === w.type);
+        if (!weapon && hp.type === 'Small Bay') weapon = smallBayWeapons.find(x => x.name === w.type);
+        if (!weapon && hp.type === 'Medium Bay') weapon = mediumBayWeapons.find(x => x.name === w.type);
+        if (!weapon && hp.type === 'Large Bay') weapon = largeBayWeapons.find(x => x.name === w.type);
+        if (!weapon) return weaponSum;
+        let cost = weapon.cost;
+        if (hp.type === 'Spinal Mount' && w.multiple) {
+          cost *= w.multiple;
+        }
+        return weaponSum + cost;
+      }, 0);
+    }, 0);
+
     return {
       tonnage: shipSize,
-      cost: hullCost + drivesCost + powerPlantCost,
+      cost: hullCost + drivesCost + powerPlantCost + weaponsCost,
       hullPoints: selectedHull.hullPoints,
       power,
       powerRequired: {
@@ -986,6 +1253,129 @@ function App() {
     return comp.processing + (bis ? 5 : 0);
   };
 
+  // Initialize hardpoints based on hull size
+  useEffect(() => {
+    if (selectedHull) {
+      const numHardpoints = Math.floor(selectedHull.size / 100);
+      const newHardpoints: Hardpoint[] = [];
+      for (let i = 0; i < numHardpoints; i++) {
+        newHardpoints.push({
+          id: `hardpoint-${i}`,
+          type: 'Fixed Mount',
+          isFirmpoint: selectedHull.size < 100
+        });
+      }
+      setHardpoints(newHardpoints);
+    }
+  }, [selectedHull]);
+
+  // Update hardpoints when spinal mount is added/removed
+  useEffect(() => {
+    const spinalMounts = hardpoints.filter(hp => 
+      hp.type === 'Spinal Mount' && 
+      weaponSelections[hp.id]?.weapons[0]?.type
+    );
+    
+    if (spinalMounts.length > 0) {
+      // Calculate total hardpoints needed for spinal mounts
+      const spinalHardpointsNeeded = spinalMounts.reduce((sum, hp) => {
+        const weapon = spinalMountWeapons.find(w => w.name === weaponSelections[hp.id]?.weapons[0]?.type);
+        if (!weapon) return sum;
+        const tonnage = weaponSelections[hp.id]?.weapons[0]?.tonnage || weapon.baseSize;
+        return sum + Math.ceil(tonnage / 100);
+      }, 0);
+
+      // Calculate available hardpoints
+      const availableHardpoints = Math.floor(selectedHull?.size || 0 / 100);
+      
+      // If we need more hardpoints than available, remove the spinal mount
+      if (spinalHardpointsNeeded > availableHardpoints) {
+        const newHardpoints = [...hardpoints];
+        const newWeaponSelections = { ...weaponSelections };
+        spinalMounts.forEach(hp => {
+          const index = newHardpoints.findIndex(h => h.id === hp.id);
+          if (index !== -1) {
+            newHardpoints[index] = {
+              ...newHardpoints[index],
+              type: 'Fixed Mount' as Hardpoint['type'],
+            };
+            delete newWeaponSelections[hp.id];
+          }
+        });
+        setHardpoints(newHardpoints);
+        setWeaponSelections(newWeaponSelections);
+      }
+    }
+  }, [hardpoints, weaponSelections, selectedHull]);
+
+  // Add helper function to check if a firmpoint can be upgraded
+  const canUpgradeFirmpoint = (index: number) => {
+    if (!selectedHull || selectedHull.size >= 100) return false;
+    if (upgradedFirmpoint !== null) return false;
+    return true;
+  };
+
+  // Add helper function to check if a firmpoint can be assigned as barbette
+  const canAssignBarbette = (index: number) => {
+    if (!selectedHull || selectedHull.size >= 100) return true;
+    // For firmpoints, need to check if we have 3 consecutive firmpoints available
+    if (selectedHull.size < 100) {
+      const availableFirmpoints = hardpoints.filter(h => h.type === 'Fixed Mount' && !h.isUpgradedToTurret).length;
+      return availableFirmpoints >= 3;
+    }
+    return true;
+  };
+
+  const calculatePowerRequirements = () => {
+    let total = 0;
+    
+    // Drives
+    if (selectedDrives) {
+      selectedDrives.forEach(drive => {
+        if (drive.requiresPower) {
+          total += drive.rating * shipSize * 0.1;
+        }
+      });
+    }
+    
+    // Power Plant
+    if (selectedPowerPlant) {
+      total += selectedPowerPlant.powerPerTon * shipSize;
+    }
+    
+    // Bridge
+    if (bridgeType === 'standard') {
+      total += bridgeSize * 0.1; // 0.1 power per ton of bridge
+    }
+    
+    // Sensors
+    if (selectedSensor) {
+      const sensor = sensorOptions.find(s => s.name === selectedSensor);
+      if (sensor) total += sensor.power;
+    }
+    
+    // Weapons
+    hardpoints.forEach(hardpoint => {
+      if (hardpoint.type === 'Turret') {
+        const weapon = turretWeapons.find(w => w.name === hardpoint.weapon);
+        if (weapon) total += weapon.power;
+      } else if (hardpoint.type === 'Barbette') {
+        const weapon = barbetteWeapons.find(w => w.name === hardpoint.weapon);
+        if (weapon) total += weapon.power;
+      } else if (hardpoint.type === 'Point Defense') {
+        const weapon = pointDefenseWeapons.find(w => w.name === hardpoint.weapon);
+        if (weapon) total += weapon.power;
+      } else if (hardpoint.type === 'Screen') {
+        const screen = screens.find(s => s.name === hardpoint.weapon);
+        if (screen) total += screen.power;
+      } else if (hardpoint.type === 'Black Globe') {
+        total += blackGlobeGenerator.power;
+      }
+    });
+    
+    return total;
+  };
+
   return (
     <div style={{ padding: '20px' }}>
       <h1>Traveller Ship Builder</h1>
@@ -998,6 +1388,8 @@ function App() {
         <button onClick={() => setStep(4)} disabled={step === 4}>Step 4: Fuel Tanks</button>
         <button onClick={() => setStep(5)} disabled={step === 5}>Step 5: Bridge</button>
         <button onClick={() => setStep(6)} disabled={step === 6}>Step 6: Computer</button>
+        <button onClick={() => setStep(7)} disabled={step === 7}>Step 7: Sensors</button>
+        <button onClick={() => setStep(8)} disabled={step === 8}>Step 8: Weapons</button>
       </div>
 
       {errors.length > 0 && (
@@ -1010,7 +1402,7 @@ function App() {
       )}
 
       {step === 0 && (
-        <div>
+      <div>
           <h2>Initial Parameters</h2>
           <div style={{ marginBottom: '20px', padding: '10px', border: '1px solid #ccc' }}>
             <div style={{ marginBottom: '20px' }}>
@@ -1026,7 +1418,7 @@ function App() {
                   max="20"
                 />
               </label>
-            </div>
+      </div>
 
             <div style={{ marginTop: '20px' }}>
               <h3>Ship Size</h3>
@@ -1066,8 +1458,8 @@ function App() {
                 </label>
                 <p style={{ marginTop: '10px' }}>
                   <strong>Note:</strong> Ship size must be at least 100 tons and cannot exceed 1,000,000 tons.
-                </p>
-              </div>
+        </p>
+      </div>
             </div>
           </div>
         </div>
@@ -1866,6 +2258,605 @@ function App() {
         </div>
       )}
 
+      {step === 7 && (
+        <div>
+          <h2>Install Sensors</h2>
+          <div style={{ marginBottom: '20px', fontSize: '13px', color: '#bbb', background: '#222', padding: '10px', borderRadius: '4px' }}>
+            All ships have Basic sensors unless upgraded. The DM column is applied to all Electronics (comms) and Electronics (sensors) checks made by crew in the ship.
+          </div>
+          <div style={{ marginBottom: '20px' }}>
+            {sensorOptions.map(opt => (
+              <div key={opt.name} style={{ marginBottom: '10px', padding: '10px', border: '1px solid #444', background: selectedSensor === opt.name ? '#333' : '#181818', color: '#fff', borderRadius: 4 }}>
+                <label>
+                  <input
+                    type="radio"
+                    name="sensorSuite"
+                    value={opt.name}
+                    checked={selectedSensor === opt.name}
+                    onChange={() => setSelectedSensor(opt.name)}
+                    style={{ marginRight: 8 }}
+                  />
+                  <strong>{opt.name}</strong> (TL{opt.tl})
+                </label>
+                <div style={{ fontSize: '12px', marginTop: 4 }}>
+                  <div><strong>Suite:</strong> {opt.suite}</div>
+                  <div><strong>DM:</strong> {opt.dm > 0 ? '+' : ''}{opt.dm}</div>
+                  <div><strong>Power:</strong> {opt.power}</div>
+                  <div><strong>Tons:</strong> {opt.tons}</div>
+                  <div><strong>Cost:</strong> {opt.cost === 0 ? '—' : `MCr${opt.cost}`}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {step === 8 && (
+        <div>
+          <h2>Install Weapons</h2>
+          <div style={{ marginBottom: '20px' }}>
+            <h3>Available {selectedHull && selectedHull.size < 100 ? 'Firmpoints' : 'Hardpoints'}</h3>
+            <p>Your {selectedHull?.size} ton ship has {hardpoints.length} {selectedHull && selectedHull.size < 100 ? 'firmpoints' : 'hardpoints'} available.</p>
+            
+            {selectedHull && selectedHull.size < 100 && (
+              <div style={{ marginTop: '10px', padding: '10px', background: '#222', borderRadius: '4px', color: '#fff' }}>
+                <h4>Firmpoint Rules</h4>
+                <ul style={{ margin: '0', paddingLeft: '20px' }}>
+                  <li>Weapons of Medium range or less are reduced to Adjacent range</li>
+                  <li>Weapons of Long or greater are reduced to Close range</li>
+                  <li>A weapon on a Firmpoint may not have its range increased beyond Close by any means</li>
+                  <li>Firmpoint range limitations do not apply to missiles and torpedoes</li>
+                  <li>Power requirements of the weapon are reduced by 25% (rounding up)</li>
+                  <li>Barbettes consume three Firmpoints</li>
+                  <li>One (and only one) Firmpoint can be upgraded to a single turret</li>
+                </ul>
+              </div>
+            )}
+            
+            <div style={{ marginTop: '20px' }}>
+
+              <h4>Defensive Systems</h4>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '20px' }}>
+                {/* None option */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: 15 }}>
+                  <input
+                    type="checkbox"
+                    checked={hardpoints.every(hp => !['Screen', 'Point Defense', 'Black Globe'].includes(hp.type))}
+                    onChange={() => {
+                      // Remove all defensive systems
+                      const newHardpoints = hardpoints.map(hp =>
+                        ['Screen', 'Point Defense', 'Black Globe'].includes(hp.type)
+                          ? { ...hp, type: 'Fixed Mount' as Hardpoint['type'], weapon: undefined, ammo: undefined }
+                          : hp
+                      );
+                      setHardpoints(newHardpoints);
+                    }}
+                  />
+                  <span>None</span>
+                </div>
+                {/* Screens */}
+                {screens.map(screen => {
+                  const assignedIndex = hardpoints.findIndex(hp => hp.type === 'Screen' && hp.weapon === screen.name);
+                  const isSelected = assignedIndex !== -1;
+                  const availableIndex = hardpoints.findIndex(hp => {
+                    if (!(hp.type === 'Fixed Mount' || hp.type === 'Turret')) return false;
+                    if (hp.weapon) return false;
+                    const sel = weaponSelections[hp.id];
+                    if (sel && sel.weapons.some(w => w.type)) return false;
+                    return true;
+                  });
+                  const isDisabled = !isSelected && availableIndex === -1;
+                  return (
+                    <div key={screen.name} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: 15 }}>
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        disabled={isDisabled}
+                        onChange={e => {
+                          if (e.target.checked) {
+                            if (availableIndex !== -1) {
+                              const newHardpoints = [...hardpoints];
+                              newHardpoints[availableIndex] = {
+                                ...newHardpoints[availableIndex],
+                                type: 'Screen',
+                                weapon: screen.name
+                              };
+                              // Clear weaponSelections for this hardpoint
+                              const newWeaponSelections = { ...weaponSelections };
+                              delete newWeaponSelections[newHardpoints[availableIndex].id];
+                              setHardpoints(newHardpoints);
+                              setWeaponSelections(newWeaponSelections);
+                            }
+                          } else if (isSelected) {
+                            const newHardpoints = [...hardpoints];
+                            newHardpoints[assignedIndex] = {
+                              ...newHardpoints[assignedIndex],
+                              type: 'Fixed Mount',
+                              weapon: undefined
+                            };
+                            // Clear weaponSelections for this hardpoint
+                            const newWeaponSelections = { ...weaponSelections };
+                            delete newWeaponSelections[newHardpoints[assignedIndex].id];
+                            setHardpoints(newHardpoints);
+                            setWeaponSelections(newWeaponSelections);
+                          }
+                        }}
+                        style={{ marginTop: 2 }}
+                      />
+                      <span><strong>{screen.name}</strong> - {screen.effect}</span>
+                      {isDisabled && <span style={{ color: 'red', fontSize: 12, marginLeft: 8 }}>No available hardpoints</span>}
+                    </div>
+                  );
+                })}
+                {/* Point Defense */}
+                {pointDefenseWeapons.map(weapon => {
+                  const assignedIndex = hardpoints.findIndex(hp => hp.type === 'Point Defense' && hp.weapon === weapon.name);
+                  const isSelected = assignedIndex !== -1;
+                  const availableIndex = hardpoints.findIndex(hp => {
+                    if (!(hp.type === 'Fixed Mount' || hp.type === 'Turret')) return false;
+                    if (hp.weapon) return false;
+                    const sel = weaponSelections[hp.id];
+                    if (sel && sel.weapons.some(w => w.type)) return false;
+                    return true;
+                  });
+                  const isDisabled = !isSelected && availableIndex === -1;
+                  return (
+                    <div key={weapon.name} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: 15 }}>
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        disabled={isDisabled}
+                        onChange={e => {
+                          if (e.target.checked) {
+                            if (availableIndex !== -1) {
+                              const newHardpoints = [...hardpoints];
+                              newHardpoints[availableIndex] = {
+                                ...newHardpoints[availableIndex],
+                                type: 'Point Defense',
+                                weapon: weapon.name,
+                                ammo: weapon.ammo ? { tons: 1, rounds: weapon.ammo.rounds } : undefined
+                              };
+                              // Clear weaponSelections for this hardpoint
+                              const newWeaponSelections = { ...weaponSelections };
+                              delete newWeaponSelections[newHardpoints[availableIndex].id];
+                              setHardpoints(newHardpoints);
+                              setWeaponSelections(newWeaponSelections);
+                            }
+                          } else if (isSelected) {
+                            const newHardpoints = [...hardpoints];
+                            newHardpoints[assignedIndex] = {
+                              ...newHardpoints[assignedIndex],
+                              type: 'Fixed Mount',
+                              weapon: undefined,
+                              ammo: undefined
+                            };
+                            // Clear weaponSelections for this hardpoint
+                            const newWeaponSelections = { ...weaponSelections };
+                            delete newWeaponSelections[newHardpoints[assignedIndex].id];
+                            setHardpoints(newHardpoints);
+                            setWeaponSelections(newWeaponSelections);
+                          }
+                        }}
+                        style={{ marginTop: 2 }}
+                      />
+                      <span><strong>{weapon.name}</strong> - Intercept {weapon.intercept}</span>
+                      {isDisabled && <span style={{ color: 'red', fontSize: 12, marginLeft: 8 }}>No available hardpoints</span>}
+                    </div>
+                  );
+                })}
+                {/* Black Globe Generator */}
+                {(() => {
+                  const assignedIndex = hardpoints.findIndex(hp => hp.type === 'Black Globe');
+                  const isSelected = assignedIndex !== -1;
+                  const availableIndex = hardpoints.findIndex(hp => {
+                    if (!(hp.type === 'Fixed Mount' || hp.type === 'Turret')) return false;
+                    if (hp.weapon) return false;
+                    const sel = weaponSelections[hp.id];
+                    if (sel && sel.weapons.some(w => w.type)) return false;
+                    return true;
+                  });
+                  const isDisabled = techLevel < 15 || (!isSelected && availableIndex === -1);
+                  return (
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: 15, opacity: techLevel < 15 ? 0.5 : 1 }}>
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        disabled={isDisabled}
+                        onChange={e => {
+                          if (e.target.checked) {
+                            if (availableIndex !== -1 && techLevel >= 15) {
+                              const newHardpoints = [...hardpoints];
+                              newHardpoints[availableIndex] = {
+                                ...newHardpoints[availableIndex],
+                                type: 'Black Globe',
+                                weapon: blackGlobeGenerator.name
+                              };
+                              // Clear weaponSelections for this hardpoint
+                              const newWeaponSelections = { ...weaponSelections };
+                              delete newWeaponSelections[newHardpoints[availableIndex].id];
+                              setHardpoints(newHardpoints);
+                              setWeaponSelections(newWeaponSelections);
+                            }
+                          } else if (isSelected) {
+                            const newHardpoints = [...hardpoints];
+                            newHardpoints[assignedIndex] = {
+                              ...newHardpoints[assignedIndex],
+                              type: 'Fixed Mount',
+                              weapon: undefined
+                            };
+                            // Clear weaponSelections for this hardpoint
+                            const newWeaponSelections = { ...weaponSelections };
+                            delete newWeaponSelections[newHardpoints[assignedIndex].id];
+                            setHardpoints(newHardpoints);
+                            setWeaponSelections(newWeaponSelections);
+                          }
+                        }}
+                        style={{ marginTop: 2 }}
+                      />
+                      <span><strong>Black Globe Generator</strong> - Absorbs all energy attacks.</span>
+                      {techLevel < 15 && <span style={{ color: 'red', fontSize: 12, marginLeft: 8 }}>Requires TL15</span>}
+                      {isDisabled && techLevel >= 15 && <span style={{ color: 'red', fontSize: 12, marginLeft: 8 }}>No available hardpoints</span>}
+                    </div>
+                  );
+                })()}
+              </div>
+
+              <h4>{selectedHull && selectedHull.size < 100 ? 'Firmpoint' : 'Hardpoint'} Assignment</h4>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '10px' }}>
+                {hardpoints.map((hardpoint, index) => {
+                  // Determine if this is a firmpoint and if so, enforce firmpoint rules
+                  const isFirmpoint = hardpoint.isFirmpoint;
+                  const isUpgradedToTurret = hardpoint.isUpgradedToTurret;
+                  const isBarbette = hardpoint.type === 'Barbette';
+                  const isTurret = hardpoint.type === 'Turret';
+                  // For firmpoints: only one weapon, except barbettes (handled by type selection)
+                  // For upgraded firmpoint turret: only single turret allowed
+                  // For hardpoints: up to 3 weapons for turrets/fixed mounts
+
+                  // Defensive system assignment UI
+                  if (["Screen", "Point Defense", "Black Globe"].includes(hardpoint.type)) {
+                    return (
+                      <div key={hardpoint.id} style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '4px', marginBottom: '8px', background: '#222', color: '#fff' }}>
+                        <div style={{ marginBottom: '8px', fontWeight: 600 }}>
+                          {selectedHull && selectedHull.size < 100 ? 'Firmpoint' : 'Hardpoint'} {index + 1}
+                        </div>
+                        <div style={{ marginBottom: '8px', fontSize: 15 }}>
+                          <span style={{ fontWeight: 500 }}>{hardpoint.weapon || hardpoint.type}</span>
+                        </div>
+                        <button
+                          onClick={() => {
+                            const newHardpoints = [...hardpoints];
+                            newHardpoints[index] = {
+                              ...newHardpoints[index],
+                              type: 'Fixed Mount',
+                              weapon: undefined,
+                              ammo: undefined
+                            };
+                            // Clear weaponSelections for this hardpoint
+                            const newWeaponSelections = { ...weaponSelections };
+                            delete newWeaponSelections[hardpoint.id];
+                            setHardpoints(newHardpoints);
+                            setWeaponSelections(newWeaponSelections);
+                          }}
+                          style={{ padding: '4px 10px', background: '#f58220', color: '#fff', border: 'none', borderRadius: '4px', fontWeight: 600, fontSize: 14 }}
+                        >
+                          Remove
+                        </button>
+                      </div>
+                    );
+                  }
+
+                  return (
+                    <div key={hardpoint.id} style={{ padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}>
+                      <div style={{ marginBottom: '8px' }}>
+                        {selectedHull && selectedHull.size < 100 ? 'Firmpoint' : 'Hardpoint'} {index + 1}
+                        {isFirmpoint && isUpgradedToTurret && ' (Upgraded to Turret)'}
+                      </div>
+                      <select
+                        value={hardpoint.type}
+                        onChange={(e) => {
+                          const newType = e.target.value as Hardpoint['type'];
+                          const newHardpoints = [...hardpoints];
+                          newHardpoints[index] = {
+                            ...hardpoint,
+                            type: newType
+                          };
+                          // Reset weaponSelections for this hardpoint to match the new type
+                          const newWeaponSelections = { ...weaponSelections };
+                          if (["Turret", "Fixed Mount"].includes(newType)) {
+                            newWeaponSelections[hardpoint.id] = {
+                              mountType: newType,
+                              weapons: [{ type: '' }, { type: '' }, { type: '' }],
+                              popUp: false
+                            };
+                          } else if (["Small Bay", "Medium Bay", "Large Bay", "Barbette", "Spinal Mount"].includes(newType)) {
+                            newWeaponSelections[hardpoint.id] = {
+                              mountType: newType,
+                              weapons: [{ type: '' }],
+                              popUp: false
+                            };
+                          } else {
+                            // Defensive system or unhandled type: clear selection
+                            delete newWeaponSelections[hardpoint.id];
+                          }
+                          setHardpoints(newHardpoints);
+                          setWeaponSelections(newWeaponSelections);
+                        }}
+                        style={{ width: '100%' }}
+                        disabled={isFirmpoint && isUpgradedToTurret}
+                      >
+                        <option value="Fixed Mount">Fixed Mount</option>
+                        <option value="Turret">Turret</option>
+                        <option value="Barbette">Barbette</option>
+                        <option value="Small Bay">Small Bay</option>
+                        <option value="Medium Bay">Medium Bay</option>
+                        <option value="Large Bay">Large Bay</option>
+                        {selectedHull && selectedHull.size >= 100 && (
+                          <>
+                            <option value="Spinal Mount">Spinal Mount</option>
+                          </>
+                        )}
+                      </select>
+                      {/* Weapon selection UI */}
+                      <div style={{ marginTop: 8 }}>
+                        {/* Bay weapon selection */}
+                        {hardpoint.type === 'Small Bay' && (
+                          <>
+                            <div style={{ fontSize: 13, marginBottom: 4 }}>Bay Weapon:</div>
+                            <select
+                              value={weaponSelections[hardpoint.id]?.weapons[0]?.type || ''}
+                              onChange={e => {
+                                setWeaponSelections({
+                                  ...weaponSelections,
+                                  [hardpoint.id]: {
+                                    mountType: hardpoint.type,
+                                    weapons: [{ type: e.target.value }],
+                                    popUp: weaponSelections[hardpoint.id]?.popUp || false
+                                  }
+                                });
+                              }}
+                              style={{ width: '100%', marginBottom: 4 }}
+                            >
+                              <option value="">—</option>
+                              {smallBayWeapons.map(w => (
+                                <option key={w.name} value={w.name}>{w.name} (TL{w.tl})</option>
+                              ))}
+                            </select>
+                          </>
+                        )}
+                        {hardpoint.type === 'Medium Bay' && (
+                          <>
+                            <div style={{ fontSize: 13, marginBottom: 4 }}>Bay Weapon:</div>
+                            <select
+                              value={weaponSelections[hardpoint.id]?.weapons[0]?.type || ''}
+                              onChange={e => {
+                                setWeaponSelections({
+                                  ...weaponSelections,
+                                  [hardpoint.id]: {
+                                    mountType: hardpoint.type,
+                                    weapons: [{ type: e.target.value }],
+                                    popUp: weaponSelections[hardpoint.id]?.popUp || false
+                                  }
+                                });
+                              }}
+                              style={{ width: '100%', marginBottom: 4 }}
+                            >
+                              <option value="">—</option>
+                              {mediumBayWeapons.map(w => (
+                                <option key={w.name} value={w.name}>{w.name} (TL{w.tl})</option>
+                              ))}
+                            </select>
+                          </>
+                        )}
+                        {hardpoint.type === 'Large Bay' && (
+                          <>
+                            <div style={{ fontSize: 13, marginBottom: 4 }}>Bay Weapon:</div>
+                            <select
+                              value={weaponSelections[hardpoint.id]?.weapons[0]?.type || ''}
+                              onChange={e => {
+                                setWeaponSelections({
+                                  ...weaponSelections,
+                                  [hardpoint.id]: {
+                                    mountType: hardpoint.type,
+                                    weapons: [{ type: e.target.value }],
+                                    popUp: weaponSelections[hardpoint.id]?.popUp || false
+                                  }
+                                });
+                              }}
+                              style={{ width: '100%', marginBottom: 4 }}
+                            >
+                              <option value="">—</option>
+                              {largeBayWeapons.map(w => (
+                                <option key={w.name} value={w.name}>{w.name} (TL{w.tl})</option>
+                              ))}
+                            </select>
+                          </>
+                        )}
+                        {/* Spinal Mount weapon selection */}
+                        {hardpoint.type === 'Spinal Mount' && (
+                          <>
+                            <div style={{ fontSize: 13, marginBottom: 4 }}>Spinal Weapon:</div>
+                            <select
+                              value={weaponSelections[hardpoint.id]?.weapons[0]?.type || ''}
+                              onChange={e => {
+                                setWeaponSelections({
+                                  ...weaponSelections,
+                                  [hardpoint.id]: {
+                                    mountType: hardpoint.type,
+                                    weapons: [{ type: e.target.value }],
+                                    popUp: false
+                                  }
+                                });
+                              }}
+                              style={{ width: '100%', marginBottom: 4 }}
+                            >
+                              <option value="">—</option>
+                              {spinalMountWeapons.map(w => (
+                                <option key={w.name} value={w.name}>{w.name} (TL{w.tl})</option>
+                              ))}
+                            </select>
+                            {weaponSelections[hardpoint.id]?.weapons[0]?.type && (
+                              <>
+                                <div style={{ fontSize: 13, marginBottom: 4 }}>Tonnage (multiple of base size):</div>
+                                <input
+                                  type="number"
+                                  min={spinalMountWeapons.find(w => w.name === weaponSelections[hardpoint.id]?.weapons[0]?.type)?.baseSize || 0}
+                                  max={Math.min(
+                                    shipSize / 2,
+                                    spinalMountWeapons.find(w => w.name === weaponSelections[hardpoint.id]?.weapons[0]?.type)?.maxSize || 0
+                                  )}
+                                  step={spinalMountWeapons.find(w => w.name === weaponSelections[hardpoint.id]?.weapons[0]?.type)?.baseSize || 0}
+                                  value={weaponSelections[hardpoint.id]?.weapons[0]?.tonnage || ''}
+                                  onChange={e => {
+                                    const baseSize = spinalMountWeapons.find(w => w.name === weaponSelections[hardpoint.id]?.weapons[0]?.type)?.baseSize || 0;
+                                    const multiple = Math.round(Number(e.target.value) / baseSize);
+                                    const tonnage = multiple * baseSize;
+                                    const prev = weaponSelections[hardpoint.id] || { mountType: hardpoint.type, weapons: [{}], popUp: false };
+                                    const newWeapons = [...prev.weapons];
+                                    newWeapons[0] = { 
+                                      ...newWeapons[0], 
+                                      type: newWeapons[0].type,
+                                      tonnage,
+                                      multiple
+                                    };
+                                    setWeaponSelections({
+                                      ...weaponSelections,
+                                      [hardpoint.id]: { ...prev, mountType: hardpoint.type, weapons: newWeapons }
+                                    });
+                                  }}
+                                  style={{ width: '100%', marginBottom: 4 }}
+                                />
+                                {weaponSelections[hardpoint.id]?.weapons[0]?.tonnage && (
+                                  <div style={{ fontSize: 12, color: '#f58220', marginTop: 4 }}>
+                                    Multiple: {weaponSelections[hardpoint.id]?.weapons[0]?.multiple || 1}x<br />
+                                    Power: {spinalMountWeapons.find(w => w.name === weaponSelections[hardpoint.id]?.weapons[0]?.type)?.power || 0 * (weaponSelections[hardpoint.id]?.weapons[0]?.multiple || 1)}<br />
+                                    Damage: {spinalMountWeapons.find(w => w.name === weaponSelections[hardpoint.id]?.weapons[0]?.type)?.damage || '0D'} × {weaponSelections[hardpoint.id]?.weapons[0]?.multiple || 1}<br />
+                                    Cost: MCr{spinalMountWeapons.find(w => w.name === weaponSelections[hardpoint.id]?.weapons[0]?.type)?.cost || 0 * (weaponSelections[hardpoint.id]?.weapons[0]?.multiple || 1)}
+                                  </div>
+                                )}
+                              </>
+                            )}
+                          </>
+                        )}
+                        {/* Existing weapon selection UI for other mount types ... */}
+                        {isFirmpoint && !isBarbette ? (
+                          <>
+                            <div style={{ fontSize: 13, marginBottom: 4 }}>Weapon:</div>
+                            <select
+                              value={weaponSelections[hardpoint.id]?.weapons[0]?.type || ''}
+                              onChange={e => {
+                                setWeaponSelections({
+                                  ...weaponSelections,
+                                  [hardpoint.id]: {
+                                    mountType: hardpoint.type,
+                                    weapons: [{ type: e.target.value }],
+                                    popUp: weaponSelections[hardpoint.id]?.popUp || false
+                                  }
+                                });
+                              }}
+                              style={{ width: '100%', marginBottom: 4 }}
+                            >
+                              <option value="">—</option>
+                              {turretWeapons.map(w => (
+                                <option key={w.name} value={w.name}>{w.name} (TL{w.tl})</option>
+                              ))}
+                            </select>
+                            {/* For firmpoint turret, only allow single */}
+                            {isUpgradedToTurret && (
+                              <div style={{ fontSize: 13, marginBottom: 4 }}>
+                                Turret Mode: Single
+                              </div>
+                            )}
+                          </>
+                        ) : isBarbette ? (
+                          <>
+                            <div style={{ fontSize: 13, marginBottom: 4 }}>Weapon:</div>
+                            <select
+                              value={weaponSelections[hardpoint.id]?.weapons[0]?.type || ''}
+                              onChange={e => {
+                                setWeaponSelections({
+                                  ...weaponSelections,
+                                  [hardpoint.id]: {
+                                    mountType: hardpoint.type,
+                                    weapons: [{ type: e.target.value }],
+                                    popUp: weaponSelections[hardpoint.id]?.popUp || false
+                                  }
+                                });
+                              }}
+                              style={{ width: '100%' }}
+                            >
+                              <option value="">—</option>
+                              {barbetteWeapons.map(w => (
+                                <option key={w.name} value={w.name}>{w.name} (TL{w.tl})</option>
+                              ))}
+                            </select>
+                            {isFirmpoint && (
+                              <div style={{ fontSize: 12, color: '#f58220', marginTop: 4 }}>
+                                Barbette consumes 3 firmpoints and extra tonnage.
+                              </div>
+                            )}
+                          </>
+                        ) : (hardpoint.type === 'Fixed Mount' || hardpoint.type === 'Turret') ? (
+                          <>
+                            <div style={{ fontSize: 13, marginBottom: 4 }}>Weapons (up to 3):</div>
+                            {[0,1,2].map(i => (
+                              <div key={i} style={{ marginBottom: 4 }}>
+                                <select
+                                  value={weaponSelections[hardpoint.id]?.weapons[i]?.type || ''}
+                                  onChange={e => {
+                                    const prev = weaponSelections[hardpoint.id] || { mountType: hardpoint.type, weapons: [{}, {}, {}], popUp: false };
+                                    const newWeapons = [...prev.weapons];
+                                    newWeapons[i] = { type: e.target.value };
+                                    setWeaponSelections({
+                                      ...weaponSelections,
+                                      [hardpoint.id]: { ...prev, mountType: hardpoint.type, weapons: newWeapons }
+                                    });
+                                  }}
+                                  style={{ width: '100%' }}
+                                >
+                                  <option value="">—</option>
+                                  {turretWeapons.map(w => (
+                                    <option key={w.name} value={w.name}>{w.name} (TL{w.tl})</option>
+                                  ))}
+                                </select>
+                              </div>
+                            ))}
+                          </>
+                        ) : null}
+                        {/* Pop-Up Mounting: only for fixed mount/turret, and for firmpoint turret only if upgraded */}
+                        {(hardpoint.type === 'Fixed Mount' || (hardpoint.type === 'Turret' && (!isFirmpoint || isUpgradedToTurret))) && (
+                          <div style={{ marginTop: 6 }}>
+                            <label>
+                              <input
+                                type="checkbox"
+                                checked={weaponSelections[hardpoint.id]?.popUp || false}
+                                onChange={e => {
+                                  const prev = weaponSelections[hardpoint.id] || { mountType: hardpoint.type, weapons: isFirmpoint ? [{}] : [{}, {}, {}], popUp: false };
+                                  setWeaponSelections({
+                                    ...weaponSelections,
+                                    [hardpoint.id]: { ...prev, popUp: e.target.checked }
+                                  });
+                                }}
+                              />
+                              Pop-Up Mounting
+                            </label>
+                          </div>
+                        )}
+                        {isFirmpoint && isUpgradedToTurret && (
+                          <div style={{ fontSize: 12, color: '#f58220', marginTop: 4 }}>
+                            Only a single turret (not double/triple) is allowed on a firmpoint.
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div style={{ 
         marginTop: '20px', 
         border: '1px solid #ccc', 
@@ -1885,7 +2876,8 @@ function App() {
           <table style={{ width: '100%', borderCollapse: 'collapse', background: '#fff', fontSize: 15 }}>
             <thead>
               <tr style={{ background: '#e0e0e0' }}>
-                <th style={{ textAlign: 'left', padding: '6px 8px', border: '1px solid #bbb' }}>TL{stats.techLevel}</th>
+                <th style={{ textAlign: 'left', padding: '6px 8px', border: '1px solid #bbb' }}>Item</th>
+                <th style={{ textAlign: 'left', padding: '6px 8px', border: '1px solid #bbb' }}>Details</th>
                 <th style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>TONS</th>
                 <th style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>COST (MCr)</th>
               </tr>
@@ -1895,13 +2887,15 @@ function App() {
               {selectedHull && (
                 <>
                   <tr>
-                    <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Hull{selectedHull.specializedType ? `, ${selectedHull.specializedType}` : ''}</td>
+                    <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Hull</td>
+                    <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>{selectedHull.type}{selectedHull.specializedType ? `, ${selectedHull.specializedType}` : ''}</td>
                     <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{selectedHull.size}</td>
                     <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{(selectedHull.cost).toFixed(1)}</td>
                   </tr>
                   {/* Armour */}
                   <tr>
-                    <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>{selectedHull.armour.type}, Armour: {selectedHull.armour.protection}</td>
+                    <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Armour</td>
+                    <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>{selectedHull.armour.type}, Protection: {selectedHull.armour.protection}</td>
                     <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{selectedHull.armour.protection * 5}</td>
                     <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{(selectedHull.armour.protection * 1.5).toFixed(1)}</td>
                   </tr>
@@ -1909,36 +2903,32 @@ function App() {
               )}
               {/* Drives */}
               {selectedDrives.map((drive, idx) => {
-                let driveDesc = '';
-                if (drive.type === 'Manoeuvre') driveDesc = ' (Main propulsion)';
-                if (drive.type === 'Jump') driveDesc = ' (Interstellar travel)';
-                if (drive.type === 'Reaction') driveDesc = ' (Auxiliary/backup)';
-                return (
-                  <tr key={drive.type + drive.rating}>
-                    <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>{drive.type}-Drive {drive.rating}{driveDesc}</td>
-                    <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{(shipSize * drive.percentOfHull / 100).toFixed(0)}</td>
-                    <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{((shipSize * drive.percentOfHull / 100) * drive.costPerTon).toFixed(1)}</td>
-                  </tr>
-                );
-              })}
+                  let driveDesc = '';
+                  if (drive.type === 'Manoeuvre') driveDesc = ' (Main propulsion)';
+                  if (drive.type === 'Jump') driveDesc = ' (Interstellar travel)';
+                  if (drive.type === 'Reaction') driveDesc = ' (Auxiliary/backup)';
+                  return (
+                    <tr key={drive.type + drive.rating}>
+                      <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>{drive.type}-Drive</td>
+                      <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Rating {drive.rating}{driveDesc}</td>
+                      <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{(shipSize * drive.percentOfHull / 100).toFixed(0)}</td>
+                      <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{((shipSize * drive.percentOfHull / 100) * drive.costPerTon).toFixed(1)}</td>
+                    </tr>
+                  );
+                })}
               {/* Power Plant */}
               {selectedPowerPlant && (
                 <tr>
-                  <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>
-                    Power Plant: {selectedPowerPlant.type} (TL{selectedPowerPlant.techLevel}) | {powerPlantTons !== null ? powerPlantTons : getRecommendedPowerPlantTons(selectedPowerPlant)} tons @ {selectedPowerPlant.powerPerTon} power/ton
-                  </td>
-                  <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>
-                    {powerPlantTons !== null ? powerPlantTons : getRecommendedPowerPlantTons(selectedPowerPlant)}
-                  </td>
-                  <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>
-                    {selectedPowerPlant ? ((powerPlantTons !== null ? powerPlantTons : getRecommendedPowerPlantTons(selectedPowerPlant)) * selectedPowerPlant.costPerTon).toFixed(1) : '—'}
-                  </td>
+                  <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Power Plant</td>
+                  <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>{selectedPowerPlant.type} (TL{selectedPowerPlant.techLevel}) | {powerPlantTons !== null ? powerPlantTons : getRecommendedPowerPlantTons(selectedPowerPlant)} tons @ {selectedPowerPlant.powerPerTon} power/ton</td>
+                  <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{powerPlantTons !== null ? powerPlantTons : getRecommendedPowerPlantTons(selectedPowerPlant)}</td>
+                  <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{selectedPowerPlant ? ((powerPlantTons !== null ? powerPlantTons : getRecommendedPowerPlantTons(selectedPowerPlant)) * selectedPowerPlant.costPerTon).toFixed(1) : '—'}</td>
                 </tr>
               )}
               {/* Fuel Tanks */}
               <tr>
+                <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Fuel Tanks</td>
                 <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>
-                  Fuel Tanks
                   <div style={{ fontSize: '12px', color: '#888' }}>
                     {(() => {
                       let jumps = '';
@@ -1967,49 +2957,125 @@ function App() {
               </tr>
               {/* Bridge */}
               <tr>
-                <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>
-                  {(() => {
-                    if (bridgeType === 'standard') return 'Standard Bridge';
-                    if (bridgeType === 'smaller') return 'Smaller Bridge (DM-1)';
-                    if (bridgeType === 'command') return 'Command Bridge (DM+1 Tactics)';
-                    if (bridgeType === 'cockpit') return 'Cockpit';
-                    if (bridgeType === 'dualCockpit') return 'Dual Cockpit';
-                    return 'Bridge';
-                  })()}
-                </td>
+                <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Bridge</td>
+                <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>{(() => {
+                  if (bridgeType === 'standard') return 'Standard Bridge';
+                  if (bridgeType === 'smaller') return 'Smaller Bridge (DM-1)';
+                  if (bridgeType === 'command') return 'Command Bridge (DM+1 Tactics)';
+                  if (bridgeType === 'cockpit') return 'Cockpit';
+                  if (bridgeType === 'dualCockpit') return 'Dual Cockpit';
+                  return 'Bridge';
+                })()}</td>
                 <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{bridgeSize}</td>
-                <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{bridgeCost.toFixed(3)}</td>
+                <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{Number(bridgeCost.toFixed(3)) % 1 === 0 ? bridgeCost.toFixed(1) : bridgeCost.toFixed(3).replace(/0+$/, '').replace(/\.$/, '')}</td>
               </tr>
               {/* Computer */}
               <tr>
-                <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>
-                  {primaryComputer}
-                  {primaryBis && ' (/bis)'}
-                  {primaryFib && ' (/fib)'}
-                  {backupEnabled && (
-                    <><br /><span style={{ fontSize: '12px', color: '#888' }}>Backup: {backupComputer}{backupBis && ' (/bis)'}{backupFib && ' (/fib)'}</span></>
-                  )}
-                </td>
+                <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Computer</td>
+                <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>{primaryComputer}{primaryBis && ' (/bis)'}{primaryFib && ' (/fib)'}{backupEnabled && (<><br /><span style={{ fontSize: '12px', color: '#888' }}>Backup: {backupComputer}{backupBis && ' (/bis)'}{backupFib && ' (/fib)'}</span></>)}</td>
                 <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td>
-                <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{
-                  (getComputerCost(primaryComputer, primaryBis, primaryFib) + (backupEnabled ? getComputerCost(backupComputer, backupBis, backupFib) : 0)).toFixed(3)
-                }</td>
+                <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{(() => {
+                  const cost = getComputerCost(primaryComputer, primaryBis, primaryFib) + (backupEnabled ? getComputerCost(backupComputer, backupBis, backupFib) : 0);
+                  return Number(cost.toFixed(3)) % 1 === 0 ? cost.toFixed(1) : cost.toFixed(3).replace(/0+$/, '').replace(/\.$/, '');
+                })()}</td>
               </tr>
               {/* Sensors */}
               <tr>
                 <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Sensors</td>
-                <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>2</td>
-                <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>4.1</td>
+                <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>{(() => {
+                  const opt = sensorOptions.find(s => s.name === selectedSensor);
+                  if (!opt) return 'Sensors';
+                  return (<>{opt.name} (TL{opt.tl})<br /><span style={{ fontSize: '12px', color: '#888' }}>Suite: {opt.suite}, DM: {opt.dm > 0 ? '+' : ''}{opt.dm}, Power: {opt.power}, Tons: {opt.tons}</span></>);
+                })()}</td>
+                <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{sensorOptions.find(s => s.name === selectedSensor)?.tons || '—'}</td>
+                <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{sensorOptions.find(s => s.name === selectedSensor)?.cost ? sensorOptions.find(s => s.name === selectedSensor)?.cost : '—'}</td>
               </tr>
-              {/* Weapons, Systems, Craft, Software, Staterooms, Common Areas, Cargo */}
-              {/* Placeholders for now, can be filled with real data if available */}
-              <tr><td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Weapons</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td></tr>
-              <tr><td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Systems</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td></tr>
-              <tr><td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Craft</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td></tr>
-              <tr><td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Software</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td></tr>
-              <tr><td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Staterooms</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td></tr>
-              <tr><td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Common Areas</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td></tr>
-              <tr><td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Cargo</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td></tr>
+              {/* Weapons & Defenses */}
+              {hardpoints.length > 0 && (
+                // Render a row for each assigned weapon mount or defensive system
+                hardpoints.map((hp) => {
+                  const sel = weaponSelections[hp.id];
+                  // Defensive systems
+                  if (["Screen", "Point Defense", "Black Globe"].includes(hp.type) && hp.weapon) {
+                    let tons = 0, cost = 0;
+                    let label = 'Defence';
+                    let typeLabel = '';
+                    if (hp.type === 'Screen') {
+                      const screen = screens.find(s => s.name === hp.weapon);
+                      if (screen) { tons = screen.tons; cost = screen.cost; typeLabel = 'Screen'; }
+                    } else if (hp.type === 'Point Defense') {
+                      const pd = pointDefenseWeapons.find(w => w.name === hp.weapon);
+                      if (pd) { tons = pd.tons; cost = pd.cost; typeLabel = 'Point Defense'; }
+                    } else if (hp.type === 'Black Globe') {
+                      tons = blackGlobeGenerator.tons; cost = blackGlobeGenerator.cost; typeLabel = 'Black Globe';
+                    }
+                    return (
+                      <tr key={hp.id}>
+                        <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>{label}</td>
+                        <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>{typeLabel} — {hp.weapon}</td>
+                        <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{tons}</td>
+                        <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{cost}</td>
+                      </tr>
+                    );
+                  }
+                  // Weapons: group all weapons in this mount into a single row
+                  if (sel && sel.weapons.some(w => w.type)) {
+                    const weaponList = sel.weapons.filter(w => w.type).map(w => {
+                      if (hp.type === 'Spinal Mount' && w.multiple) {
+                        return `${w.type} (${w.multiple}x)`;
+                      }
+                      return w.type;
+                    }).join(', ');
+                    let totalCost = 0;
+                    let totalTons = 0;
+                    let typeLabel = hp.type + (sel.popUp ? ' (Pop-Up)' : '');
+                    if (hp.type === 'Turret' || hp.type === 'Barbette' || hp.type === 'Fixed Mount') {
+                      const mountStats = getMountStats(hp.type, sel.popUp || false, !!hp.isFirmpoint);
+                      totalTons = mountStats.tons;
+                      totalCost = sel.weapons.filter(w => w.type).reduce((sum, w) => {
+                        let weapon = turretWeapons.find(x => x.name === w.type) || barbetteWeapons.find(x => x.name === w.type);
+                        return sum + (weapon ? weapon.cost : 0);
+                      }, 0);
+                    } else if (hp.type === 'Small Bay') {
+                      const bay = smallBayWeapons.find(x => x.name === sel.weapons[0]?.type);
+                      totalTons = bay ? bay.tons : 0;
+                      totalCost = bay ? bay.cost : 0;
+                    } else if (hp.type === 'Medium Bay') {
+                      const bay = mediumBayWeapons.find(x => x.name === sel.weapons[0]?.type);
+                      totalTons = bay ? bay.tons : 0;
+                      totalCost = bay ? bay.cost : 0;
+                    } else if (hp.type === 'Large Bay') {
+                      const bay = largeBayWeapons.find(x => x.name === sel.weapons[0]?.type);
+                      totalTons = bay ? bay.tons : 0;
+                      totalCost = bay ? bay.cost : 0;
+                    } else if (hp.type === 'Spinal Mount' && sel.weapons[0]?.multiple) {
+                      const spinal = spinalMountWeapons.find(x => x.name === sel.weapons[0]?.type);
+                      totalTons = spinal && spinal.baseSize ? spinal.baseSize * (sel.weapons[0].multiple || 1) : 0;
+                      totalCost = spinal ? spinal.cost * (sel.weapons[0].multiple || 1) : 0;
+                    } else if (hp.type === 'Spinal Mount') {
+                      const spinal = spinalMountWeapons.find(x => x.name === sel.weapons[0]?.type);
+                      totalTons = spinal && spinal.baseSize ? spinal.baseSize : 0;
+                      totalCost = spinal ? spinal.cost : 0;
+                    }
+                    return (
+                      <tr key={hp.id}>
+                        <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Weapon</td>
+                        <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>{typeLabel} — {weaponList}</td>
+                        <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{totalTons}</td>
+                        <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{totalCost}</td>
+                      </tr>
+                    );
+                  }
+                  return null;
+                })
+              )}
+              {/* Placeholders */}
+              <tr><td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Systems</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td></tr>
+              <tr><td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Craft</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td></tr>
+              <tr><td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Software</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td></tr>
+              <tr><td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Staterooms</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td></tr>
+              <tr><td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Common Areas</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td></tr>
+              <tr><td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Cargo</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td><td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>—</td></tr>
             </tbody>
           </table>
         </div>
@@ -2037,7 +3103,31 @@ function App() {
               Basic Ship Systems: {stats.powerRequired.basicSystems}<br />
               Manoeuvre Drive: {stats.powerRequired.manoeuvre}<br />
               Jump Drive: {stats.powerRequired.jump}<br />
-              Sensors: 2
+              Sensors: 2<br />
+              Weapons: {(() => { 
+                let totalPower = 0; 
+                hardpoints.forEach(hp => { 
+                  const sel = weaponSelections[hp.id]; 
+                  if (!sel || !sel.weapons.some(w => w.type)) return; 
+                  const isFirmpoint = !!hp.isFirmpoint; 
+                  sel.weapons.forEach(w => { 
+                    let weapon = turretWeapons.find(x => x.name === w.type) || 
+                               barbetteWeapons.find(x => x.name === w.type) ||
+                               spinalMountWeapons.find(x => x.name === w.type);
+                    if (!weapon && hp.type === 'Small Bay') weapon = smallBayWeapons.find(x => x.name === w.type); 
+                    if (!weapon && hp.type === 'Medium Bay') weapon = mediumBayWeapons.find(x => x.name === w.type); 
+                    if (!weapon && hp.type === 'Large Bay') weapon = largeBayWeapons.find(x => x.name === w.type); 
+                    if (!weapon) return; 
+                    let power = weapon.power || 0; 
+                    if (isFirmpoint) power = Math.ceil(power * 0.75);
+                    if (hp.type === 'Spinal Mount' && w.multiple) {
+                      power *= w.multiple;
+                    }
+                    totalPower += power; 
+                  }); 
+                }); 
+                return totalPower > 0 ? totalPower : '—'; 
+              })()}
             </span>
           </div>
         </div>
