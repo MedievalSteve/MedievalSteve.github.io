@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import React from 'react'
 
 // Define types for hulls, drives, and power plants
 interface Hull {
@@ -954,13 +955,156 @@ const blackGlobeGenerator = {
   ]
 };
 
+const calculateArmourProtection = (hull: Hull | null, shipSize: number): { protection: number; cost: number; tons: number } => {
+  if (!hull) return { protection: 0, cost: 0, tons: 0 };
+
+  // Base protection from hull type
+  let baseProtection = 0;
+  if (hull.type === 'Planetoid') baseProtection = 2;
+  if (hull.type === 'Buffered Planetoid') baseProtection = 4;
+
+  // Get armour type details
+  const armourType = hull.armour.type;
+  let tonnagePercent = 0;
+  let costPerTon = 0;
+  let maxProtection = 0;
+
+  switch (armourType) {
+    case 'Titanium Steel':
+      tonnagePercent = 0.025;
+      costPerTon = 50000;
+      maxProtection = Math.min(hull.minTechLevel, 9);
+      break;
+    case 'Crystaliron':
+      tonnagePercent = 0.0125;
+      costPerTon = 200000;
+      maxProtection = Math.min(hull.minTechLevel, 13);
+      break;
+    case 'Bonded Superdense':
+      tonnagePercent = 0.008;
+      costPerTon = 500000;
+      maxProtection = hull.minTechLevel;
+      break;
+    case 'Molecular Bonded':
+      tonnagePercent = 0.005;
+      costPerTon = 1500000;
+      maxProtection = hull.minTechLevel + 4;
+      break;
+  }
+
+  // Apply hull configuration volume modifier
+  const volumeModifier = hullConfigurations[hull.type].volumeModifier;
+  tonnagePercent *= volumeModifier;
+
+  // Apply armour tonnage multiplier based on ship size
+  const sizeMultiplier = getArmourMultiplier(shipSize);
+  tonnagePercent *= sizeMultiplier;
+
+  // Calculate final values
+  const tons = shipSize * tonnagePercent;
+  const cost = tons * costPerTon;
+  const protection = Math.min(baseProtection + hull.armour.protection, maxProtection);
+
+  return { protection, cost, tons };
+};
+
+interface CrewRequirements {
+  captain: number;
+  pilots: number;
+  astrogators: number;
+  engineers: number;
+  maintenance: number;
+  gunners: number;
+  stewards: number;
+  administrators: number;
+  sensorOperators: number;
+  medics: number;
+  officers: number;
+  total: number;
+}
+
+const calculateCrewRequirements = (shipSize: number, isMilitary: boolean, hasJumpDrive: boolean, smallCraftCount: number, turretCount: number, barbetteCount: number, screenCount: number, bayCount: number, spinalMountTons: number, passengerCount: number): CrewRequirements => {
+  // Base calculations
+  const captain = 1;
+  const pilots = isMilitary ? (3 + smallCraftCount) : (1 + smallCraftCount);
+  const astrogators = hasJumpDrive ? 1 : 0;
+  
+  // Calculate drive and power plant tons (placeholder - needs to be calculated from actual components)
+  const driveAndPowerTons = shipSize * 0.1; // Placeholder
+  const engineers = Math.ceil(driveAndPowerTons / 35);
+  
+  // Maintenance crew
+  const maintenance = Math.ceil(shipSize / (isMilitary ? 500 : 1000));
+  
+  // Gunners
+  let gunners = 0;
+  if (isMilitary) {
+    gunners = (turretCount * 2) + (barbetteCount * 2) + (screenCount * 2) + (bayCount * 2) + Math.ceil(spinalMountTons / 100);
+  } else {
+    gunners = turretCount + barbetteCount + screenCount;
+  }
+  
+  // Stewards
+  const highPassengers = Math.floor(passengerCount * 0.1); // Assuming 10% are high passengers
+  const middlePassengers = passengerCount - highPassengers;
+  const stewards = Math.ceil(highPassengers / 10) + Math.ceil(middlePassengers / 100);
+  
+  // Administrators
+  const administrators = Math.ceil(shipSize / (isMilitary ? 1000 : 2000));
+  
+  // Sensor Operators
+  const sensorOperators = isMilitary ? Math.ceil(shipSize / 2500) * 3 : Math.ceil(shipSize / 7500);
+  
+  // Calculate total crew before medics and officers
+  const baseCrew = captain + pilots + astrogators + engineers + maintenance + gunners + stewards + administrators + sensorOperators;
+  
+  // Medics
+  const medics = Math.ceil((baseCrew + passengerCount) / 120);
+  
+  // Officers
+  const officers = Math.ceil(baseCrew / (isMilitary ? 10 : 20));
+  
+  // Apply crew reduction for large ships
+  let reductionMultiplier = 1;
+  if (shipSize > 100000) reductionMultiplier = 0.33;
+  else if (shipSize > 50000) reductionMultiplier = 0.5;
+  else if (shipSize > 20000) reductionMultiplier = 0.67;
+  else if (shipSize > 5000) reductionMultiplier = 0.75;
+  
+  // Apply reduction to applicable roles
+  const reducedEngineers = Math.ceil(engineers * reductionMultiplier);
+  const reducedMaintenance = Math.ceil(maintenance * reductionMultiplier);
+  const reducedGunners = Math.ceil(gunners * reductionMultiplier);
+  const reducedAdministrators = Math.ceil(administrators * reductionMultiplier);
+  const reducedSensorOperators = Math.ceil(sensorOperators * reductionMultiplier);
+  
+  const total = captain + pilots + astrogators + reducedEngineers + reducedMaintenance + 
+                reducedGunners + stewards + reducedAdministrators + reducedSensorOperators + 
+                medics + officers;
+  
+  return {
+    captain,
+    pilots,
+    astrogators,
+    engineers: reducedEngineers,
+    maintenance: reducedMaintenance,
+    gunners: reducedGunners,
+    stewards,
+    administrators: reducedAdministrators,
+    sensorOperators: reducedSensorOperators,
+    medics,
+    officers,
+    total
+  };
+};
+
 function App() {
   const [step, setStep] = useState(0);
-  const [shipSize, setShipSize] = useState<number>(100);
+  const [shipSize, setShipSize] = useState(200);
   const [selectedHull, setSelectedHull] = useState<Hull | null>(null);
   const [selectedDrives, setSelectedDrives] = useState<Drive[]>([]);
   const [selectedPowerPlant, setSelectedPowerPlant] = useState<PowerPlant | null>(null);
-  const [techLevel, setTechLevel] = useState<number>(7);
+  const [techLevel, setTechLevel] = useState(12);
   const [errors, setErrors] = useState<string[]>([]);
   const [reactionDriveHours, setReactionDriveHours] = useState<number>(1);
   const [powerPlantWeeks, setPowerPlantWeeks] = useState<number>(4);
@@ -975,6 +1119,98 @@ function App() {
   const [additionalFuel, setAdditionalFuel] = useState<number>(0);
   // Add state for fine adjustment toggle
   const [fineAdjustment, setFineAdjustment] = useState<boolean>(false);
+  // Add after other useState hooks
+  const [doubleHullPercent, setDoubleHullPercent] = useState<number>(0);
+  const [hamsterCagePercent, setHamsterCagePercent] = useState<number>(0);
+  const [isMilitary, setIsMilitary] = useState(false);
+  const [hasJumpDrive, setHasJumpDrive] = useState(false);
+  const [smallCraftCount, setSmallCraftCount] = useState(0);
+  const [turretCount, setTurretCount] = useState(0);
+  const [barbetteCount, setBarbetteCount] = useState(0);
+  const [screenCount, setScreenCount] = useState(0);
+  const [bayCount, setBayCount] = useState(0);
+  const [spinalMountTons, setSpinalMountTons] = useState(0);
+  const [passengerCount, setPassengerCount] = useState(0);
+  const [selectedArmour, setSelectedArmour] = useState<Hull['armour']>({
+    type: 'Titanium Steel',
+    protection: 0
+  });
+  const [selectedHullType, setSelectedHullType] = useState<Hull['type']>('Standard');
+  const [selectedSpecializedType, setSelectedSpecializedType] = useState<Hull['specializedType']>();
+  const [selectedAdditionalType, setSelectedAdditionalType] = useState<Hull['additionalType']>();
+  const [selectedHullOptions, setSelectedHullOptions] = useState<Hull['options']>({
+    heatShielding: false,
+    radiationShielding: false,
+    reflec: false,
+    solarCoating: false,
+    stealth: undefined
+  });
+
+  // Clear power plant state on initialization
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      window.localStorage.removeItem('powerPlantTons');
+      setUserSetPowerPlantTons(false);
+    }
+  }, []);
+
+  // Initialize drives with default values
+  useEffect(() => {
+    const defaultDrives: Drive[] = [
+      {
+        type: 'Manoeuvre',
+        rating: 1,
+        percentOfHull: 1, // 1% of hull for M-1
+        minTechLevel: 7,
+        costPerTon: 0.5, // MCr0.5 per ton for M-1
+        requiresPower: true
+      },
+      {
+        type: 'Jump',
+        rating: 1,
+        percentOfHull: 2.5, // 2.5% of hull for J-1
+        minTechLevel: 7,
+        costPerTon: 0.5, // MCr0.5 per ton for J-1
+        requiresPower: true
+      }
+    ];
+    setSelectedDrives(defaultDrives);
+    setHasJumpDrive(true);
+    // Initialize power plant with default values
+    const defaultPowerPlant: PowerPlant = {
+      type: 'Fusion',
+      techLevel: 8,
+      powerPerTon: 10,
+      costPerTon: 0.5,
+      canPowerJump: true
+    };
+    setSelectedPowerPlant(defaultPowerPlant);
+    // Calculate initial power plant tons
+    const basicSystemsPower = 200 * 0.2; // 20% of hull tonnage
+    const manoeuvrePower = 1 * 200 * 0.1; // M-1 drive
+    const minRequired = basicSystemsPower + manoeuvrePower;
+    const initialTons = Math.ceil(minRequired / defaultPowerPlant.powerPerTon);
+    setPowerPlantTons(initialTons);
+    // Initialize hull with default values
+    setSelectedHull({
+      type: 'Standard',
+      size: 200,
+      options: {
+        heatShielding: false,
+        radiationShielding: false,
+        reflec: false,
+        solarCoating: false,
+        stealth: undefined
+      },
+      armour: {
+        type: 'Titanium Steel',
+        protection: 0
+      },
+      cost: calculateHullCost(200, 'Standard'),
+      hullPoints: calculateHullPoints(200),
+      minTechLevel: 12
+    });
+  }, []);
 
   // Group drives by type for dropdowns
   const manoeuvreDrives = drives.filter(d => d.type === 'Manoeuvre');
@@ -1170,8 +1406,16 @@ function App() {
   // Calculate recommended minimum tons for selected power plant
   const getRecommendedPowerPlantTons = (plant: PowerPlant | null) => {
     if (!plant) return shipSize;
-    const minRequired = stats.powerRequired.basicSystems + stats.powerRequired.manoeuvre;
-    return Math.ceil(minRequired / plant.powerPerTon);
+    // Calculate power requirements directly
+    const basicSystemsPower = Math.ceil(shipSize * 0.2); // 20% of hull tonnage
+    const manoeuvreDrive = selectedDrives.find(d => d.type === 'Manoeuvre');
+    const manoeuvrePower = manoeuvreDrive ? 
+      (manoeuvreDrive.rating === 0 ? 0.25 : manoeuvreDrive.rating) * shipSize * 0.1 : 0;
+    const minRequired = basicSystemsPower + manoeuvrePower;
+    // Calculate tons needed to meet minimum power requirements
+    const tonsNeeded = Math.ceil(minRequired / plant.powerPerTon);
+    // Ensure we have at least 1 ton
+    return Math.max(1, tonsNeeded);
   };
 
   // When selectedPowerPlant changes, set default tons if not user-set
@@ -1328,52 +1572,64 @@ function App() {
 
   const calculatePowerRequirements = () => {
     let total = 0;
-    
-    // Drives
-    if (selectedDrives) {
-      selectedDrives.forEach(drive => {
-        if (drive.requiresPower) {
-          total += drive.rating * shipSize * 0.1;
-        }
-      });
-    }
-    
-    // Power Plant
-    if (selectedPowerPlant) {
-      total += selectedPowerPlant.powerPerTon * shipSize;
-    }
-    
-    // Bridge
-    if (bridgeType === 'standard') {
-      total += bridgeSize * 0.1; // 0.1 power per ton of bridge
-    }
-    
-    // Sensors
-    if (selectedSensor) {
-      const sensor = sensorOptions.find(s => s.name === selectedSensor);
-      if (sensor) total += sensor.power;
-    }
-    
-    // Weapons
-    hardpoints.forEach(hardpoint => {
-      if (hardpoint.type === 'Turret') {
-        const weapon = turretWeapons.find(w => w.name === hardpoint.weapon);
-        if (weapon) total += weapon.power;
-      } else if (hardpoint.type === 'Barbette') {
-        const weapon = barbetteWeapons.find(w => w.name === hardpoint.weapon);
-        if (weapon) total += weapon.power;
-      } else if (hardpoint.type === 'Point Defense') {
-        const weapon = pointDefenseWeapons.find(w => w.name === hardpoint.weapon);
-        if (weapon) total += weapon.power;
-      } else if (hardpoint.type === 'Screen') {
-        const screen = screens.find(s => s.name === hardpoint.weapon);
-        if (screen) total += screen.power;
-      } else if (hardpoint.type === 'Black Globe') {
-        total += blackGlobeGenerator.power;
+    let basicSystems = 0;
+    let manoeuvre = 0;
+    let jump = 0;
+    let sensors = 0;
+    let weapons = 0;
+
+    // Basic ship systems
+    basicSystems = Math.ceil(shipSize * 0.2);
+    total += basicSystems;
+
+    // Manoeuvre drive
+    manoeuvre = Math.ceil(shipSize * 0.025);
+    total += manoeuvre;
+
+    // Jump drive
+    if (hasJumpDrive) {
+      const jumpDrive = selectedDrives.find(d => d.type === 'Jump');
+      if (jumpDrive) {
+        jump = Math.ceil(shipSize * (jumpDrive.rating * 0.1));
       }
+      total += jump;
+    }
+
+    // Sensors
+    sensors = 2;
+    total += sensors;
+
+    // Weapons
+    hardpoints.forEach(hp => {
+      const sel = weaponSelections[hp.id];
+      if (!sel || !sel.weapons.some(w => w.type)) return;
+      const isFirmpoint = !!hp.isFirmpoint;
+      sel.weapons.forEach(w => {
+        let weapon = turretWeapons.find(x => x.name === w.type) ||
+                    barbetteWeapons.find(x => x.name === w.type) ||
+                    spinalMountWeapons.find(x => x.name === w.type);
+        if (!weapon && hp.type === 'Small Bay') weapon = smallBayWeapons.find(x => x.name === w.type);
+        if (!weapon && hp.type === 'Medium Bay') weapon = mediumBayWeapons.find(x => x.name === w.type);
+        if (!weapon && hp.type === 'Large Bay') weapon = largeBayWeapons.find(x => x.name === w.type);
+        if (!weapon) return;
+        let power = weapon.power || 0;
+        if (isFirmpoint) power = Math.ceil(power * 0.75);
+        if (hp.type === 'Spinal Mount' && w.multiple) {
+          power *= w.multiple;
+        }
+        weapons += power;
+        total += power;
+      });
     });
-    
-    return total;
+
+    return {
+      total,
+      basicSystems,
+      manoeuvre,
+      jump,
+      sensors,
+      weapons
+    };
   };
 
   return (
@@ -1390,6 +1646,8 @@ function App() {
         <button onClick={() => setStep(6)} disabled={step === 6}>Step 6: Computer</button>
         <button onClick={() => setStep(7)} disabled={step === 7}>Step 7: Sensors</button>
         <button onClick={() => setStep(8)} disabled={step === 8}>Step 8: Weapons</button>
+        <button onClick={() => setStep(9)} disabled={step === 9}>Step 9: Optional Systems</button>
+        <button onClick={() => setStep(10)} disabled={step === 10}>Step 10: Determine Crew</button>
       </div>
 
       {errors.length > 0 && (
@@ -1472,67 +1730,23 @@ function App() {
           
           <div style={{ marginBottom: '20px' }}>
             <h3>Hull Configuration</h3>
-            {Object.entries(hullConfigurations).map(([type, config]) => {
-              const isSelected = selectedHull?.type === type;
-              return (
-                <div 
-                  key={type} 
-                  style={{ 
-                    marginBottom: '20px', 
-                    padding: '10px', 
-                    border: '1px solid #ccc',
-                    backgroundColor: isSelected ? '#f0f0f0' : '#ffffff',
-                    cursor: 'pointer',
-                    color: '#000000'
-                  }}
-                  onClick={() => {
-                    const hullPoints = calculateHullPoints(shipSize);
-                    const cost = calculateHullCost(shipSize, type);
-                    const newHull: Hull = {
-                      type: type as Hull['type'],
-                      size: shipSize,
-                      specializedType: selectedHull?.specializedType,
-                      additionalType: selectedHull?.additionalType,
-                      options: {
-                        heatShielding: false,
-                        radiationShielding: false,
-                        reflec: false,
-                        solarCoating: false,
-                        stealth: undefined
-                      },
-                      armour: selectedHull?.armour || {
-                        type: 'Titanium Steel',
-                        protection: 0
-                      },
-                      cost,
-                      hullPoints,
-                      minTechLevel: 7
-                    };
-                    setSelectedHull(newHull);
-                    setErrors([]);
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {Object.entries(hullConfigurations).map(([type, config]) => {
+                const isSelected = selectedHull?.type === type;
+                return (
+                  <label key={type} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                     <input
                       type="radio"
-                      name="hullConfig"
-                      checked={isSelected}
-                      onChange={() => {}} // Handled by div onClick
+                      name="hullType"
+                      value={type}
+                      checked={selectedHullType === type || (type === 'Standard' && !selectedHullType)}
+                      onChange={(e) => setSelectedHullType(e.target.value as Hull['type'])}
                     />
-                    <div>
-                      <h4 style={{ margin: '0 0 10px 0' }}>{type}</h4>
-                      <p style={{ margin: '0 0 10px 0' }}>{config.description}</p>
-                      <ul style={{ margin: '0' }}>
-                        <li>Streamlined: {config.streamlined}</li>
-                        <li>Volume Modifier: {config.volumeModifier * 100}%</li>
-                        <li>Hull Points Modifier: {config.hullPointsModifier * 100}%</li>
-                        <li>Cost Modifier: {config.costModifier * 100}%</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
+                    <span>{type} - {config.description}</span>
+                  </label>
+                );
+              })}
+            </div>
           </div>
 
           <div style={{ marginBottom: '20px' }}>
@@ -1577,6 +1791,7 @@ function App() {
                 <label>
                   {type} - {details.description}
                 </label>
+                {type === 'Molecular Bonded' && <span style={{ marginLeft: 8, fontSize: 12, color: '#888' }}>Provides additional protection from Tachyon weapons.</span>}
               </div>
             ))}
           </div>
@@ -1595,6 +1810,8 @@ function App() {
                     // Reset cost to base value
                     newHull.cost = calculateHullCost(shipSize, selectedHull.type);
                     setSelectedHull(newHull);
+                    setDoubleHullPercent(0);
+                    setHamsterCagePercent(0);
                   }
                 }}
               />
@@ -1614,8 +1831,13 @@ function App() {
                       const addMod = additionalHullTypes[type as keyof typeof additionalHullTypes];
                       if (type === 'Breakaway Hulls') {
                         newHull.cost += shipSize * addMod.costModifier;
+                        setDoubleHullPercent(0);
+                        setHamsterCagePercent(0);
                       } else {
+                        // For Double Hull and Hamster Cage, cost is per percent of spun section
                         newHull.cost *= (1 + addMod.costModifier);
+                        if (type === 'Double Hull') setHamsterCagePercent(0);
+                        if (type === 'Hamster Cage') setDoubleHullPercent(0);
                       }
                       setSelectedHull(newHull);
                     }
@@ -1625,17 +1847,45 @@ function App() {
                 <label>
                   {type} - {details.description}
                 </label>
+                {selectedHull?.additionalType === type && type === 'Double Hull' && (
+                  <div style={{ marginTop: 4, marginLeft: 24 }}>
+                    <label>
+                      Percent of hull spun: 
+                      <input
+                        type="number"
+                        min={1}
+                        max={100}
+                        value={doubleHullPercent}
+                        onChange={e => setDoubleHullPercent(Math.max(1, Math.min(100, Number(e.target.value))))}
+                        style={{ width: 60, marginLeft: 8 }}
+                      />%
+                    </label>
+                  </div>
+                )}
+                {selectedHull?.additionalType === type && type === 'Hamster Cage' && (
+                  <div style={{ marginTop: 4, marginLeft: 24 }}>
+                    <label>
+                      Percent of hull spun: 
+                      <input
+                        type="number"
+                        min={1}
+                        max={100}
+                        value={hamsterCagePercent}
+                        onChange={e => setHamsterCagePercent(Math.max(1, Math.min(100, Number(e.target.value))))}
+                        style={{ width: 60, marginLeft: 8 }}
+                      />%
+                    </label>
+                  </div>
+                )}
               </div>
             ))}
           </div>
 
           <div style={{ marginBottom: '20px' }}>
             <h3>Hull Options</h3>
-            <p>Hulls can be further modified with a range of options to create specialised ships. Each option can only be added once.</p>
-            
-            {/* Heat Shielding */}
-            <div style={{ marginBottom: '15px', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {/* Heat Shielding */}
+              <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
                 <input
                   type="checkbox"
                   checked={selectedHull?.options.heatShielding || false}
@@ -1652,21 +1902,15 @@ function App() {
                     }
                   }}
                   disabled={techLevel < 6}
+                  style={{ marginTop: 2 }}
                 />
-                <div>
-                  <h4 style={{ margin: '0 0 5px 0' }}>Heat Shielding (TL6)</h4>
-                  <p style={{ margin: '0 0 5px 0' }}>
-                    Protects against re-entry heat and star proximity. Required for safe re-entry without gravitic drive.
-                    Costs MCr0.1 per ton of hull.
-                  </p>
-                  {techLevel < 6 && <span style={{ color: 'red' }}>Requires TL6</span>}
-                </div>
-              </div>
-            </div>
-
-            {/* Radiation Shielding */}
-            <div style={{ marginBottom: '15px', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span>
+                  Heat Shielding - Protects against re-entry heat and star proximity. Required for safe re-entry without gravitic drive.
+                  {techLevel < 6 && <div style={{ color: 'red', fontSize: 12 }}>Requires TL6</div>}
+                </span>
+              </label>
+              {/* Radiation Shielding */}
+              <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
                 <input
                   type="checkbox"
                   checked={selectedHull?.options.radiationShielding || false}
@@ -1683,21 +1927,15 @@ function App() {
                     }
                   }}
                   disabled={techLevel < 7}
+                  style={{ marginTop: 2 }}
                 />
-                <div>
-                  <h4 style={{ margin: '0 0 5px 0' }}>Radiation Shielding (TL7)</h4>
-                  <p style={{ margin: '0 0 5px 0' }}>
-                    Improves crew protection against radiation. Decreases rads absorbed by 1,000 and hardens bridge.
-                    Costs Cr25,000 per ton of hull.
-                  </p>
-                  {techLevel < 7 && <span style={{ color: 'red' }}>Requires TL7</span>}
-                </div>
-              </div>
-            </div>
-
-            {/* Reflec */}
-            <div style={{ marginBottom: '15px', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span>
+                  Radiation Shielding - Improves crew protection against radiation. Decreases rads absorbed by 1,000 and hardens bridge.
+                  {techLevel < 7 && <div style={{ color: 'red', fontSize: 12 }}>Requires TL7</div>}
+                </span>
+              </label>
+              {/* Reflec */}
+              <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
                 <input
                   type="checkbox"
                   checked={selectedHull?.options.reflec || false}
@@ -1715,23 +1953,16 @@ function App() {
                     }
                   }}
                   disabled={techLevel < 10 || selectedHull?.options.stealth !== undefined}
+                  style={{ marginTop: 2 }}
                 />
-                <div>
-                  <h4 style={{ margin: '0 0 5px 0' }}>Reflec (TL10)</h4>
-                  <p style={{ margin: '0 0 5px 0' }}>
-                    Increases Protection against lasers by +3. Cannot be combined with Stealth.
-                    Costs MCr0.1 per ton of hull.
-                  </p>
-                  {techLevel < 10 && <span style={{ color: 'red' }}>Requires TL10</span>}
-                  {selectedHull?.options.stealth !== undefined && 
-                    <span style={{ color: 'red' }}>Cannot be combined with Stealth</span>}
-                </div>
-              </div>
-            </div>
-
-            {/* Solar Coating */}
-            <div style={{ marginBottom: '15px', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span>
+                  Reflec - Increases Protection against lasers by +3. Cannot be combined with Stealth.
+                  {techLevel < 10 && <div style={{ color: 'red', fontSize: 12 }}>Requires TL10</div>}
+                  {selectedHull?.options.stealth !== undefined && <div style={{ color: 'red', fontSize: 12 }}>Cannot be combined with Stealth</div>}
+                </span>
+              </label>
+              {/* Solar Coating */}
+              <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
                 <input
                   type="checkbox"
                   checked={selectedHull?.options.solarCoating || false}
@@ -1750,22 +1981,15 @@ function App() {
                     }
                   }}
                   disabled={selectedHull?.options.reflec || selectedHull?.options.stealth !== undefined}
+                  style={{ marginTop: 2 }}
                 />
-                <div>
-                  <h4 style={{ margin: '0 0 5px 0' }}>Solar Coating</h4>
-                  <p style={{ margin: '0 0 5px 0' }}>
-                    Provides backup power and flexibility. Can only be combined with radiation shielding.
-                    See Solar Energy Systems for details.
-                  </p>
-                  {(selectedHull?.options.reflec || selectedHull?.options.stealth !== undefined) && 
-                    <span style={{ color: 'red' }}>Cannot be combined with Reflec or Stealth</span>}
-                </div>
-              </div>
-            </div>
-
-            {/* Stealth */}
-            <div style={{ marginBottom: '15px', padding: '10px', border: '1px solid #ccc', borderRadius: '4px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span>
+                  Solar Coating - Provides backup power and flexibility. Can only be combined with radiation shielding. See Solar Energy Systems for details.
+                  {(selectedHull?.options.reflec || selectedHull?.options.stealth !== undefined) && <div style={{ color: 'red', fontSize: 12 }}>Cannot be combined with Reflec or Stealth</div>}
+                </span>
+              </label>
+              {/* Stealth */}
+              <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
                 <input
                   type="checkbox"
                   checked={selectedHull?.options.stealth !== undefined}
@@ -1784,18 +2008,14 @@ function App() {
                     }
                   }}
                   disabled={techLevel < 8 || selectedHull?.options.reflec || selectedHull?.options.solarCoating}
+                  style={{ marginTop: 2 }}
                 />
-                <div>
-                  <h4 style={{ margin: '0 0 5px 0' }}>Stealth</h4>
-                  <p style={{ margin: '0 0 5px 0' }}>
-                    Absorbs radar and lidar beams, disguises heat emissions. Cannot be combined with Reflec or Solar Coating.
-                  </p>
-                  {techLevel < 8 && <span style={{ color: 'red' }}>Requires TL8</span>}
-                  {(selectedHull?.options.reflec || selectedHull?.options.solarCoating) && 
-                    <span style={{ color: 'red' }}>Cannot be combined with Reflec or Solar Coating</span>}
-                  
+                <span>
+                  Stealth - Absorbs radar and lidar beams, disguises heat emissions. Cannot be combined with Reflec or Solar Coating.
+                  {techLevel < 8 && <div style={{ color: 'red', fontSize: 12 }}>Requires TL8</div>}
+                  {(selectedHull?.options.reflec || selectedHull?.options.solarCoating) && <div style={{ color: 'red', fontSize: 12 }}>Cannot be combined with Reflec or Solar Coating</div>}
                   {selectedHull?.options.stealth && (
-                    <div style={{ marginTop: '10px' }}>
+                    <div style={{ marginTop: '6px' }}>
                       <select
                         value={selectedHull.options.stealth.type}
                         onChange={(e) => {
@@ -1813,15 +2033,75 @@ function App() {
                           }
                         }}
                       >
-                        <option value="Basic" disabled={techLevel < 8}>Basic (TL8) - MCr0.04/ton, DM-2, 2% hull</option>
-                        <option value="Improved" disabled={techLevel < 10}>Improved (TL10) - MCr0.1/ton, DM-2</option>
-                        <option value="Enhanced" disabled={techLevel < 12}>Enhanced (TL12) - MCr0.5/ton, DM-4</option>
-                        <option value="Advanced" disabled={techLevel < 14}>Advanced (TL14) - MCr1.0/ton, DM-6</option>
+                        <option value="Basic" disabled={techLevel < 8}>Basic (TL8) - DM-2, 2% hull</option>
+                        <option value="Improved" disabled={techLevel < 10}>Improved (TL10) - DM-2</option>
+                        <option value="Enhanced" disabled={techLevel < 12}>Enhanced (TL12) - DM-4</option>
+                        <option value="Advanced" disabled={techLevel < 14}>Advanced (TL14) - DM-6</option>
                       </select>
                     </div>
                   )}
-                </div>
-              </div>
+                </span>
+              </label>
+            </div>
+          </div>
+          <div style={{ marginBottom: '20px' }}>
+            <h3>Armour</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {Object.entries(armourTypes).map(([type, details]) => (
+                <label key={type} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <input
+                    type="radio"
+                    name="armourType"
+                    value={type}
+                    checked={selectedHull?.armour.type === type}
+                    onChange={() => {
+                      if (selectedHull) {
+                        setSelectedHull({
+                          ...selectedHull,
+                          armour: {
+                            ...selectedHull.armour,
+                            type: type as Hull['armour']['type']
+                          }
+                        });
+                      }
+                    }}
+                    disabled={techLevel < details.techLevel}
+                  />
+                  <span>{type} (TL{details.techLevel})</span>
+                  {type === 'Molecular Bonded' && <span style={{ marginLeft: 8, fontSize: 12, color: '#888' }}>Provides additional protection from Tachyon weapons.</span>}
+                </label>
+              ))}
+            </div>
+            {/* Protection Level input */}
+            <div style={{ marginTop: '12px' }}>
+              <label>
+                Protection Level:
+                <input
+                  type="number"
+                  min={0}
+                  max={(() => {
+                    if (!selectedHull) return 0;
+                    const details = armourTypes[selectedHull.armour.type];
+                    return details.maxProtection(techLevel);
+                  })()}
+                  value={selectedHull?.armour.protection ?? 0}
+                  onChange={e => {
+                    if (selectedHull) {
+                      setSelectedHull({
+                        ...selectedHull,
+                        armour: {
+                          ...selectedHull.armour,
+                          protection: Math.max(0, Math.min(Number(e.target.value), armourTypes[selectedHull.armour.type].maxProtection(techLevel)))
+                        }
+                      });
+                    }
+                  }}
+                  style={{ marginLeft: 8, width: 60 }}
+                />
+                <span style={{ marginLeft: 8, fontSize: 12, color: '#888' }}>
+                  (max {selectedHull ? armourTypes[selectedHull.armour.type].maxProtection(techLevel) : 0})
+                </span>
+              </label>
             </div>
           </div>
         </div>
@@ -1877,6 +2157,7 @@ function App() {
               onChange={(e) => {
                 if (e.target.value === 'none') {
                   setSelectedDrives(selectedDrives.filter(d => d.type !== 'Jump'));
+                  setHasJumpDrive(false);
                   return;
                 }
                 const rating = Number(e.target.value);
@@ -1886,6 +2167,7 @@ function App() {
                     ...selectedDrives.filter(d => d.type !== 'Jump'),
                     drive
                   ]);
+                  setHasJumpDrive(true);
                 }
               }}
               disabled={jumpDrives.every(d => d.minTechLevel > techLevel)}
@@ -1964,7 +2246,7 @@ function App() {
                         <input
                           type="radio"
                           name="powerPlant"
-                          checked={selectedPowerPlant === plant}
+                          defaultChecked={plant.type === 'Fusion' && plant.techLevel === 8}
                           onChange={() => setSelectedPowerPlant(plant)}
                           disabled={plant.techLevel > techLevel}
                         />
@@ -2154,11 +2436,17 @@ function App() {
               </label>
             )}
             {shipSize > 5000 && (
-              <><br /><label>
-                <input type="radio" name="bridgeType" value="command" checked={bridgeType === 'command'} onChange={() => setBridgeType('command')} />
-                Command Bridge (adds 40 tons, +MCr30, DM+1 to Tactics (naval) checks)
-              </label></>)
-            }
+              <>
+                <br /><label>
+                  <input type="radio" name="bridgeType" value="command" checked={bridgeType === 'command'} onChange={() => setBridgeType('command')} />
+                  Command Bridge (adds 40 tons, +MCr30, DM+1 to Tactics (naval) checks)
+                </label>
+                <br /><label>
+                  <input type="radio" name="bridgeType" value="dualCockpit" checked={bridgeType === 'dualCockpit'} onChange={() => setBridgeType('dualCockpit')} />
+                  Dual Cockpit (2.5 tons, Cr15,000, no airlock, 24h life support)
+                </label>
+              </>
+            )}
             {shipSize <= 50 && (
               <>
                 <br /><label>
@@ -2195,11 +2483,11 @@ function App() {
       )}
 
       {step === 6 && (
-        <div>
+      <div>
           <h2>Install Computer</h2>
           <div style={{ marginBottom: '20px', fontSize: '13px', color: '#bbb', background: '#222', padding: '10px', borderRadius: '4px' }}>
             Every ship needs a central computer. Computer cores are always available, but are typically used on capital or specialized ships.
-          </div>
+      </div>
           <div style={{ marginBottom: '20px' }}>
             <strong>Primary Computer (required):</strong>
             <select value={primaryComputer} onChange={e => {
@@ -2541,8 +2829,8 @@ function App() {
                           style={{ padding: '4px 10px', background: '#f58220', color: '#fff', border: 'none', borderRadius: '4px', fontWeight: 600, fontSize: 14 }}
                         >
                           Remove
-                        </button>
-                      </div>
+        </button>
+      </div>
                     );
                   }
 
@@ -2857,6 +3145,85 @@ function App() {
         </div>
       )}
 
+      {step === 9 && (
+        <div>
+          <h3>Step 9: Install Optional Systems</h3>
+          <div style={{ padding: '20px', backgroundColor: '#1a1a1a', borderRadius: '4px', border: '1px solid #333', marginBottom: '20px' }}>
+            <p style={{ color: '#888', fontStyle: 'italic' }}>
+              Optional Systems will be implemented in a future update. This will include various ship components and accessories that can be added to the vessel, each with their own tonnage and power requirements.
+            </p>
+            <p style={{ color: '#888', marginTop: '10px' }}>
+              Reference: Spacecraft Options chapter, page 43
+            </p>
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+            {/* Add your optional systems installation components here */}
+          </div>
+        </div>
+      )}
+
+      {step === 10 && (
+        <div>
+          <h3>Step 10: Determine Crew</h3>
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ display: 'block', marginBottom: '5px' }}>Ship Type:</label>
+            <select
+              value={isMilitary ? 'military' : 'commercial'}
+              onChange={(e) => setIsMilitary(e.target.value === 'military')}
+              style={{ width: '200px', padding: '8px', borderRadius: '4px', border: '1px solid #ccc' }}
+            >
+              <option value="commercial">Commercial</option>
+              <option value="military">Military</option>
+            </select>
+          </div>
+          
+          <div style={{ padding: '20px', backgroundColor: '#1a1a1a', borderRadius: '4px', border: '1px solid #333', marginBottom: '20px' }}>
+            <h4>Crew Requirements</h4>
+            {selectedHull && (
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '10px' }}>
+                {Object.entries(calculateCrewRequirements(
+                  shipSize,
+                  isMilitary,
+                  hasJumpDrive,
+                  smallCraftCount,
+                  turretCount,
+                  barbetteCount,
+                  screenCount,
+                  bayCount,
+                  spinalMountTons,
+                  passengerCount
+                )).map(([role, count]) => (
+                  role !== 'total' && (
+                    <div key={role} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                      <span style={{ textTransform: 'capitalize' }}>{role.replace(/([A-Z])/g, ' $1').trim()}:</span>
+                      <span>{count}</span>
+                    </div>
+                  )
+                ))}
+                <div style={{ gridColumn: '1 / -1', borderTop: '1px solid #333', marginTop: '10px', paddingTop: '10px', fontWeight: 'bold' }}>
+                  Total Crew: {calculateCrewRequirements(
+                    shipSize,
+                    isMilitary,
+                    hasJumpDrive,
+                    smallCraftCount,
+                    turretCount,
+                    barbetteCount,
+                    screenCount,
+                    bayCount,
+                    spinalMountTons,
+                    passengerCount
+                  ).total}
+                </div>
+              </div>
+            )}
+          </div>
+          
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px' }}>
+            {/* Add your crew determination components here */}
+          </div>
+        </div>
+      )}
+
       <div style={{ 
         marginTop: '20px', 
         border: '1px solid #ccc', 
@@ -2873,7 +3240,10 @@ function App() {
         {/* LEFT COLUMN: Main Table */}
         <div style={{ flex: 2, minWidth: 320 }}>
           <h3 style={{ color: '#000000', marginTop: 0, marginBottom: 16 }}>Ship Summary</h3>
-          <table style={{ width: '100%', borderCollapse: 'collapse', background: '#fff', fontSize: 15 }}>
+          <div style={{ marginBottom: '16px', fontSize: '16px', color: '#f58220', fontWeight: 600 }}>
+            Tech Level: {selectedHull?.minTechLevel || 7}
+          </div>
+          <table style={{ width: '100%', borderCollapse: 'collapse', marginBottom: '20px' }}>
             <thead>
               <tr style={{ background: '#e0e0e0' }}>
                 <th style={{ textAlign: 'left', padding: '6px 8px', border: '1px solid #bbb' }}>Item</th>
@@ -2892,6 +3262,120 @@ function App() {
                     <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{selectedHull.size}</td>
                     <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{(selectedHull.cost).toFixed(1)}</td>
                   </tr>
+                  {/* Additional Hull Type */}
+                  {selectedHull.additionalType && (
+                    <tr>
+                      <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Additional Hull Type</td>
+                      <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>{selectedHull.additionalType} — {additionalHullTypes[selectedHull.additionalType].description}</td>
+                      <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{(() => {
+                        if (selectedHull.additionalType === 'Double Hull') {
+                          if (doubleHullPercent > 0) {
+                            const spunTons = shipSize * (doubleHullPercent / 100);
+                            return (spunTons * 0.1).toFixed(1);
+                          }
+                          return '—';
+                        } else if (selectedHull.additionalType === 'Hamster Cage') {
+                          if (hamsterCagePercent > 0) {
+                            const spunTons = shipSize * (hamsterCagePercent / 100);
+                            return (spunTons * 0.1).toFixed(1);
+                          }
+                          return '—';
+                        } else if (selectedHull.additionalType === 'Breakaway Hulls') {
+                          return (shipSize * 0.02).toFixed(1);
+                        }
+                        return '—';
+                      })()}</td>
+                      <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{(() => {
+                        if (selectedHull.additionalType === 'Double Hull') {
+                          if (doubleHullPercent > 0) {
+                            // Cost is +1% hull cost per percent spun
+                            const baseHullCost = calculateHullCost(shipSize, selectedHull.type, selectedHull.specializedType, undefined, selectedHull.options);
+                            return (baseHullCost * (doubleHullPercent / 100) * 0.01).toFixed(2);
+                          }
+                          return '+1% per %';
+                        } else if (selectedHull.additionalType === 'Hamster Cage') {
+                          if (hamsterCagePercent > 0) {
+                            const baseHullCost = calculateHullCost(shipSize, selectedHull.type, selectedHull.specializedType, undefined, selectedHull.options);
+                            return (baseHullCost * (hamsterCagePercent / 100) * 0.02).toFixed(2);
+                          }
+                          return '+2% per %';
+                        } else if (selectedHull.additionalType === 'Breakaway Hulls') {
+                          return (shipSize * 0.02 * 2).toFixed(2);
+                        }
+                        return '—';
+                      })()}</td>
+                    </tr>
+                  )}
+                  {/* Hull Options */}
+                  {selectedHull.options && Object.entries(selectedHull.options).map(([key, value]) => {
+                    // Map camelCase keys to Title Case keys for hullOptions lookup
+                    const keyMap: { [k: string]: string } = {
+                      heatShielding: 'Heat Shielding',
+                      radiationShielding: 'Radiation Shielding',
+                      reflec: 'Reflec',
+                      solarCoating: 'Solar Coating',
+                      stealth: 'Stealth'
+                    };
+                    if (key === 'stealth') {
+                      if (typeof value === 'object' && value !== null && 'type' in value) {
+                        const stealthDesc = hullOptions['Stealth'].description;
+                        const stealthType = value.type;
+                        const stealthDetails = (hullOptions['Stealth'] as any).types[stealthType];
+                        let tons = '—';
+                        let cost = '—';
+                        if (stealthType === 'Basic') {
+                          tons = (shipSize * 0.02).toFixed(1);
+                          cost = (shipSize * 0.04).toFixed(2);
+                        } else if (stealthType === 'Improved') {
+                          tons = '—';
+                          cost = (shipSize * 0.1).toFixed(2);
+                        } else if (stealthType === 'Enhanced') {
+                          tons = '—';
+                          cost = (shipSize * 0.5).toFixed(2);
+                        } else if (stealthType === 'Advanced') {
+                          tons = '—';
+                          cost = (shipSize * 1.0).toFixed(2);
+                        }
+                        return (
+                          <tr key={key}>
+                            <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Hull Option</td>
+                            <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Stealth — {stealthDesc} ({value.type})</td>
+                            <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{tons}</td>
+                            <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{cost}</td>
+                          </tr>
+                        );
+                      }
+                      return null;
+                    }
+                    const optionKey = keyMap[key];
+                    if (value === true && optionKey && optionKey in hullOptions) {
+                      const opt = hullOptions[optionKey] as any;
+                      let tons = '—';
+                      let cost = '—';
+                      if (optionKey === 'Heat Shielding') {
+                        tons = '—';
+                        cost = (shipSize * 0.1).toFixed(2);
+                      } else if (optionKey === 'Radiation Shielding') {
+                        tons = '—';
+                        cost = (shipSize * 0.025).toFixed(2);
+                      } else if (optionKey === 'Reflec') {
+                        tons = '—';
+                        cost = (shipSize * 0.1).toFixed(2);
+                      } else if (optionKey === 'Solar Coating') {
+                        tons = '—';
+                        cost = '0.00';
+                      }
+                      return (
+                        <tr key={key}>
+                          <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Hull Option</td>
+                          <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>{optionKey} — {opt.description}</td>
+                          <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{tons}</td>
+                          <td style={{ textAlign: 'right', padding: '6px 8px', border: '1px solid #bbb' }}>{cost}</td>
+                        </tr>
+                      );
+                    }
+                    return null;
+                  })}
                   {/* Armour */}
                   <tr>
                     <td style={{ padding: '6px 8px', border: '1px solid #bbb' }}>Armour</td>
@@ -3084,12 +3568,40 @@ function App() {
           {/* Crew */}
           <div style={{ background: '#f58220', color: '#fff', padding: '12px 16px', borderRadius: 4, fontWeight: 600, fontSize: 18 }}>
             Crew:<br />
-            <span style={{ fontWeight: 400, fontSize: 15 }}>Captain, Pilots x3, Astrogator, Engineers x4, Medic, Gunners x8, Administrator, Maintenance, Officer</span>
+            <span style={{ fontWeight: 400, fontSize: 15 }}>
+              {selectedHull && Object.entries(calculateCrewRequirements(
+                shipSize,
+                isMilitary,
+                hasJumpDrive,
+                smallCraftCount,
+                turretCount,
+                barbetteCount,
+                screenCount,
+                bayCount,
+                spinalMountTons,
+                passengerCount
+              )).map(([role, count]) => (
+                role !== 'total' && count > 0 && (
+                  `${role === 'captain' ? 'Captain' : 
+                     role === 'pilots' ? 'Pilot' :
+                     role === 'astrogators' ? 'Astrogator' :
+                     role === 'engineers' ? 'Engineer' :
+                     role === 'maintenance' ? 'Maintenance' :
+                     role === 'gunners' ? 'Gunner' :
+                     role === 'stewards' ? 'Steward' :
+                     role === 'administrators' ? 'Administrator' :
+                     role === 'sensorOperators' ? 'Sensor Operator' :
+                     role === 'medics' ? 'Medic' :
+                     role === 'officers' ? 'Officer' :
+                     role.charAt(0).toUpperCase() + role.slice(1).replace(/([A-Z])/g, ' $1').trim()}${count > 1 ? ` x${count}` : ''}`
+                )
+              )).filter(Boolean).join(', ')}
+            </span>
           </div>
           {/* Hull */}
           <div style={{ background: '#f58220', color: '#fff', padding: '12px 16px', borderRadius: 4, fontWeight: 600, fontSize: 18 }}>
             Hull:<br />
-            <span style={{ fontWeight: 400, fontSize: 15 }}>{selectedHull ? selectedHull.hullPoints : '—'}</span>
+            <span style={{ fontWeight: 400, fontSize: 15 }}>{selectedHull?.hullPoints || 0}</span>
           </div>
           {/* Running Costs */}
           <div style={{ background: '#f58220', color: '#fff', padding: '12px 16px', borderRadius: 4, fontWeight: 600, fontSize: 18 }}>
@@ -3100,33 +3612,17 @@ function App() {
           <div style={{ background: '#f58220', color: '#fff', padding: '12px 16px', borderRadius: 4, fontWeight: 600, fontSize: 18 }}>
             Power Requirements:<br />
             <span style={{ fontWeight: 400, fontSize: 15 }}>
-              Basic Ship Systems: {stats.powerRequired.basicSystems}<br />
-              Manoeuvre Drive: {stats.powerRequired.manoeuvre}<br />
-              Jump Drive: {stats.powerRequired.jump}<br />
-              Sensors: 2<br />
-              Weapons: {(() => { 
-                let totalPower = 0; 
-                hardpoints.forEach(hp => { 
-                  const sel = weaponSelections[hp.id]; 
-                  if (!sel || !sel.weapons.some(w => w.type)) return; 
-                  const isFirmpoint = !!hp.isFirmpoint; 
-                  sel.weapons.forEach(w => { 
-                    let weapon = turretWeapons.find(x => x.name === w.type) || 
-                               barbetteWeapons.find(x => x.name === w.type) ||
-                               spinalMountWeapons.find(x => x.name === w.type);
-                    if (!weapon && hp.type === 'Small Bay') weapon = smallBayWeapons.find(x => x.name === w.type); 
-                    if (!weapon && hp.type === 'Medium Bay') weapon = mediumBayWeapons.find(x => x.name === w.type); 
-                    if (!weapon && hp.type === 'Large Bay') weapon = largeBayWeapons.find(x => x.name === w.type); 
-                    if (!weapon) return; 
-                    let power = weapon.power || 0; 
-                    if (isFirmpoint) power = Math.ceil(power * 0.75);
-                    if (hp.type === 'Spinal Mount' && w.multiple) {
-                      power *= w.multiple;
-                    }
-                    totalPower += power; 
-                  }); 
-                }); 
-                return totalPower > 0 ? totalPower : '—'; 
+              {(() => {
+                const power = calculatePowerRequirements();
+                return (
+                  <>
+                    Basic Ship Systems: {power.basicSystems}<br />
+                    Manoeuvre Drive: {power.manoeuvre}<br />
+                    Jump Drive: {power.jump}<br />
+                    Sensors: {power.sensors}<br />
+                    Weapons: {power.weapons}
+                  </>
+                );
               })()}
             </span>
           </div>
