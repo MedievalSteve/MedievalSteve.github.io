@@ -1951,7 +1951,32 @@ function App() {
                       name="hullType"
                       value={type}
                       checked={selectedHullType === type || (type === 'Standard' && !selectedHullType)}
-                      onChange={(e) => setSelectedHullType(e.target.value as Hull['type'])}
+                      onChange={(e) => {
+                        const newType = e.target.value as Hull['type'];
+                        setSelectedHullType(newType);
+                        // Create a new hull object with the selected type
+                        const newHull: Hull = {
+                          type: newType,
+                          size: shipSize,
+                          specializedType: selectedHull?.specializedType,
+                          additionalType: selectedHull?.additionalType,
+                          options: selectedHull?.options || {
+                            heatShielding: false,
+                            radiationShielding: false,
+                            reflec: false,
+                            solarCoating: false,
+                            stealth: undefined
+                          },
+                          armour: selectedHull?.armour || {
+                            type: 'Titanium Steel',
+                            protection: 0
+                          },
+                          cost: calculateHullCost(shipSize, newType),
+                          hullPoints: calculateHullPoints(shipSize),
+                          minTechLevel: 7
+                        };
+                        setSelectedHull(newHull);
+                      }}
                     />
                     <span>{type} - {config.description}</span>
                   </label>
