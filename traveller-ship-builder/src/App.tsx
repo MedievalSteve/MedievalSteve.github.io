@@ -1740,7 +1740,17 @@ function App() {
                       name="hullType"
                       value={type}
                       checked={selectedHullType === type || (type === 'Standard' && !selectedHullType)}
-                      onChange={(e) => setSelectedHullType(e.target.value as Hull['type'])}
+                      onChange={(e) => {
+                        const newType = e.target.value as Hull['type'];
+                        setSelectedHullType(newType);
+                        if (selectedHull) {
+                          const newHull = { ...selectedHull };
+                          newHull.type = newType;
+                          // Recalculate cost based on new hull type
+                          newHull.cost = calculateHullCost(shipSize, newType, selectedHull.specializedType, selectedHull.additionalType, selectedHull.options);
+                          setSelectedHull(newHull);
+                        }
+                      }}
                     />
                     <span>{type} - {config.description}</span>
                   </label>
