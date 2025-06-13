@@ -120,17 +120,37 @@
 <script>
   // Function to set active state based on current page
   function setActiveNavLink() {
-    const currentPage = window.location.pathname.split('/').pop();
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
     const navLinks = document.querySelectorAll('.nav-links a');
     
     navLinks.forEach(link => {
-      if (link.getAttribute('href') === currentPage) {
+      const linkPage = link.getAttribute('href');
+      if (linkPage === currentPage) {
         link.classList.add('active');
+      } else {
+        link.classList.remove('active');
       }
     });
   }
 
-  // Run immediately and also after a short delay to ensure navigation is loaded
+  // Run immediately
   setActiveNavLink();
+
+  // Run after a short delay to ensure navigation is loaded
   setTimeout(setActiveNavLink, 100);
+
+  // Run when the navigation content is loaded
+  document.addEventListener('DOMContentLoaded', setActiveNavLink);
+
+  // Run when the navigation is dynamically inserted
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.addedNodes.length) {
+        setActiveNavLink();
+      }
+    });
+  });
+
+  // Start observing the document with the configured parameters
+  observer.observe(document.body, { childList: true, subtree: true });
 </script> 
