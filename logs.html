@@ -123,13 +123,14 @@
       top: 0;
       background: var(--card-bg);
       padding: 10px 0;
-      z-index: 1;
+      z-index: 10;
       border-bottom: 1px solid var(--accent-color);
     }
 
     .log-entry p {
       position: relative;
-      z-index: 0;
+      z-index: 1;
+      background: rgba(41, 98, 255, 0.1);
     }
 
     .comments-section {
@@ -137,8 +138,9 @@
       padding-top: 20px;
       border-top: 1px solid var(--accent-color);
       position: relative;
-      z-index: 0;
+      z-index: 1;
       min-height: 300px;
+      background: rgba(41, 98, 255, 0.1);
     }
 
     .comments-section iframe {
@@ -146,6 +148,8 @@
       min-height: 300px;
       border: none;
       overflow: visible;
+      position: relative;
+      z-index: 1;
     }
 
     .navigation-buttons {
