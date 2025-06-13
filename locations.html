@@ -40,7 +40,105 @@
       flex-direction: column;
       align-items: center;
       width: 100%;
-      margin-top: 60px; /* Height of the navigation bar */
+    }
+
+    .main-content {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      max-width: 1200px;
+      gap: 40px;
+      padding: 0 20px;
+      margin-top: 20px;
+    }
+
+    .filter-section {
+      width: 25%;
+      min-width: 250px;
+      background: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      padding: 20px;
+      margin: 0;
+      border: 1px solid var(--accent-color);
+      align-self: flex-start;
+      position: sticky;
+      top: 100px;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+    }
+
+    .filter-section::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .filter-section::-webkit-scrollbar-track {
+      background: var(--background-color);
+      border-radius: 4px;
+    }
+
+    .filter-section::-webkit-scrollbar-thumb {
+      background: var(--accent-color);
+      border-radius: 4px;
+    }
+
+    .filter-section::-webkit-scrollbar-thumb:hover {
+      background: var(--nav-hover);
+    }
+
+    .filter-group {
+      margin-bottom: 20px;
+    }
+
+    .filter-group h3 {
+      color: var(--accent-color);
+      margin-bottom: 10px;
+      font-size: 1.1em;
+    }
+
+    .filter-button {
+      display: block;
+      width: 100%;
+      padding: 8px 12px;
+      margin: 5px 0;
+      background: var(--background-color);
+      color: var(--text-color);
+      border: 1px solid var(--accent-color);
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.3s ease;
+    }
+
+    .filter-button:hover {
+      background: var(--accent-color);
+      color: var(--background-color);
+    }
+
+    .filter-button.active {
+      background: var(--accent-color);
+      color: var(--background-color);
+    }
+
+    .location-section {
+      width: 75%;
+      min-width: 500px;
+      display: block;
+    }
+
+    .location-entry {
+      display: block;
+      background: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid var(--accent-color);
+      width: 100%;
+    }
+
+    .location-entry.hidden {
+      display: none;
     }
 
     header {
@@ -63,21 +161,6 @@
     h1 {
       font-size: 2.5rem;
       margin-bottom: 0.5rem;
-    }
-
-    .location-section {
-      background: var(--card-bg);
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-      padding: 24px;
-      margin: 20px;
-      max-width: 800px;
-      width: 100%;
-      border: 1px solid var(--accent-color);
-    }
-
-    .location-section:hover {
-      box-shadow: 0 4px 16px rgba(41, 98, 255, 0.2);
     }
 
     .location-stats {
@@ -209,11 +292,33 @@
     }
 
     .location-section {
-      display: none;
+      display: block !important;
     }
 
     .location-section.active {
-      display: block;
+      display: block !important;
+    }
+
+    .location-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0;
+    }
+
+    .location-tag {
+      background: var(--accent-color);
+      color: var(--background-color);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.9em;
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .location-content {
+      margin-top: 20px;
     }
   </style>
 </head>
@@ -243,245 +348,313 @@
       <h1>Locations</h1>
     </header>
 
-    <div class="page-nav">
-      <button class="page-nav-button active" onclick="showSection('nielkladlief')">Nielkladlief</button>
-      <button class="page-nav-button" onclick="showSection('drenalch')">Drenalch</button>
-      <button class="page-nav-button" onclick="showSection('whisper-point')">Whisper Point</button>
+    <div class="main-content">
+      <div class="filter-section">
+        <h2>Filters</h2>
+        <div class="filter-group">
+          <h3>Type</h3>
+          <button class="filter-button" data-tag="planet">Planet</button>
+          <button class="filter-button" data-tag="station">Station</button>
+          <button class="filter-button" data-tag="space-coordinate">Space Coordinate</button>
+          <button class="filter-button" data-tag="debris-field">Debris Field</button>
+        </div>
+
+        <div class="filter-group">
+          <h3>System</h3>
+          <button class="filter-button" data-tag="nielkladlief">Nielkladlief</button>
+          <button class="filter-button" data-tag="drenalch">Drenalch</button>
+        </div>
+
+        <div class="filter-group">
+          <h3>Faction</h3>
+          <button class="filter-button" data-tag="zhodani-colonnades">Zhodani Colonnades</button>
+          <button class="filter-button" data-tag="ghenani">Ghenani</button>
+          <button class="filter-button" data-tag="pirate">Pirate</button>
+        </div>
+
+        <div class="filter-group">
+          <h3>Mission</h3>
+          <button class="filter-button" data-tag="mission1">Mission 1</button>
+          <button class="filter-button" data-tag="mission2">Mission 2</button>
+        </div>
+      </div>
+
+      <div class="location-section">
+        <section id="nielkladlief" class="location-entry" data-tags="planet,zhodani-colonnades,nielkladlief,mission1">
+          <h2>Nielkladlief</h2>
+          <iframe class="location-map" src="https://travellermap.com/?options=50175&p=-162.757!29.365!7.25&dimunofficial=1" frameborder="0"></iframe>
+          <div class="location-tags">
+            <span class="location-tag">Planet</span>
+            <span class="location-tag">Zhodani Colonnades</span>
+            <span class="location-tag">Mission 1</span>
+          </div>
+          <div class="location-content">
+            <p>Nielkladlief is a high-population world with over a billion sophonts, serving as the sector capital of the Zhodani Consulate's Colonnade Province. As the administrative center for 88 Colonnade systems, it enjoys considerable trade and prestige. The world is part of the Dlieblafia Subsector in the Vanguard Reaches Sector.</p>
+            
+            <div class="location-stats">
+              <div class="stat-box">
+                <div class="stat-label">Population</div>
+                <div>1+ Billion</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Political Status</div>
+                <div>Zhodani Consulate</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Starport</div>
+                <div>Class A</div>
+              </div>
+            </div>
+
+            <div class="location-info">
+              <h3>World Characteristics</h3>
+              <ul>
+                <li><strong>Climate:</strong> Southern hemisphere is more moderate than the north</li>
+                <li><strong>Year Length:</strong> 610 standard days</li>
+                <li><strong>Seasonal Cycle:</strong> Summer coincides with furthest separation from the two stars</li>
+                <li><strong>Military Presence:</strong> Naval Base present, supporting military starships</li>
+              </ul>
+            </div>
+
+            <div class="location-info">
+              <h3>Starport Facilities</h3>
+              <p>The Class A Starport offers comprehensive facilities including:</p>
+              <ul>
+                <li>Refined fuel for starships</li>
+                <li>Brokerage services for passengers and cargo</li>
+                <li>Ship provisions and supplies</li>
+                <li>Shipyard capable of:
+                  <ul>
+                    <li>Annual maintenance</li>
+                    <li>Overhauls and repairs</li>
+                    <li>Construction of starships and non-starships</li>
+                  </ul>
+                </li>
+                <li>Both Highport and Downport facilities</li>
+              </ul>
+            </div>
+
+            <div class="location-info">
+              <h3>Political Significance</h3>
+              <ul>
+                <li><strong>Capital Status:</strong> Sector capital of Colonnade Province</li>
+                <li><strong>Administrative Role:</strong> Manages 88 Colonnade systems</li>
+                <li><strong>Historical Note:</strong> Has served as the capital since 996</li>
+                <li><strong>Political Structure:</strong> District Seat of the Colonnade Province</li>
+              </ul>
+            </div>
+
+            <div class="location-info">
+              <h3>The Colonnades University</h3>
+              <img src="Images/locations/University.jpg" alt="The Colonnades University" class="location-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=Colonnades+University';">
+              <p>The Colonnades University stands as one of the most prestigious institutions of higher learning in the Vanguard Reaches. Founded in 1023, it has grown to become a center of academic excellence and cultural exchange, attracting students and scholars from across the sector.</p>
+              <ul>
+                <li><strong>Academic Programs:</strong> Offers comprehensive studies in sciences, humanities, and technical fields</li>
+                <li><strong>Research Facilities:</strong> State-of-the-art laboratories and research centers</li>
+                <li><strong>Cultural Exchange:</strong> Hosts regular symposiums and conferences with representatives from various worlds</li>
+                <li><strong>Notable Alumni:</strong> Many graduates have gone on to serve in prominent positions within the Zhodani Consulate</li>
+              </ul>
+            </div>
+
+            <div class="location-links">
+              <a href="https://wiki.travellerrpg.com/Nielkladlief_(world)" target="_blank">Traveller Wiki</a>
+              <a href="https://travellermap.com/?options=50175&p=-162.757!29.365!7.25&dimunofficial=1" target="_blank">TravellerMap</a>
+            </div>
+          </div>
+        </section>
+
+        <section id="drenalch" class="location-entry" data-tags="planet,ghenani,drenalch,mission1">
+          <h2>Drenalch</h2>
+          <iframe class="location-map" src="https://travellermap.com/?p=-160.852!17.782!7.5&options=58367&dimunofficial=1" frameborder="0"></iframe>
+          <div class="location-tags">
+            <span class="location-tag">Planet</span>
+            <span class="location-tag">Ghenani</span>
+            <span class="location-tag">Mission 1</span>
+          </div>
+          <div class="location-content">
+            <p>Drenalch is a rich, agricultural world with improving living conditions due to a bustling agro-economy. As the homeworld of the Ghenani (a Minor Human Race), it is a Non-Aligned world located in the Yavakrbi Subsector of Vanguard Reaches Sector. The world offers high-grade living conditions, a good climate, and a non-harmful environment, making immigration registration highly sought after.</p>
+            
+            <div class="location-stats">
+              <div class="stat-box">
+                <div class="stat-label">Population</div>
+                <div>90 Million</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Starport</div>
+                <div>Class D</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Tech Level</div>
+                <div>TL-5</div>
+              </div>
+            </div>
+
+            <div class="location-info">
+              <h3>World Characteristics</h3>
+              <ul>
+                <li><strong>Size:</strong> Big World (15,200km - 16,800km diameter)</li>
+                <li><strong>Gravity:</strong> 1.1G - 1.5G</li>
+                <li><strong>Atmosphere:</strong> Dense (1.50 - 2.49 atm)</li>
+                <li><strong>Hydrosphere:</strong> 75-85% water coverage</li>
+              </ul>
+            </div>
+
+            <div class="location-info">
+              <h3>Geography & Climate</h3>
+              <p>Land is concentrated in a globe-spanning equatorial supercontinent. The habitable area is limited to Gureana, a protected semi-circular gulf over 2,000 kilometres across, which appears to be a basin excavated by an intentional asteroid impact during the Ancients' terraforming effort. Rugged mountains, interior deserts, and devastating coastal storms characterize the planet's surface.</p>
+            </div>
+
+            <div class="location-info">
+              <h3>Technology & Infrastructure</h3>
+              <ul>
+                <li><strong>Communication:</strong> Telephone, radio, and television</li>
+                <li><strong>Power Generation:</strong> Electricity, hydrocarbon internal combustion, basic atomic energy</li>
+                <li><strong>Transportation:</strong>
+                  <ul>
+                    <li>Land: Ground cars, automobiles, tracked vehicles</li>
+                    <li>Water: Large ships and submersibles with steel hulls</li>
+                    <li>Air: Early aircraft, seaplanes, early unmanned rockets</li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+
+            <div class="location-info">
+              <h3>Government & Law</h3>
+              <p>Drenalch is governed by an Impersonal Bureaucracy, where government leadership serves as figureheads while the bureaucracy dictates policy and execution. The world maintains a moderate law level, with comprehensive regulations covering government and social interaction. Firearms and destructive weapons are regulated or prohibited.</p>
+            </div>
+
+            <div class="location-info">
+              <h3>Historical Timeline</h3>
+              <ul>
+                <li><strong>-300,000:</strong> Ghenani transplanted by the Ancients</li>
+                <li><strong>-5000:</strong> Agricultural redevelopment begins</li>
+                <li><strong>-3000:</strong> Starship crash spurs technological advancement</li>
+                <li><strong>-2300:</strong> Discovery of gunpowder</li>
+                <li><strong>-1100:</strong> First contact with Zhodani explorers</li>
+                <li><strong>-150:</strong> Formation of unified secular government</li>
+                <li><strong>695:</strong> Improved relations with Zhodani established</li>
+              </ul>
+            </div>
+
+            <div class="location-links">
+              <a href="https://wiki.travellerrpg.com/Drenalch_(world)" target="_blank">Traveller Wiki</a>
+              <a href="https://travellermap.com/?p=-160.648!18!7&options=50175&dimunofficial=1" target="_blank">TravellerMap</a>
+            </div>
+          </div>
+        </section>
+
+        <section id="whisper-point" class="location-entry" data-tags="space-coordinate,zhodani-colonnades,whisper-point,mission1">
+          <h2>Whisper Point</h2>
+          <iframe class="location-map" src="https://travellermap.com/?options=50175&p=-162.757!29.365!7.25&dimunofficial=1" frameborder="0"></iframe>
+          <div class="location-tags">
+            <span class="location-tag">Space Coordinate</span>
+            <span class="location-tag">Zhodani Colonnades</span>
+            <span class="location-tag">Mission 1</span>
+          </div>
+          <div class="location-content">
+            <p>Whisper Point is a remote coordinate in deep space, approximately one parsec from Drenalch. This unassuming location has gained significance as both a strategic refueling point and a clandestine meeting ground for illicit activities.</p>
+            
+            <div class="location-stats">
+              <div class="stat-box">
+                <div class="stat-label">Distance from Drenalch</div>
+                <div>1 Parsec</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Status</div>
+                <div>Unlisted</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Notable Feature</div>
+                <div>Space Anomaly</div>
+              </div>
+            </div>
+
+            <div class="location-info">
+              <h3>Legitimate Use</h3>
+              <p>Originally established as a deep-space refueling point for the Colonnades University research mission to Drenalch, Whisper Point was intended to support vessels making the long journey to the remote world. The Ambassador facilitated the setup of a supply dump here, providing crucial support for scientific expeditions.</p>
+            </div>
+
+            <div class="location-info">
+              <h3>The Anomaly</h3>
+              <p>During a routine refueling stop, the party discovered a mysterious spatial anomaly at Whisper Point. The phenomenon was carefully documented, with the crew gathering valuable scientific data that could prove significant for future research or potential commercial applications.</p>
+            </div>
+
+            <div class="location-info">
+              <h3>Illicit Activities</h3>
+              <p>What began as a legitimate refueling point has since been revealed as a regular rendezvous location for clandestine operations. The Void Vultures Pirates, in coordination with the Ambassador's compromised Intendant, Lyraviepr, used this remote location for the transfer of sensitive materials and information. The isolation of Whisper Point made it an ideal location for these covert exchanges, far from the prying eyes of official starports and security forces.</p>
+            </div>
+
+            <div class="location-info">
+              <h3>Strategic Significance</h3>
+              <ul>
+                <li><strong>Location:</strong> Positioned at a strategic distance from Drenalch, making it accessible yet discreet</li>
+                <li><strong>Anomaly:</strong> The presence of the spatial anomaly may have been a factor in its selection as a meeting point</li>
+                <li><strong>Security:</strong> The remote nature of the location provides natural protection from surveillance</li>
+                <li><strong>Accessibility:</strong> While off the standard shipping lanes, it remains within reasonable travel distance for vessels with jump capability</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- Temporarily hidden locations
+        <section id="the-nest" class="location-entry" data-tags="station,pirate,the-nest,mission2">
+          <h2>The Nest</h2>
+          <iframe class="location-map" src="https://travellermap.com/?options=50175&p=-162.757!29.365!7.25&dimunofficial=1" frameborder="0"></iframe>
+          <div class="location-tags">
+            <span class="location-tag">Station</span>
+            <span class="location-tag">Pirate</span>
+            <span class="location-tag">Mission 2</span>
+          </div>
+        </section>
+
+        <section id="the-murk" class="location-entry" data-tags="debris-field,pirate,the-murk,mission2">
+          <h2>The Murk</h2>
+          <iframe class="location-map" src="https://travellermap.com/?options=50175&p=-162.757!29.365!7.25&dimunofficial=1" frameborder="0"></iframe>
+          <div class="location-tags">
+            <span class="location-tag">Debris Field</span>
+            <span class="location-tag">Pirate</span>
+            <span class="location-tag">Mission 2</span>
+          </div>
+        </section>
+        -->
+      </div>
     </div>
-
-    <main style="width: 100%; max-width: 800px; padding: 0 20px;">
-      <section id="nielkladlief" class="location-section active">
-        <h2>Nielkladlief</h2>
-        <iframe class="location-map" src="https://travellermap.com/?options=50175&p=-162.757!29.365!7.25&dimunofficial=1" frameborder="0"></iframe>
-        <div class="location-content">
-          <p>Nielkladlief is a high-population world with over a billion sophonts, serving as the sector capital of the Zhodani Consulate's Colonnade Province. As the administrative center for 88 Colonnade systems, it enjoys considerable trade and prestige. The world is part of the Dlieblafia Subsector in the Vanguard Reaches Sector.</p>
-          
-          <div class="location-stats">
-            <div class="stat-box">
-              <div class="stat-label">Population</div>
-              <div>1+ Billion</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-label">Political Status</div>
-              <div>Zhodani Consulate</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-label">Starport</div>
-              <div>Class A</div>
-            </div>
-          </div>
-
-          <div class="location-info">
-            <h3>World Characteristics</h3>
-            <ul>
-              <li><strong>Climate:</strong> Southern hemisphere is more moderate than the north</li>
-              <li><strong>Year Length:</strong> 610 standard days</li>
-              <li><strong>Seasonal Cycle:</strong> Summer coincides with furthest separation from the two stars</li>
-              <li><strong>Military Presence:</strong> Naval Base present, supporting military starships</li>
-            </ul>
-          </div>
-
-          <div class="location-info">
-            <h3>Starport Facilities</h3>
-            <p>The Class A Starport offers comprehensive facilities including:</p>
-            <ul>
-              <li>Refined fuel for starships</li>
-              <li>Brokerage services for passengers and cargo</li>
-              <li>Ship provisions and supplies</li>
-              <li>Shipyard capable of:
-                <ul>
-                  <li>Annual maintenance</li>
-                  <li>Overhauls and repairs</li>
-                  <li>Construction of starships and non-starships</li>
-                </ul>
-              </li>
-              <li>Both Highport and Downport facilities</li>
-            </ul>
-          </div>
-
-          <div class="location-info">
-            <h3>Political Significance</h3>
-            <ul>
-              <li><strong>Capital Status:</strong> Sector capital of Colonnade Province</li>
-              <li><strong>Administrative Role:</strong> Manages 88 Colonnade systems</li>
-              <li><strong>Historical Note:</strong> Has served as the capital since 996</li>
-              <li><strong>Political Structure:</strong> District Seat of the Colonnade Province</li>
-            </ul>
-          </div>
-
-          <div class="location-info">
-            <h3>The Colonnades University</h3>
-            <img src="Images/locations/University.jpg" alt="The Colonnades University" class="location-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=Colonnades+University';">
-            <p>The Colonnades University stands as one of the most prestigious institutions of higher learning in the Vanguard Reaches. Founded in 1023, it has grown to become a center of academic excellence and cultural exchange, attracting students and scholars from across the sector.</p>
-            <ul>
-              <li><strong>Academic Programs:</strong> Offers comprehensive studies in sciences, humanities, and technical fields</li>
-              <li><strong>Research Facilities:</strong> State-of-the-art laboratories and research centers</li>
-              <li><strong>Cultural Exchange:</strong> Hosts regular symposiums and conferences with representatives from various worlds</li>
-              <li><strong>Notable Alumni:</strong> Many graduates have gone on to serve in prominent positions within the Zhodani Consulate</li>
-            </ul>
-          </div>
-
-          <div class="location-links">
-            <a href="https://wiki.travellerrpg.com/Nielkladlief_(world)" target="_blank">Traveller Wiki</a>
-            <a href="https://travellermap.com/?options=50175&p=-162.757!29.365!7.25&dimunofficial=1" target="_blank">TravellerMap</a>
-          </div>
-        </div>
-      </section>
-
-      <section id="drenalch" class="location-section">
-        <h2>Drenalch</h2>
-        <iframe class="location-map" src="https://travellermap.com/?p=-160.648!18!7&options=50175&dimunofficial=1" frameborder="0"></iframe>
-        <div class="location-content">
-          <p>Drenalch is a rich, agricultural world with improving living conditions due to a bustling agro-economy. As the homeworld of the Ghenani (a Minor Human Race), it is a Non-Aligned world located in the Yavakrbi Subsector of Vanguard Reaches Sector. The world offers high-grade living conditions, a good climate, and a non-harmful environment, making immigration registration highly sought after.</p>
-          
-          <div class="location-stats">
-            <div class="stat-box">
-              <div class="stat-label">Population</div>
-              <div>90 Million</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-label">Starport</div>
-              <div>Class D</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-label">Tech Level</div>
-              <div>TL-5</div>
-            </div>
-          </div>
-
-          <div class="location-info">
-            <h3>World Characteristics</h3>
-            <ul>
-              <li><strong>Size:</strong> Big World (15,200km - 16,800km diameter)</li>
-              <li><strong>Gravity:</strong> 1.1G - 1.5G</li>
-              <li><strong>Atmosphere:</strong> Dense (1.50 - 2.49 atm)</li>
-              <li><strong>Hydrosphere:</strong> 75-85% water coverage</li>
-            </ul>
-          </div>
-
-          <div class="location-info">
-            <h3>Geography & Climate</h3>
-            <p>Land is concentrated in a globe-spanning equatorial supercontinent. The habitable area is limited to Gureana, a protected semi-circular gulf over 2,000 kilometres across, which appears to be a basin excavated by an intentional asteroid impact during the Ancients' terraforming effort. Rugged mountains, interior deserts, and devastating coastal storms characterize the planet's surface.</p>
-          </div>
-
-          <div class="location-info">
-            <h3>Technology & Infrastructure</h3>
-            <ul>
-              <li><strong>Communication:</strong> Telephone, radio, and television</li>
-              <li><strong>Power Generation:</strong> Electricity, hydrocarbon internal combustion, basic atomic energy</li>
-              <li><strong>Transportation:</strong>
-                <ul>
-                  <li>Land: Ground cars, automobiles, tracked vehicles</li>
-                  <li>Water: Large ships and submersibles with steel hulls</li>
-                  <li>Air: Early aircraft, seaplanes, early unmanned rockets</li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-
-          <div class="location-info">
-            <h3>Government & Law</h3>
-            <p>Drenalch is governed by an Impersonal Bureaucracy, where government leadership serves as figureheads while the bureaucracy dictates policy and execution. The world maintains a moderate law level, with comprehensive regulations covering government and social interaction. Firearms and destructive weapons are regulated or prohibited.</p>
-          </div>
-
-          <div class="location-info">
-            <h3>Historical Timeline</h3>
-            <ul>
-              <li><strong>-300,000:</strong> Ghenani transplanted by the Ancients</li>
-              <li><strong>-5000:</strong> Agricultural redevelopment begins</li>
-              <li><strong>-3000:</strong> Starship crash spurs technological advancement</li>
-              <li><strong>-2300:</strong> Discovery of gunpowder</li>
-              <li><strong>-1100:</strong> First contact with Zhodani explorers</li>
-              <li><strong>-150:</strong> Formation of unified secular government</li>
-              <li><strong>695:</strong> Improved relations with Zhodani established</li>
-            </ul>
-          </div>
-
-          <div class="location-links">
-            <a href="https://wiki.travellerrpg.com/Drenalch_(world)" target="_blank">Traveller Wiki</a>
-            <a href="https://travellermap.com/?p=-160.648!18!7&options=50175&dimunofficial=1" target="_blank">TravellerMap</a>
-          </div>
-        </div>
-      </section>
-
-      <section id="whisper-point" class="location-section">
-        <h2>Whisper Point</h2>
-        <img src="Images/locations/Anomaly 1.jpg" alt="Space Anomaly at Whisper Point" class="location-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=Whisper+Point+Anomaly';">
-        <div class="location-content">
-          <p>Whisper Point is a remote coordinate in deep space, approximately one parsec from Drenalch. This unassuming location has gained significance as both a strategic refueling point and a clandestine meeting ground for illicit activities.</p>
-          
-          <div class="location-stats">
-            <div class="stat-box">
-              <div class="stat-label">Distance from Drenalch</div>
-              <div>1 Parsec</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-label">Status</div>
-              <div>Unlisted</div>
-            </div>
-            <div class="stat-box">
-              <div class="stat-label">Notable Feature</div>
-              <div>Space Anomaly</div>
-            </div>
-          </div>
-
-          <div class="location-info">
-            <h3>Legitimate Use</h3>
-            <p>Originally established as a deep-space refueling point for the Colonnades University research mission to Drenalch, Whisper Point was intended to support vessels making the long journey to the remote world. The Ambassador facilitated the setup of a supply dump here, providing crucial support for scientific expeditions.</p>
-          </div>
-
-          <div class="location-info">
-            <h3>The Anomaly</h3>
-            <p>During a routine refueling stop, the party discovered a mysterious spatial anomaly at Whisper Point. The phenomenon was carefully documented, with the crew gathering valuable scientific data that could prove significant for future research or potential commercial applications.</p>
-          </div>
-
-          <div class="location-info">
-            <h3>Illicit Activities</h3>
-            <p>What began as a legitimate refueling point has since been revealed as a regular rendezvous location for clandestine operations. The Void Vultures Pirates, in coordination with the Ambassador's compromised Intendant, Lyraviepr, used this remote location for the transfer of sensitive materials and information. The isolation of Whisper Point made it an ideal location for these covert exchanges, far from the prying eyes of official starports and security forces.</p>
-          </div>
-
-          <div class="location-info">
-            <h3>Strategic Significance</h3>
-            <ul>
-              <li><strong>Location:</strong> Positioned at a strategic distance from Drenalch, making it accessible yet discreet</li>
-              <li><strong>Anomaly:</strong> The presence of the spatial anomaly may have been a factor in its selection as a meeting point</li>
-              <li><strong>Security:</strong> The remote nature of the location provides natural protection from surveillance</li>
-              <li><strong>Accessibility:</strong> While off the standard shipping lanes, it remains within reasonable travel distance for vessels with jump capability</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-    </main>
   </div>
 
   <script>
-    function toggleBiography(id) {
-      const bio = document.getElementById(id);
-      bio.classList.toggle('active');
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+      const filterButtons = document.querySelectorAll('.filter-button');
+      const locationEntries = document.querySelectorAll('.location-entry');
+      let activeFilters = new Set();
 
-    function showSection(id) {
-      // Hide all sections
-      document.querySelectorAll('.location-section').forEach(section => {
-        section.classList.remove('active');
-      });
-      
-      // Show selected section
-      const selectedSection = document.getElementById(id);
-      if (selectedSection) {
-        selectedSection.classList.add('active');
+      // Function to update visibility
+      function updateVisibility() {
+        locationEntries.forEach(entry => {
+          const tags = entry.getAttribute('data-tags').split(',');
+          const shouldShow = activeFilters.size === 0 || 
+            Array.from(activeFilters).every(filter => tags.includes(filter));
+          entry.classList.toggle('hidden', !shouldShow);
+        });
       }
 
-      // Update button states
-      document.querySelectorAll('.page-nav-button').forEach(button => {
-        button.classList.remove('active');
+      // Add click handlers to filter buttons
+      filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const tag = this.getAttribute('data-tag');
+          if (activeFilters.has(tag)) {
+            activeFilters.delete(tag);
+            this.classList.remove('active');
+          } else {
+            activeFilters.add(tag);
+            this.classList.add('active');
+          }
+          updateVisibility();
+        });
       });
-      event.target.classList.add('active');
-    }
 
-    // Show first section by default
-    document.addEventListener('DOMContentLoaded', function() {
-      showSection('nielkladlief');
+      // Show all entries initially
+      updateVisibility();
     });
   </script>
 </body>

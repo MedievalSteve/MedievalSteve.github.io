@@ -63,6 +63,26 @@
       align-self: flex-start;
       position: sticky;
       top: 100px;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+    }
+
+    .filter-section::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .filter-section::-webkit-scrollbar-track {
+      background: var(--background-color);
+      border-radius: 4px;
+    }
+
+    .filter-section::-webkit-scrollbar-thumb {
+      background: var(--accent-color);
+      border-radius: 4px;
+    }
+
+    .filter-section::-webkit-scrollbar-thumb:hover {
+      background: var(--nav-hover);
     }
 
     .npc-section {
@@ -394,52 +414,36 @@
       <div class="filter-section">
         <h2>Filters</h2>
         <div class="filter-group">
-          <h3>Faction</h3>
-          <button class="filter-button" data-tag="void-vultures">Void Vultures</button>
-          <button class="filter-button" data-tag="imperial-navy">Imperial Navy</button>
-          <button class="filter-button" data-tag="imperial-marines">Imperial Marines</button>
-          <button class="filter-button" data-tag="imperial-scouts">Imperial Scouts</button>
-          <button class="filter-button" data-tag="imperial-merchants">Imperial Merchants</button>
-          <button class="filter-button" data-tag="imperial-citizens">Imperial Citizens</button>
-          <button class="filter-button" data-tag="imperial-criminals">Imperial Criminals</button>
-          <button class="filter-button" data-tag="aslan">Aslan</button>
-          <button class="filter-button" data-tag="zhodani">Zhodani</button>
-          <button class="filter-button" data-tag="solomani">Solomani</button>
-          <button class="filter-button" data-tag="vargr">Vargr</button>
-          <button class="filter-button" data-tag="other">Other</button>
-        </div>
-
-        <div class="filter-group">
-          <h3>Role</h3>
-          <button class="filter-button" data-tag="crew">Crew</button>
-          <button class="filter-button" data-tag="employer">Employer</button>
-          <button class="filter-button" data-tag="ally">Ally</button>
-          <button class="filter-button" data-tag="enemy">Enemy</button>
-          <button class="filter-button" data-tag="contact">Contact</button>
-          <button class="filter-button" data-tag="prole">Prole</button>
-        </div>
-
-        <div class="filter-group">
-          <h3>Mission</h3>
-          <button class="filter-button" data-tag="mission1">Mission 1</button>
-          <button class="filter-button" data-tag="mission2">Mission 2</button>
-        </div>
-
-        <div class="filter-group">
-          <h3>Status</h3>
-          <button class="filter-button" data-tag="alive">Alive</button>
-          <button class="filter-button" data-tag="dead">Dead</button>
-          <button class="filter-button" data-tag="unknown">Unknown</button>
+          <h3>Story</h3>
+          <button class="filter-button" data-tag="act1">Act I: Shadows of the Past</button>
+          <button class="filter-button" data-tag="mission1">Mission 1: The Seeds of Curiosity</button>
+          <button class="filter-button" data-tag="mission2">Mission 2: The Shadows of the Past</button>
         </div>
 
         <div class="filter-group">
           <h3>Location</h3>
+          <button class="filter-button" data-tag="university">University</button>
+          <button class="filter-button" data-tag="collonades">Collonades</button>
           <button class="filter-button" data-tag="nielkladlief">Nielkladlief</button>
           <button class="filter-button" data-tag="drenalch">Drenalch</button>
-          <button class="filter-button" data-tag="whisper-point">Whisper Point</button>
-          <button class="filter-button" data-tag="the-nest">The Nest</button>
-          <button class="filter-button" data-tag="the-murk">The Murk</button>
-          <button class="filter-button" data-tag="other-location">Other</button>
+        </div>
+
+        <div class="filter-group">
+          <h3>Race</h3>
+          <button class="filter-button" data-tag="zhodani">Zhodani</button>
+          <button class="filter-button" data-tag="ghenani">Ghenani</button>
+        </div>
+
+        <div class="filter-group">
+          <h3>Role</h3>
+          <button class="filter-button" data-tag="employer">Employer</button>
+          <button class="filter-button" data-tag="crew">Crew</button>
+          <button class="filter-button" data-tag="engineer">Engineer</button>
+          <button class="filter-button" data-tag="bureaucrat">Bureaucrat</button>
+          <button class="filter-button" data-tag="diplomat">Diplomat</button>
+          <button class="filter-button" data-tag="prole">Prole</button>
+          <button class="filter-button" data-tag="overseer">Overseer</button>
+          <button class="filter-button" data-tag="guardian">Guardian</button>
         </div>
       </div>
 
@@ -583,14 +587,13 @@
           </div>
         </section>
 
-        <section id="jarnak" class="npc-entry" data-tags="ghenani,settlement,overseer,act1,drenalch">
+        <section id="jarnak" class="npc-entry" data-tags="ghenani,overseer,act1,drenalch">
           <div class="npc-flex">
             <img src="Images/npcs/overseer.jpg" alt="Settlement Overseer Jarnak" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Overseer+Jarnak';">
             <div class="npc-flex-content">
               <h2 class="npc-title">Settlement Overseer Jarnak</h2>
               <div class="npc-tags">
                 <span class="npc-tag">Ghenani</span>
-                <span class="npc-tag">Settlement</span>
                 <span class="npc-tag">Overseer</span>
                 <span class="npc-tag">Drenalch</span>
                 <span class="npc-tag">Act I: Shadows of the Past</span>
@@ -652,14 +655,13 @@
           </div>
         </section>
 
-        <section id="echo-keepers" class="npc-entry" data-tags="ghenani,ancient,guardian,act1,mission1">
+        <section id="echo-keepers" class="npc-entry" data-tags="ghenani,guardian,act1,mission1">
           <div class="npc-flex">
             <img src="Images/npcs/EchoKeeper.png" alt="The Echo Keepers" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Echo+Keepers';">
             <div class="npc-flex-content">
               <h2 class="npc-title">The Echo Keepers</h2>
               <div class="npc-tags">
                 <span class="npc-tag">Ghenani</span>
-                <span class="npc-tag">Ancient</span>
                 <span class="npc-tag">Guardian</span>
                 <span class="npc-tag">Act I: Shadows of the Past</span>
                 <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
@@ -679,14 +681,13 @@
           </div>
         </section>
 
-        <section id="lobon" class="npc-entry" data-tags="ghenani,ancient,guardian,act1,mission1">
+        <section id="lobon" class="npc-entry" data-tags="ghenani,guardian,act1,mission1">
           <div class="npc-flex">
             <img src="Images/npcs/Echo Keeper.jpg" alt="Echo Keeper Lobon" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Echo+Keeper+Lobon';">
             <div class="npc-flex-content">
               <h2 class="npc-title">Echo Keeper Lobon</h2>
               <div class="npc-tags">
                 <span class="npc-tag">Ghenani</span>
-                <span class="npc-tag">Ancient</span>
                 <span class="npc-tag">Guardian</span>
                 <span class="npc-tag">Act I: Shadows of the Past</span>
                 <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
@@ -755,7 +756,7 @@
         npcEntries.forEach(entry => {
           const tags = entry.getAttribute('data-tags').split(',');
           const shouldShow = activeFilters.size === 0 || 
-            Array.from(activeFilters).some(filter => tags.includes(filter));
+            Array.from(activeFilters).every(filter => tags.includes(filter));
           entry.classList.toggle('visible', shouldShow);
         });
       }
