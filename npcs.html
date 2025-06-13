@@ -321,324 +321,329 @@
     </div>
   </nav>
 
-  <header>
-    <h1>NPC Records</h1>
-  </header>
+  <div class="content-wrapper">
+    <header>
+      <h1>NPC Records</h1>
+    </header>
 
-  <div class="filter-section">
-    <h2 class="filter-title">Filter by Tags</h2>
-    <div class="filter-tags">
-      <span class="filter-tag" data-tag="university">University</span>
-      <span class="filter-tag" data-tag="zhodani">Zhodani</span>
-      <span class="filter-tag" data-tag="ghenani">Ghenani</span>
-      <span class="filter-tag" data-tag="collonades">Collonades</span>
-      <span class="filter-tag" data-tag="drenalch">Drenalch</span>
-      <span class="filter-tag" data-tag="nielkladlief">Nielkladlief</span>
-      <span class="filter-tag" data-tag="employer">Employer</span>
-      <span class="filter-tag" data-tag="act1">Act I: Shadows of the Past</span>
-      <span class="filter-tag" data-tag="mission1">Mission 1: The Seeds of Curiosity</span>
-      <span class="filter-tag" data-tag="bureaucrat">Bureaucrat</span>
-      <span class="filter-tag" data-tag="diplomat">Diplomat</span>
-      <span class="filter-tag" data-tag="ancient">Ancient</span>
-      <span class="filter-tag" data-tag="guardian">Guardian</span>
-      <span class="filter-tag" data-tag="prole">Prole</span>
-    </div>
+    <main>
+      <div class="filter-section">
+        <h2>Filters</h2>
+        <div class="filter-controls">
+          <div class="filter-group">
+            <label for="search">Search:</label>
+            <input type="text" id="search" placeholder="Search NPCs...">
+          </div>
+          <div class="filter-group">
+            <label for="tag-filter">Filter by Tag:</label>
+            <select id="tag-filter">
+              <option value="">All Tags</option>
+              <option value="university">University</option>
+              <option value="zhodani">Zhodani</option>
+              <option value="collonades">Collonades</option>
+              <option value="nielkladlief">Nielkladlief</option>
+              <option value="employer">Employer</option>
+              <option value="act1">Act 1</option>
+              <option value="mission1">Mission 1</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <section id="professor" class="npc-section" data-tags="university,zhodani,collonades,nielkladlief,employer,act1,mission1">
+        <div class="npc-flex">
+          <img src="Images/npcs/Prof Albericiepr.jpg" alt="Professor Albericiepr" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Prof+Albericiepr';">
+          <div class="npc-flex-content">
+            <h2 class="npc-title">Professor Albericiepr</h2>
+            <div class="npc-tags">
+              <span class="npc-tag">University</span>
+              <span class="npc-tag">Zhodani</span>
+              <span class="npc-tag">Collonades</span>
+              <span class="npc-tag">Nielkladlief</span>
+              <span class="npc-tag">Employer</span>
+              <span class="npc-tag">Act I: Shadows of the Past</span>
+              <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+            </div>
+            <div class="npc-content">
+              <p>Professor at the university who provided the crew with their first mission.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="nanak" class="npc-section" data-tags="zhodani,employer,act1,mission1">
+        <div class="npc-flex">
+          <img src="Images/npcs/nanak.jpg" alt="Nanak Bahadur" onerror="this.onerror=null;this.src='https://placehold.co/210x210/eeeeee/333333?text=Nanak+Bahadur';">
+          <div class="npc-flex-content">
+            <h2 class="npc-title">Nanak Bahadur</h2>
+            <div class="npc-tags">
+              <span class="npc-tag">Zhodani</span>
+              <span class="npc-tag">Employer</span>
+              <span class="npc-tag">Act I: Shadows of the Past</span>
+              <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+            </div>
+            <div class="npc-content">
+              <p>A Zhodani engineer and mechanic, Nanak's technical expertise keeps the ship running smoothly. His military background provides valuable combat experience and tactical knowledge.</p>
+              <p><strong>Skills & Abilities:</strong></p>
+              <ul>
+                <li>Engineering (Expert)</li>
+                <li>Mechanics (Expert)</li>
+                <li>Combat Training (Advanced)</li>
+                <li>Ship Systems (Expert)</li>
+                <li>Electronics (Advanced)</li>
+              </ul>
+              <p><strong>Equipment:</strong></p>
+              <ul>
+                <li>Engineering Toolkit</li>
+                <li>Combat Armor</li>
+                <li>Ship Repair Drones</li>
+                <li>Technical Scanner</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="intendant" class="npc-section" data-tags="university,zhodani,collonades,drenalch,act1,mission1">
+        <div class="npc-flex">
+          <img src="Images/npcs/Voriepr.jpg" alt="Intendant Voriepr" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Intendant+Voriepr';">
+          <div class="npc-flex-content">
+            <h2 class="npc-title">Intendant Voriepr</h2>
+            <div class="npc-tags">
+              <span class="npc-tag">University</span>
+              <span class="npc-tag">Zhodani</span>
+              <span class="npc-tag">Collonades</span>
+              <span class="npc-tag">Drenalch</span>
+              <span class="npc-tag">Postgraduate Leader</span>
+              <span class="npc-tag">Act I: Shadows of the Past</span>
+              <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+            </div>
+            <div class="npc-content">
+              <p>Postgraduate leader of the research team on Drenalch.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="researcher" class="npc-section" data-tags="university,zhodani,collonades,drenalch,act1,mission1">
+        <div class="npc-flex">
+          <img src="Images/npcs/Taeliepr.jpg" alt="Researcher Taeliepr" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Researcher+Taeliepr';">
+          <div class="npc-flex-content">
+            <h2 class="npc-title">Researcher Taeliepr</h2>
+            <div class="npc-tags">
+              <span class="npc-tag">University</span>
+              <span class="npc-tag">Zhodani</span>
+              <span class="npc-tag">Collonades</span>
+              <span class="npc-tag">Drenalch</span>
+              <span class="npc-tag">Xenoanthropology</span>
+              <span class="npc-tag">Act I: Shadows of the Past</span>
+              <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+            </div>
+            <div class="npc-content">
+              <p>Xenoanthropology student on the research team.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="technician" class="npc-section" data-tags="university,zhodani,collonades,drenalch,act1,mission1">
+        <div class="npc-flex">
+          <img src="Images/npcs/Renniepr.jpg" alt="Technician Renniepr" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Technician+Renniepr';">
+          <div class="npc-flex-content">
+            <h2 class="npc-title">Technician Renniepr</h2>
+            <div class="npc-tags">
+              <span class="npc-tag">University</span>
+              <span class="npc-tag">Zhodani</span>
+              <span class="npc-tag">Collonades</span>
+              <span class="npc-tag">Drenalch</span>
+              <span class="npc-tag">Ancient Technology</span>
+              <span class="npc-tag">Act I: Shadows of the Past</span>
+              <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+            </div>
+            <div class="npc-content">
+              <p>Specialist in ancient technology on the research team.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="kael" class="npc-section" data-tags="university,ghenani,drenalch,act1,mission1">
+        <div class="npc-flex">
+          <img src="Images/npcs/Kael-Vor.jpg" alt="Kael Vor" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Kael+Vor';">
+          <div class="npc-flex-content">
+            <h2 class="npc-title">Kael Vor</h2>
+            <div class="npc-tags">
+              <span class="npc-tag">University</span>
+              <span class="npc-tag">Ghenani</span>
+              <span class="npc-tag">Drenalch</span>
+              <span class="npc-tag">Undergraduate Assistant</span>
+              <span class="npc-tag">Act I: Shadows of the Past</span>
+              <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+            </div>
+            <div class="npc-content">
+              <p>Ghenani undergraduate student assisting Intendant Voriepr.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="jarnak" class="npc-section" data-tags="ghenani,settlement,overseer,act1,drenalch">
+        <div class="npc-flex">
+          <img src="Images/npcs/overseer.jpg" alt="Settlement Overseer Jarnak" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Overseer+Jarnak';">
+          <div class="npc-flex-content">
+            <h2 class="npc-title">Settlement Overseer Jarnak</h2>
+            <div class="npc-tags">
+              <span class="npc-tag">Ghenani</span>
+              <span class="npc-tag">Settlement</span>
+              <span class="npc-tag">Overseer</span>
+              <span class="npc-tag">Drenalch</span>
+              <span class="npc-tag">Act I: Shadows of the Past</span>
+            </div>
+            <div class="npc-content">
+              <strong>Race:</strong> Ghenani<br>
+              <strong>Gender:</strong> Male<br>
+              <strong>Age:</strong> Middle-aged, but appearing older due to the stresses of his position<br>
+              <strong>Appearance:</strong>
+              <ul>
+                <li>Muscular build, short legs, pale skin, and fair eyes, typical of the Ghenani.</li>
+                <li>Wears simple, practical clothing suitable for the warm climate, but with subtle touches of authority, such as a decorated belt or armband.</li>
+                <li>His face is weathered and lined, reflecting the years spent dealing with the challenges of his settlement.</li>
+                <li>His eyes are often tired and carry a hint of weariness.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="tarani" class="npc-section" data-tags="ghenani,drenalch,bureaucrat,act1,mission1">
+        <div class="npc-flex">
+          <img src="Images/npcs/archivist.jpg" alt="High Archivist Tarani" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=High+Archivist+Tarani';">
+          <div class="npc-flex-content">
+            <h2 class="npc-title">High Archivist Tarani</h2>
+            <div class="npc-tags">
+              <span class="npc-tag">Ghenani</span>
+              <span class="npc-tag">Drenalch</span>
+              <span class="npc-tag">Bureaucrat</span>
+              <span class="npc-tag">Act I: Shadows of the Past</span>
+              <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+            </div>
+            <div class="npc-content">
+              <p>High Archivist Tarani is a quintessential Ghenani bureaucrat. She is meticulous, dedicated to procedure, and deeply ingrained in the Ghenani administrative system. She is not unkind, but she values order and adherence to regulations above all else. She is a product of a society that has maintained peace through intricate rules and protocols, and she embodies that philosophy.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="voristlas" class="npc-section" data-tags="zhodani,drenalch,diplomat,act1,mission1">
+        <div class="npc-flex">
+          <img src="Images/npcs/ambassador_voristlas.jpg" alt="Ambassador Voristlas" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Ambassador+Voristlas';">
+          <div class="npc-flex-content">
+            <h2 class="npc-title">Ambassador Voristlas</h2>
+            <div class="npc-tags">
+              <span class="npc-tag">Zhodani</span>
+              <span class="npc-tag">Drenalch</span>
+              <span class="npc-tag">Diplomat</span>
+              <span class="npc-tag">Act I: Shadows of the Past</span>
+              <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+            </div>
+            <div class="npc-content">
+              <p>The Zhodani ambassador to Drenalch, whose embassy is located in a nearby Ghenani city. A refined and diplomatic Zhodani, he is patient but clearly frustrated by the slow pace of the Ghenani bureaucracy.</p>
+              <p>He explains the complexities of the Ghenani system and the challenges of obtaining the necessary permits. While he offers to provide the crew with guidance and introductions, he emphasizes that he cannot directly intervene on their behalf.</p>
+              <p><strong>Current Status:</strong> Missing</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="echo-keepers" class="npc-section" data-tags="ghenani,ancient,guardian,act1,mission1">
+        <div class="npc-flex">
+          <img src="Images/npcs/echo-keepers.jpg" alt="The Echo Keepers" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Echo+Keepers';">
+          <div class="npc-flex-content">
+            <h2 class="npc-title">The Echo Keepers</h2>
+            <div class="npc-tags">
+              <span class="npc-tag">Ghenani</span>
+              <span class="npc-tag">Ancient</span>
+              <span class="npc-tag">Guardian</span>
+              <span class="npc-tag">Act I: Shadows of the Past</span>
+              <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+            </div>
+            <div class="npc-content">
+              <p>Also known as "The Keepers of the Echoes" or "Ghenani Echo Keepers," this faction serves as guardians of ancient Ghenani sites and technology. They are deeply committed to preserving and protecting their sacred heritage.</p>
+              <p><strong>Key Characteristics:</strong></p>
+              <ul>
+                <li>Guardians of Ancient Sites/Technology: Primary protectors of Ancients' sites and technology of Ghenani significance</li>
+                <li>Isolationist Tendencies: Generally wary of outsiders and external interference</li>
+                <li>Reverence for Cosmic Balance: Particularly concerned with maintaining cosmic harmony</li>
+                <li>Protection of Guardian Worlds: Dedicated to safeguarding planets with significant ancient ruins and sacred sites</li>
+                <li>Strict Justice: Known for their severity, especially regarding thefts of Ancients' technology</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="lobon" class="npc-section" data-tags="ghenani,ancient,guardian,act1,mission1">
+        <div class="npc-flex">
+          <img src="Images/npcs/Echo Keeper.jpg" alt="Echo Keeper Lobon" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Echo+Keeper+Lobon';">
+          <div class="npc-flex-content">
+            <h2 class="npc-title">Echo Keeper Lobon</h2>
+            <div class="npc-tags">
+              <span class="npc-tag">Ghenani</span>
+              <span class="npc-tag">Ancient</span>
+              <span class="npc-tag">Guardian</span>
+              <span class="npc-tag">Act I: Shadows of the Past</span>
+              <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+            </div>
+            <div class="npc-content">
+              <p>A severe and dedicated leader of the Echo Keepers, Lobon is driven by a desperate need to protect his people from the "Sleeping Sickness" (radiation poisoning). While deeply distrustful of outsiders, his caution stems from rational concern rather than blind zealotry.</p>
+              <p>His leadership reflects the Echo Keepers' core values of protection and preservation, tempered by the immediate threat of radiation poisoning that faces his people. His decisions, while often severe, are made with the well-being of his people and the preservation of their ancient heritage in mind.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="lyraviepr" class="npc-section" data-tags="zhodani,drenalch,diplomat,act1,mission1">
+        <div class="npc-flex">
+          <img src="Images/npcs/ambassadors_intendant.jpg" alt="Intendent Lyraviepr" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Intendent+Lyraviepr';">
+          <div class="npc-flex-content">
+            <h2 class="npc-title">Intendent Lyraviepr</h2>
+            <div class="npc-tags">
+              <span class="npc-tag">Zhodani</span>
+              <span class="npc-tag">Drenalch</span>
+              <span class="npc-tag">Diplomat</span>
+              <span class="npc-tag">Act I: Shadows of the Past</span>
+              <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+            </div>
+            <div class="npc-content">
+              <p>Assistant to Ambassador Voristlas, Lyraviepr's story is one of misguided intentions and dire consequences. Initially reported missing at the start of the mission, the Ambassador suspected she was 'going native' among the Ghenani.</p>
+              <p>Her true fate was more complex: she was discovered at the Ancient's ruins, attempting to return a stolen artifact. Unaware of the dangerous radiation present at the site, her actions were driven by a desperate attempt to make amends for her theft.</p>
+              <p><strong>Current Status:</strong> In the custody of Echo Keeper Lobon, facing the threat of the death penalty for the theft of Ancient technology.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="wadden" class="npc-section" data-tags="zhodani,drenalch,prole,act1,mission1">
+        <div class="npc-flex">
+          <img src="Images/npcs/wadden_prole.jpg" alt="Controller Wadden" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Controller+Wadden';">
+          <div class="npc-flex-content">
+            <h2 class="npc-title">Controller Wadden</h2>
+            <div class="npc-tags">
+              <span class="npc-tag">Zhodani</span>
+              <span class="npc-tag">Drenalch</span>
+              <span class="npc-tag">Prole</span>
+              <span class="npc-tag">Act I: Shadows of the Past</span>
+              <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
+            </div>
+            <div class="npc-content">
+              <p>Prole worker at the Downport Control Tower on Drenalch</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
   </div>
-
-  <main>
-    <section id="professor" class="npc-section" data-tags="university,zhodani,collonades,nielkladlief,employer,act1,mission1">
-      <div class="npc-flex">
-        <img src="Images/npcs/Prof Albericiepr.jpg" alt="Professor Albericiepr" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Prof+Albericiepr';">
-        <div class="npc-flex-content">
-          <h2 class="npc-title">Professor Albericiepr</h2>
-          <div class="npc-tags">
-            <span class="npc-tag">University</span>
-            <span class="npc-tag">Zhodani</span>
-            <span class="npc-tag">Collonades</span>
-            <span class="npc-tag">Nielkladlief</span>
-            <span class="npc-tag">Employer</span>
-            <span class="npc-tag">Act I: Shadows of the Past</span>
-            <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
-          </div>
-          <div class="npc-content">
-            <p>Professor at the university who provided the crew with their first mission.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="nanak" class="npc-section" data-tags="zhodani,employer,act1,mission1">
-      <div class="npc-flex">
-        <img src="Images/npcs/nanak.jpg" alt="Nanak Bahadur" onerror="this.onerror=null;this.src='https://placehold.co/210x210/eeeeee/333333?text=Nanak+Bahadur';">
-        <div class="npc-flex-content">
-          <h2 class="npc-title">Nanak Bahadur</h2>
-          <div class="npc-tags">
-            <span class="npc-tag">Zhodani</span>
-            <span class="npc-tag">Employer</span>
-            <span class="npc-tag">Act I: Shadows of the Past</span>
-            <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
-          </div>
-          <div class="npc-content">
-            <p>A Zhodani engineer and mechanic, Nanak's technical expertise keeps the ship running smoothly. His military background provides valuable combat experience and tactical knowledge.</p>
-            <p><strong>Skills & Abilities:</strong></p>
-            <ul>
-              <li>Engineering (Expert)</li>
-              <li>Mechanics (Expert)</li>
-              <li>Combat Training (Advanced)</li>
-              <li>Ship Systems (Expert)</li>
-              <li>Electronics (Advanced)</li>
-            </ul>
-            <p><strong>Equipment:</strong></p>
-            <ul>
-              <li>Engineering Toolkit</li>
-              <li>Combat Armor</li>
-              <li>Ship Repair Drones</li>
-              <li>Technical Scanner</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="intendant" class="npc-section" data-tags="university,zhodani,collonades,drenalch,act1,mission1">
-      <div class="npc-flex">
-        <img src="Images/npcs/Voriepr.jpg" alt="Intendant Voriepr" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Intendant+Voriepr';">
-        <div class="npc-flex-content">
-          <h2 class="npc-title">Intendant Voriepr</h2>
-          <div class="npc-tags">
-            <span class="npc-tag">University</span>
-            <span class="npc-tag">Zhodani</span>
-            <span class="npc-tag">Collonades</span>
-            <span class="npc-tag">Drenalch</span>
-            <span class="npc-tag">Postgraduate Leader</span>
-            <span class="npc-tag">Act I: Shadows of the Past</span>
-            <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
-          </div>
-          <div class="npc-content">
-            <p>Postgraduate leader of the research team on Drenalch.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="researcher" class="npc-section" data-tags="university,zhodani,collonades,drenalch,act1,mission1">
-      <div class="npc-flex">
-        <img src="Images/npcs/Taeliepr.jpg" alt="Researcher Taeliepr" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Researcher+Taeliepr';">
-        <div class="npc-flex-content">
-          <h2 class="npc-title">Researcher Taeliepr</h2>
-          <div class="npc-tags">
-            <span class="npc-tag">University</span>
-            <span class="npc-tag">Zhodani</span>
-            <span class="npc-tag">Collonades</span>
-            <span class="npc-tag">Drenalch</span>
-            <span class="npc-tag">Xenoanthropology</span>
-            <span class="npc-tag">Act I: Shadows of the Past</span>
-            <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
-          </div>
-          <div class="npc-content">
-            <p>Xenoanthropology student on the research team.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="technician" class="npc-section" data-tags="university,zhodani,collonades,drenalch,act1,mission1">
-      <div class="npc-flex">
-        <img src="Images/npcs/Renniepr.jpg" alt="Technician Renniepr" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Technician+Renniepr';">
-        <div class="npc-flex-content">
-          <h2 class="npc-title">Technician Renniepr</h2>
-          <div class="npc-tags">
-            <span class="npc-tag">University</span>
-            <span class="npc-tag">Zhodani</span>
-            <span class="npc-tag">Collonades</span>
-            <span class="npc-tag">Drenalch</span>
-            <span class="npc-tag">Ancient Technology</span>
-            <span class="npc-tag">Act I: Shadows of the Past</span>
-            <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
-          </div>
-          <div class="npc-content">
-            <p>Specialist in ancient technology on the research team.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="kael" class="npc-section" data-tags="university,ghenani,drenalch,act1,mission1">
-      <div class="npc-flex">
-        <img src="Images/npcs/Kael-Vor.jpg" alt="Kael Vor" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Kael+Vor';">
-        <div class="npc-flex-content">
-          <h2 class="npc-title">Kael Vor</h2>
-          <div class="npc-tags">
-            <span class="npc-tag">University</span>
-            <span class="npc-tag">Ghenani</span>
-            <span class="npc-tag">Drenalch</span>
-            <span class="npc-tag">Undergraduate Assistant</span>
-            <span class="npc-tag">Act I: Shadows of the Past</span>
-            <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
-          </div>
-          <div class="npc-content">
-            <p>Ghenani undergraduate student assisting Intendant Voriepr.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="jarnak" class="npc-section" data-tags="ghenani,settlement,overseer,act1,drenalch">
-      <div class="npc-flex">
-        <img src="Images/npcs/overseer.jpg" alt="Settlement Overseer Jarnak" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Overseer+Jarnak';">
-        <div class="npc-flex-content">
-          <h2 class="npc-title">Settlement Overseer Jarnak</h2>
-          <div class="npc-tags">
-            <span class="npc-tag">Ghenani</span>
-            <span class="npc-tag">Settlement</span>
-            <span class="npc-tag">Overseer</span>
-            <span class="npc-tag">Drenalch</span>
-            <span class="npc-tag">Act I: Shadows of the Past</span>
-          </div>
-          <div class="npc-content">
-            <strong>Race:</strong> Ghenani<br>
-            <strong>Gender:</strong> Male<br>
-            <strong>Age:</strong> Middle-aged, but appearing older due to the stresses of his position<br>
-            <strong>Appearance:</strong>
-            <ul>
-              <li>Muscular build, short legs, pale skin, and fair eyes, typical of the Ghenani.</li>
-              <li>Wears simple, practical clothing suitable for the warm climate, but with subtle touches of authority, such as a decorated belt or armband.</li>
-              <li>His face is weathered and lined, reflecting the years spent dealing with the challenges of his settlement.</li>
-              <li>His eyes are often tired and carry a hint of weariness.</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="tarani" class="npc-section" data-tags="ghenani,drenalch,bureaucrat,act1,mission1">
-      <div class="npc-flex">
-        <img src="Images/npcs/archivist.jpg" alt="High Archivist Tarani" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=High+Archivist+Tarani';">
-        <div class="npc-flex-content">
-          <h2 class="npc-title">High Archivist Tarani</h2>
-          <div class="npc-tags">
-            <span class="npc-tag">Ghenani</span>
-            <span class="npc-tag">Drenalch</span>
-            <span class="npc-tag">Bureaucrat</span>
-            <span class="npc-tag">Act I: Shadows of the Past</span>
-            <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
-          </div>
-          <div class="npc-content">
-            <p>High Archivist Tarani is a quintessential Ghenani bureaucrat. She is meticulous, dedicated to procedure, and deeply ingrained in the Ghenani administrative system. She is not unkind, but she values order and adherence to regulations above all else. She is a product of a society that has maintained peace through intricate rules and protocols, and she embodies that philosophy.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="voristlas" class="npc-section" data-tags="zhodani,drenalch,diplomat,act1,mission1">
-      <div class="npc-flex">
-        <img src="Images/npcs/ambassador_voristlas.jpg" alt="Ambassador Voristlas" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Ambassador+Voristlas';">
-        <div class="npc-flex-content">
-          <h2 class="npc-title">Ambassador Voristlas</h2>
-          <div class="npc-tags">
-            <span class="npc-tag">Zhodani</span>
-            <span class="npc-tag">Drenalch</span>
-            <span class="npc-tag">Diplomat</span>
-            <span class="npc-tag">Act I: Shadows of the Past</span>
-            <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
-          </div>
-          <div class="npc-content">
-            <p>The Zhodani ambassador to Drenalch, whose embassy is located in a nearby Ghenani city. A refined and diplomatic Zhodani, he is patient but clearly frustrated by the slow pace of the Ghenani bureaucracy.</p>
-            <p>He explains the complexities of the Ghenani system and the challenges of obtaining the necessary permits. While he offers to provide the crew with guidance and introductions, he emphasizes that he cannot directly intervene on their behalf.</p>
-            <p><strong>Current Status:</strong> Missing</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="echo-keepers" class="npc-section" data-tags="ghenani,ancient,guardian,act1,mission1">
-      <div class="npc-flex">
-        <img src="Images/npcs/echo-keepers.jpg" alt="The Echo Keepers" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Echo+Keepers';">
-        <div class="npc-flex-content">
-          <h2 class="npc-title">The Echo Keepers</h2>
-          <div class="npc-tags">
-            <span class="npc-tag">Ghenani</span>
-            <span class="npc-tag">Ancient</span>
-            <span class="npc-tag">Guardian</span>
-            <span class="npc-tag">Act I: Shadows of the Past</span>
-            <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
-          </div>
-          <div class="npc-content">
-            <p>Also known as "The Keepers of the Echoes" or "Ghenani Echo Keepers," this faction serves as guardians of ancient Ghenani sites and technology. They are deeply committed to preserving and protecting their sacred heritage.</p>
-            <p><strong>Key Characteristics:</strong></p>
-            <ul>
-              <li>Guardians of Ancient Sites/Technology: Primary protectors of Ancients' sites and technology of Ghenani significance</li>
-              <li>Isolationist Tendencies: Generally wary of outsiders and external interference</li>
-              <li>Reverence for Cosmic Balance: Particularly concerned with maintaining cosmic harmony</li>
-              <li>Protection of Guardian Worlds: Dedicated to safeguarding planets with significant ancient ruins and sacred sites</li>
-              <li>Strict Justice: Known for their severity, especially regarding thefts of Ancients' technology</li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="lobon" class="npc-section" data-tags="ghenani,ancient,guardian,act1,mission1">
-      <div class="npc-flex">
-        <img src="Images/npcs/Echo Keeper.jpg" alt="Echo Keeper Lobon" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Echo+Keeper+Lobon';">
-        <div class="npc-flex-content">
-          <h2 class="npc-title">Echo Keeper Lobon</h2>
-          <div class="npc-tags">
-            <span class="npc-tag">Ghenani</span>
-            <span class="npc-tag">Ancient</span>
-            <span class="npc-tag">Guardian</span>
-            <span class="npc-tag">Act I: Shadows of the Past</span>
-            <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
-          </div>
-          <div class="npc-content">
-            <p>A severe and dedicated leader of the Echo Keepers, Lobon is driven by a desperate need to protect his people from the "Sleeping Sickness" (radiation poisoning). While deeply distrustful of outsiders, his caution stems from rational concern rather than blind zealotry.</p>
-            <p>His leadership reflects the Echo Keepers' core values of protection and preservation, tempered by the immediate threat of radiation poisoning that faces his people. His decisions, while often severe, are made with the well-being of his people and the preservation of their ancient heritage in mind.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="lyraviepr" class="npc-section" data-tags="zhodani,drenalch,diplomat,act1,mission1">
-      <div class="npc-flex">
-        <img src="Images/npcs/ambassadors_intendant.jpg" alt="Intendent Lyraviepr" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Intendent+Lyraviepr';">
-        <div class="npc-flex-content">
-          <h2 class="npc-title">Intendent Lyraviepr</h2>
-          <div class="npc-tags">
-            <span class="npc-tag">Zhodani</span>
-            <span class="npc-tag">Drenalch</span>
-            <span class="npc-tag">Diplomat</span>
-            <span class="npc-tag">Act I: Shadows of the Past</span>
-            <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
-          </div>
-          <div class="npc-content">
-            <p>Assistant to Ambassador Voristlas, Lyraviepr's story is one of misguided intentions and dire consequences. Initially reported missing at the start of the mission, the Ambassador suspected she was 'going native' among the Ghenani.</p>
-            <p>Her true fate was more complex: she was discovered at the Ancient's ruins, attempting to return a stolen artifact. Unaware of the dangerous radiation present at the site, her actions were driven by a desperate attempt to make amends for her theft.</p>
-            <p><strong>Current Status:</strong> In the custody of Echo Keeper Lobon, facing the threat of the death penalty for the theft of Ancient technology.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section id="wadden" class="npc-section" data-tags="zhodani,drenalch,prole,act1,mission1">
-      <div class="npc-flex">
-        <img src="Images/npcs/wadden_prole.jpg" alt="Controller Wadden" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Controller+Wadden';">
-        <div class="npc-flex-content">
-          <h2 class="npc-title">Controller Wadden</h2>
-          <div class="npc-tags">
-            <span class="npc-tag">Zhodani</span>
-            <span class="npc-tag">Drenalch</span>
-            <span class="npc-tag">Prole</span>
-            <span class="npc-tag">Act I: Shadows of the Past</span>
-            <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
-          </div>
-          <div class="npc-content">
-            <p>Prole worker at the Downport Control Tower on Drenalch</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
