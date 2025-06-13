@@ -77,7 +77,33 @@
     }
 
     .log-content {
-      margin-top: 20px;
+      flex: 1;
+      overflow-y: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .log-content::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .log-content::-webkit-scrollbar-track {
+      background: var(--card-bg);
+      border-radius: 4px;
+    }
+
+    .log-content::-webkit-scrollbar-thumb {
+      background: var(--accent-color);
+      border-radius: 4px;
+    }
+
+    .log-content::-webkit-scrollbar-thumb:hover {
+      background: var(--nav-hover);
+    }
+
+    .log-content p {
+      margin-bottom: 15px;
+      line-height: 1.8;
     }
 
     .log-date {
@@ -94,36 +120,18 @@
       border-radius: 4px;
       border: 1px solid var(--accent-color);
       height: 400px;
-      overflow-y: auto;
       position: relative;
-    }
-
-    .log-entry::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    .log-entry::-webkit-scrollbar-track {
-      background: var(--card-bg);
-      border-radius: 4px;
-    }
-
-    .log-entry::-webkit-scrollbar-thumb {
-      background: var(--accent-color);
-      border-radius: 4px;
-    }
-
-    .log-entry::-webkit-scrollbar-thumb:hover {
-      background: var(--nav-hover);
+      display: flex;
+      flex-direction: column;
     }
 
     .log-entry h3 {
-      margin-top: 0;
-      margin-bottom: 10px;
+      margin: 0;
+      padding: 10px 0;
+      background: var(--card-bg);
       position: sticky;
       top: 0;
-      background: var(--card-bg);
-      padding: 10px 0;
-      z-index: 10;
+      z-index: 100;
       border-bottom: 1px solid var(--accent-color);
     }
 
@@ -140,7 +148,6 @@
       position: relative;
       z-index: 1;
       min-height: 300px;
-      background: rgba(41, 98, 255, 0.1);
     }
 
     .comments-section iframe {
