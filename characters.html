@@ -155,6 +155,61 @@
         font-size: 2rem;
       }
     }
+
+    .page-nav {
+      position: fixed;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: var(--card-bg);
+      padding: 15px;
+      border-radius: 8px;
+      border: 1px solid var(--accent-color);
+      z-index: 100;
+    }
+
+    .page-nav-button {
+      display: block;
+      background: var(--accent-color);
+      color: var(--background-color);
+      border: none;
+      padding: 8px 16px;
+      margin: 5px 0;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+    }
+
+    .page-nav-button:hover {
+      background: var(--nav-hover);
+    }
+
+    .page-nav-toggle {
+      display: block;
+      background: var(--accent-color);
+      color: var(--background-color);
+      border: none;
+      padding: 8px 16px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+      width: 100%;
+    }
+
+    .page-nav-toggle:hover {
+      background: var(--nav-hover);
+    }
+
+    .page-nav.hidden {
+      transform: translateX(calc(100% + 20px)) translateY(-50%);
+    }
   </style>
 </head>
 <body>
@@ -178,6 +233,16 @@
         });
       });
   </script>
+
+  <div class="page-nav">
+    <button class="page-nav-toggle" onclick="togglePageNav()">Navigation</button>
+    <button class="page-nav-button" onclick="scrollToSection('lucius')">Lucius</button>
+    <button class="page-nav-button" onclick="scrollToSection('quin')">Quin</button>
+    <button class="page-nav-button" onclick="scrollToSection('khyel')">Khyel</button>
+    <button class="page-nav-button" onclick="scrollToSection('awang-vappu')">Awang-Vappu</button>
+    <button class="page-nav-button" onclick="scrollToSection('glitch')">Tune-Up</button>
+  </div>
+
   <div class="content-wrapper">
     <header>
       <h1>Characters</h1>
@@ -464,6 +529,18 @@
     function toggleBiography(id) {
       const bio = document.getElementById(id);
       bio.classList.toggle('active');
+    }
+
+    function togglePageNav() {
+      const nav = document.querySelector('.page-nav');
+      nav.classList.toggle('hidden');
+    }
+
+    function scrollToSection(id) {
+      const section = document.getElementById(id);
+      if (section) {
+        section.scrollIntoView({ behavior: 'smooth' });
+      }
     }
   </script>
 </body>
