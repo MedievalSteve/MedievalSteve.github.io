@@ -52,78 +52,7 @@
       margin-bottom: 0.5rem;
     }
 
-    .nav-panel {
-      width: 100%;
-      background: var(--header-bg);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-      position: fixed;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .nav-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 60px;
-    }
-
-    .main-links {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-    }
-
-    .main-links a {
-      color: var(--accent-color);
-      text-decoration: none;
-      font-weight: bold;
-      font-family: 'Orbitron', sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      padding: 8px 16px;
-      border-radius: 4px;
-      background: rgba(41, 98, 255, 0.1);
-      transition: all 0.3s ease;
-    }
-
-    .main-links a:hover {
-      background: rgba(41, 98, 255, 0.2);
-      color: #64b5f6;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 20px;
-    }
-
-    .nav-links a {
-      color: var(--text-color);
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      padding: 8px 16px;
-      border-radius: 4px;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .nav-links a:hover {
-      color: var(--accent-color);
-      background: rgba(41, 98, 255, 0.1);
-    }
-
-    .nav-links a.active {
-      color: var(--accent-color);
-      border-bottom: 2px solid var(--accent-color);
-    }
-
-    .species-section {
+    .content-section {
       background: var(--card-bg);
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.3);
@@ -134,62 +63,43 @@
       border: 1px solid var(--accent-color);
     }
 
-    .species-section:hover {
-      box-shadow: 0 4px 16px rgba(41, 98, 255, 0.2);
-    }
-
-    .species-content {
-      margin-top: 20px;
-    }
-
-    .species-info {
+    .content-section h2 {
+      margin-top: 0;
       margin-bottom: 20px;
+      font-size: 1.8rem;
+    }
+
+    .content-section p {
+      margin-bottom: 15px;
+      line-height: 1.8;
+    }
+
+    .content-section ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .content-section li {
+      margin-bottom: 15px;
       padding: 15px;
       background: rgba(41, 98, 255, 0.1);
       border-radius: 4px;
       border: 1px solid var(--accent-color);
     }
 
-    .species-info h3 {
+    .content-section li h3 {
       margin-top: 0;
       margin-bottom: 10px;
+      font-size: 1.4rem;
     }
 
-    .species-info p {
+    .content-section li p {
       margin: 0;
     }
 
-    .species-info ul {
-      margin: 10px 0;
-      padding-left: 20px;
-    }
-
-    .species-info li {
-      margin-bottom: 5px;
-    }
-
-    .species-image {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin-bottom: 20px;
-    }
-
     @media (max-width: 768px) {
-      .nav-content {
-        flex-direction: column;
-        height: auto;
-        padding: 1rem;
-      }
-
-      .nav-links {
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-        margin-top: 1rem;
-      }
-
-      .species-section {
+      .content-section {
         margin: 10px;
         padding: 16px;
       }
@@ -201,28 +111,22 @@
   </style>
 </head>
 <body>
-  <nav class="nav-panel">
-    <div class="nav-content">
-      <div class="main-links">
-        <a href="index.html">Main Page</a>
-        <a href="big-space-travel-far.html">Campaign Hub</a>
-      </div>
-      <div class="nav-links">
-        <a href="characters.html">Characters</a>
-        <a href="npcs.html">NPCs</a>
-        <a href="locations.html">Locations</a>
-        <a href="logs.html">Logs</a>
-        <a href="flora-fauna.html" class="active">Flora & Fauna</a>
-      </div>
-    </div>
-  </nav>
+  <!-- Include Navigation -->
+  <div id="nav-placeholder"></div>
+  <script>
+    fetch('navigation.html')
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('nav-placeholder').innerHTML = data;
+      });
+  </script>
 
   <header>
     <h1>Flora & Fauna</h1>
   </header>
 
-  <main style="width: 100%; max-width: 800px; padding: 0 20px;">
-    <section id="tklan-tick" class="species-section">
+  <div class="content-section">
+    <section id="tklan-tick" class="content-section">
       <h2>T'klan Tick</h2>
       <img src="Images/creatures/tklan_tick.jpg" alt="T'klan Tick" class="species-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=T%27klan+Tick';">
       <div class="species-content">
@@ -280,6 +184,6 @@
         </div>
       </div>
     </section>
-  </main>
+  </div>
 </body>
 </html> 
