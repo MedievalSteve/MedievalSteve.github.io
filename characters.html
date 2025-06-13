@@ -22,12 +22,20 @@
       background: var(--background-color);
       margin: 0;
       padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       min-height: 100vh;
       color: var(--text-color);
       line-height: 1.6;
+    }
+
+    #nav-placeholder {
+      width: 100%;
+    }
+
+    .content-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
     }
 
     header {
@@ -159,286 +167,287 @@
         document.getElementById('nav-placeholder').innerHTML = data;
       });
   </script>
+  <div class="content-wrapper">
+    <header>
+      <h1>Characters</h1>
+    </header>
 
-  <header>
-    <h1>Characters</h1>
-  </header>
+    <main style="width: 100%; max-width: 800px; padding: 0 20px;">
+      <section id="lucius" class="character-section">
+        <h2>Lucius Vin Geitenhoven</h2>
+        <img src="Images/characters/lucius.jpg" alt="Lucius Vin Geitenhoven" class="character-image" onerror="this.onerror=null;this.src='https://placehold.co/300x400/eeeeee/333333?text=Lucius';">
+        <div class="character-content">
+          <div class="character-info">
+            <h3>Background</h3>
+            <p>A Solomani scholar and astrogator, Lucius brings academic expertise and diplomatic skills to the crew. His knowledge of ancient civilizations and languages has proven invaluable in their archaeological investigations.</p>
+          </div>
 
-  <main style="width: 100%; max-width: 800px; padding: 0 20px;">
-    <section id="lucius" class="character-section">
-      <h2>Lucius Vin Geitenhoven</h2>
-      <img src="Images/characters/lucius.jpg" alt="Lucius Vin Geitenhoven" class="character-image" onerror="this.onerror=null;this.src='https://placehold.co/300x400/eeeeee/333333?text=Lucius';">
-      <div class="character-content">
-        <div class="character-info">
-          <h3>Background</h3>
-          <p>A Solomani scholar and astrogator, Lucius brings academic expertise and diplomatic skills to the crew. His knowledge of ancient civilizations and languages has proven invaluable in their archaeological investigations.</p>
+          <button class="biography-toggle" onclick="toggleBiography('lucius-bio')">Full Biography</button>
+          <div id="lucius-bio" class="full-biography">
+            <p>Lucius Vin Geitenhoven is a Solomani of a house of (minor) importance on Uebelhor within the Solomani Confederation that can trace its legacy back to the second empire.</p>
+            
+            <p>As a younger scion of the family, I have reached adulthood in a position of privilege and comfort, though lack an automatic path to high office like my older siblings. Having experienced significance illness as a child, I am physically feeble and slightly gaunt but am able to mask most of this as most physical activity being beneath my station. My family and older siblings only real expectation is that I don't make a fool of myself and potentially impact the careers of.</p>
+            
+            <p>While at university, like most party aspirational party members, I joined the Home Forces Reserve where I gained basic training in guns and mechanics. Realising quickly that I was unsuited to even the minor commitments of fortnightly meetings, I desperately sought an excuse to exit that wouldn't cause me to lose face and be seen as unsupportive of the Solomani Cause.</p>
+            
+            <p>My opportunity came when I was able to join a cultural exchange program for Party aspirants where, I spent a semester at a Zhodani institution where I had a brief courtship will a fellow Solomani student, which was brought to an end when [Jarrod's Character] revealed evidence to me that she was merely trying to take advantage of my social position to advance herself. I'm not certain why [Jarrod's Character] was motivated to do this as a a Zhodani but have chalked it up to their race's foolish notions of transparency and honesty.</p>
+            
+            <p>After completion of my formative studies, I entered the Party as an administrator within the Ministry of Foreign Affairs where the first four years of my career were spent as part of a mission to the Aslan Hierate, who the Solomani share a long and tense history with. As member of the mission's cadre for Cultural Affairs, I spent time trying to better understand and document the cultural and social nuances of the Aslan. This culminated in the recording of a performance by [Bronwyn's Character] for which my analysis was commended by the Deputy Commissioner of the mission.</p>
+            
+            <p>Following this commendation, I was promoted to Alternate and transferred to a diplomatic mission to the Zhodani Consulate, a posting rarely given to junior members of the Party due to the challenges faced by the unnatural abilities of the Zhodani to read minds and take advantage of normal humani. While posted here, I gained the enmity of a fellow Alternate from an opposing faction after I publicly highlighted minor shortcoming in one of his reports at a meeting with the mission Commissioner, resulting in him being passed over for promotion at his annual review. While this was purely done to ensure the advancement of the Solomani Cause, it did coincidently provide me an opportunity for promotion a year earlier than normal.</p>
+            
+            <p>With the completion of my posting to the Zhodani, I was promoted to Delegate within the Ministry of Foreign Affairs, a position which provides significantly more independence in advancing the Solomani Cause. I am now looking to utilise this newfound independence to make a name for myself within the Party and advance to a position that would not have been expected of me by my family.</p>
+          </div>
+
+          <div class="character-info">
+            <h3>Skills & Abilities</h3>
+            <ul>
+              <li>Admin 4</li>
+              <li>Advocate 3</li>
+              <li>Athletics</li>
+              <li>Art (Creative 1)</li>
+              <li>Astrogation 2</li>
+              <li>Carouse</li>
+              <li>Diplomat 1</li>
+              <li>Electronics</li>
+              <li>Gun Combat (Slug 1)</li>
+              <li>Investigate</li>
+              <li>Language (Zdetl 1)</li>
+              <li>Mechanic</li>
+              <li>Persuade 1</li>
+              <li>Science (Social Sciences 3)</li>
+            </ul>
+          </div>
         </div>
+      </section>
 
-        <button class="biography-toggle" onclick="toggleBiography('lucius-bio')">Full Biography</button>
-        <div id="lucius-bio" class="full-biography">
-          <p>Lucius Vin Geitenhoven is a Solomani of a house of (minor) importance on Uebelhor within the Solomani Confederation that can trace its legacy back to the second empire.</p>
-          
-          <p>As a younger scion of the family, I have reached adulthood in a position of privilege and comfort, though lack an automatic path to high office like my older siblings. Having experienced significance illness as a child, I am physically feeble and slightly gaunt but am able to mask most of this as most physical activity being beneath my station. My family and older siblings only real expectation is that I don't make a fool of myself and potentially impact the careers of.</p>
-          
-          <p>While at university, like most party aspirational party members, I joined the Home Forces Reserve where I gained basic training in guns and mechanics. Realising quickly that I was unsuited to even the minor commitments of fortnightly meetings, I desperately sought an excuse to exit that wouldn't cause me to lose face and be seen as unsupportive of the Solomani Cause.</p>
-          
-          <p>My opportunity came when I was able to join a cultural exchange program for Party aspirants where, I spent a semester at a Zhodani institution where I had a brief courtship will a fellow Solomani student, which was brought to an end when [Jarrod's Character] revealed evidence to me that she was merely trying to take advantage of my social position to advance herself. I'm not certain why [Jarrod's Character] was motivated to do this as a a Zhodani but have chalked it up to their race's foolish notions of transparency and honesty.</p>
-          
-          <p>After completion of my formative studies, I entered the Party as an administrator within the Ministry of Foreign Affairs where the first four years of my career were spent as part of a mission to the Aslan Hierate, who the Solomani share a long and tense history with. As member of the mission's cadre for Cultural Affairs, I spent time trying to better understand and document the cultural and social nuances of the Aslan. This culminated in the recording of a performance by [Bronwyn's Character] for which my analysis was commended by the Deputy Commissioner of the mission.</p>
-          
-          <p>Following this commendation, I was promoted to Alternate and transferred to a diplomatic mission to the Zhodani Consulate, a posting rarely given to junior members of the Party due to the challenges faced by the unnatural abilities of the Zhodani to read minds and take advantage of normal humani. While posted here, I gained the enmity of a fellow Alternate from an opposing faction after I publicly highlighted minor shortcoming in one of his reports at a meeting with the mission Commissioner, resulting in him being passed over for promotion at his annual review. While this was purely done to ensure the advancement of the Solomani Cause, it did coincidently provide me an opportunity for promotion a year earlier than normal.</p>
-          
-          <p>With the completion of my posting to the Zhodani, I was promoted to Delegate within the Ministry of Foreign Affairs, a position which provides significantly more independence in advancing the Solomani Cause. I am now looking to utilise this newfound independence to make a name for myself within the Party and advance to a position that would not have been expected of me by my family.</p>
-        </div>
+      <section id="quin" class="character-section">
+        <h2>Quinstebr</h2>
+        <img src="Images/characters/quin.jpg" alt="Quinstebr" class="character-image" onerror="this.onerror=null;this.src='https://placehold.co/300x400/eeeeee/333333?text=Quin';">
+        <div class="character-content">
+          <div class="character-info">
+            <h3>Background</h3>
+            <p>The ship's owner and primary medic, Quin is a Zhodani with extensive medical training. Their leadership skills and medical expertise make them a crucial member of the crew.</p>
+          </div>
 
-        <div class="character-info">
-          <h3>Skills & Abilities</h3>
-          <ul>
-            <li>Admin 4</li>
-            <li>Advocate 3</li>
-            <li>Athletics</li>
-            <li>Art (Creative 1)</li>
-            <li>Astrogation 2</li>
-            <li>Carouse</li>
-            <li>Diplomat 1</li>
-            <li>Electronics</li>
-            <li>Gun Combat (Slug 1)</li>
-            <li>Investigate</li>
-            <li>Language (Zdetl 1)</li>
-            <li>Mechanic</li>
-            <li>Persuade 1</li>
-            <li>Science (Social Sciences 3)</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+          <button class="biography-toggle" onclick="toggleBiography('quin-bio')">Full Biography</button>
+          <div id="quin-bio" class="full-biography">
+            <p>Quinstebr ('Quin') grew up as the eldest daughter of an affluent Zhodani family (the equivalent of barons). Despite not having strong psychic abilities, she excelled academically but struggles to find her direction in life.</p>
+            
+            <p>At university, Quin's roommate Veshaliatl was an anchoring presence who was studying with the aim of taking over their family's prosperous trading network. While making this close friend and excelling academically, four years of study at a prestigious institution was not enough to find something that would fulfill her. Her problems were solved when a well-spoken Zhodani navy recruiter convinced her that the navy would fix everything.</p>
+            
+            <p>While in the navy, Quin had a successful career punctuated by multiple rescues from disaster and falling upwards with velocity. This occurred first when Nanuk was able to fix an escalating engine fault while Quin was the watch officer, which would have resulted in significant damage and loss of life. Having been the watch officer at the time, she was promoted and given the opportunity to participate in a diplomatic mission to the Aslan.</p>
+            
+            <p>While on this mission, possessing more eagerness than cultural training, Quin was accidently embroiled in a web of Aslan politics and accused of multiple crimes alongside an Aslan named Khyel by a faction hostile to the Zhodani's interests. At risk of court martial for the diplomatic row, Quin was saved from trouble when Khyel resolved the charges through traditional means, resulting in a collapse in the regional influence of the Aslan clan that was hostile to the Zhodani. Quin's potential court martial turned into a celebration of her actions, and she was awarded the Nenjchinzhe'driante – the highest award given by the Zhodani.</p>
+            
+            <p>Having received the highest honour possible in a Naval career after only two terms, Quin's interests quickly waned. She sought something new to do, realising that perhaps the Navy had never been the answer. Having the marks for entry and the money to pay for tuition, Quin trained as a physician but found the actual reality of the job not to be fulfilling. Leveraging her family relationships and her naval career, Quin was able to put together the deposit for a Ninz class scout ship she named Varythar, with the aim of exploring and finding her purpose.</p>
+          </div>
 
-    <section id="quin" class="character-section">
-      <h2>Quinstebr</h2>
-      <img src="Images/characters/quin.jpg" alt="Quinstebr" class="character-image" onerror="this.onerror=null;this.src='https://placehold.co/300x400/eeeeee/333333?text=Quin';">
-      <div class="character-content">
-        <div class="character-info">
-          <h3>Background</h3>
-          <p>The ship's owner and primary medic, Quin is a Zhodani with extensive medical training. Their leadership skills and medical expertise make them a crucial member of the crew.</p>
+          <div class="character-info">
+            <h3>Skills & Abilities</h3>
+            <ul>
+              <li>Advocate 2</li>
+              <li>Animals</li>
+              <li>Athletics</li>
+              <li>Drive</li>
+              <li>Electronics 1</li>
+              <li>Engineer (Life Support 2, One More 1)</li>
+              <li>Gunner 1</li>
+              <li>Investigate</li>
+              <li>Language</li>
+              <li>Leadership 2</li>
+              <li>Mechanic</li>
+              <li>Medic 4</li>
+              <li>Melee (Blade 2, One More 1)</li>
+              <li>Recon</li>
+              <li>Science (Psychology 2, One More 1)</li>
+              <li>Steward</li>
+              <li>VaccSuit</li>
+            </ul>
+          </div>
         </div>
+      </section>
 
-        <button class="biography-toggle" onclick="toggleBiography('quin-bio')">Full Biography</button>
-        <div id="quin-bio" class="full-biography">
-          <p>Quinstebr ('Quin') grew up as the eldest daughter of an affluent Zhodani family (the equivalent of barons). Despite not having strong psychic abilities, she excelled academically but struggles to find her direction in life.</p>
-          
-          <p>At university, Quin's roommate Veshaliatl was an anchoring presence who was studying with the aim of taking over their family's prosperous trading network. While making this close friend and excelling academically, four years of study at a prestigious institution was not enough to find something that would fulfill her. Her problems were solved when a well-spoken Zhodani navy recruiter convinced her that the navy would fix everything.</p>
-          
-          <p>While in the navy, Quin had a successful career punctuated by multiple rescues from disaster and falling upwards with velocity. This occurred first when Nanuk was able to fix an escalating engine fault while Quin was the watch officer, which would have resulted in significant damage and loss of life. Having been the watch officer at the time, she was promoted and given the opportunity to participate in a diplomatic mission to the Aslan.</p>
-          
-          <p>While on this mission, possessing more eagerness than cultural training, Quin was accidently embroiled in a web of Aslan politics and accused of multiple crimes alongside an Aslan named Khyel by a faction hostile to the Zhodani's interests. At risk of court martial for the diplomatic row, Quin was saved from trouble when Khyel resolved the charges through traditional means, resulting in a collapse in the regional influence of the Aslan clan that was hostile to the Zhodani. Quin's potential court martial turned into a celebration of her actions, and she was awarded the Nenjchinzhe'driante – the highest award given by the Zhodani.</p>
-          
-          <p>Having received the highest honour possible in a Naval career after only two terms, Quin's interests quickly waned. She sought something new to do, realising that perhaps the Navy had never been the answer. Having the marks for entry and the money to pay for tuition, Quin trained as a physician but found the actual reality of the job not to be fulfilling. Leveraging her family relationships and her naval career, Quin was able to put together the deposit for a Ninz class scout ship she named Varythar, with the aim of exploring and finding her purpose.</p>
-        </div>
+      <section id="khyel" class="character-section">
+        <h2>Khyelyeweih Yahfoi</h2>
+        <img src="Images/characters/khyel.webp" alt="Khyelyeweih Yahfoi" class="character-image" onerror="this.onerror=null;this.src='https://placehold.co/300x400/eeeeee/333333?text=Khyel';">
+        <div class="character-content">
+          <div class="character-info">
+            <h3>Background</h3>
+            <p>An Aslan pilot with a background in naval tactics, Khyel brings exceptional flying skills and combat experience to the crew. Their knowledge of ship operations and navigation is invaluable.</p>
+          </div>
 
-        <div class="character-info">
-          <h3>Skills & Abilities</h3>
-          <ul>
-            <li>Advocate 2</li>
-            <li>Animals</li>
-            <li>Athletics</li>
-            <li>Drive</li>
-            <li>Electronics 1</li>
-            <li>Engineer (Life Support 2, One More 1)</li>
-            <li>Gunner 1</li>
-            <li>Investigate</li>
-            <li>Language</li>
-            <li>Leadership 2</li>
-            <li>Mechanic</li>
-            <li>Medic 4</li>
-            <li>Melee (Blade 2, One More 1)</li>
-            <li>Recon</li>
-            <li>Science (Psychology 2, One More 1)</li>
-            <li>Steward</li>
-            <li>VaccSuit</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+          <button class="biography-toggle" onclick="toggleBiography('khyel-bio')">Full Biography</button>
+          <div id="khyel-bio" class="full-biography">
+            <p>Khyelyeweih "Khyel" Yahfoi had a loving and safe childhood, growing up as the second son in a large family in a minor clan in the Aslan Hierate. He was a rambunctious youth who enjoyed tussling with his brothers, climbing trees, and loved reading non-fiction books about dangerous animals. He was a diligent student and enjoyed studying much more than either of his two closest-age brothers.</p>
+            
+            <p>Within their pride, his family most often interacted with his father's younger brother's family, and he enjoyed listening to his uncle Osirakh's tales of battles. He was especially impressed by one in which his uncle's life was saved by a gallant medic who dashed out onto an active battlefield to retrieve his uncle, saving both his life and his injured leg. This sparked his nascent interest in medicine as a career, which was compounded when his sister Ayatra was bitten by a riding Khta, disfiguring her face. She was angry about the injury and a fractious patient, but she was fond enough of him to let him tend to her (under the Healer's direction) in changing bandages without fuss. He promised that he didn't think she was weak or foolish or ugly for being injured, but brave for enduring so much pain, and they formed a stronger bond than ever in the wake of her injury.</p>
+            
+            <p>Few male Aslan enter any kind of scientific profession, but being a Healer is a respectable enough option, albeit very rare. His father disapproved of his ambition, not actively stopping him, but not being especially supportive of it (his sister Ayatra and mother Erye were the most actively supportive).</p>
+            
+            <p>Khyel passed his Rite of Passage proving himself strong, smart, well-educated, and impressively able to endure more than the judges expected as he pushed himself to his limits, earning a 5,000 credit prize for his results.</p>
+            
+            <p>He studied medicine and veterinary medicine at university, doing well, but not enough to pass the entrance exam for higher studies to become a Healer. While there he was involved in an altercation at a science fair, and along with the prankster Awang-Vappu earned the ire of another scientist whose display was ruined.</p>
+            
+            <p>Missing out on higher education as a Healer, he instead joined the military as a frontline warrior. During this time he was caught up in an accusation of crime with [Emma], he intimidated the other Aslan into backing down on the grounds that he was a future heir with territory, while the other was landless. Injured in a battle he lost his left eye, and left before his term of service was up. He wasn't as upset by losing his eye which was replaced for free by the military with a mechanical eye with a zoom function and night vision, as he was by the psychological impact of what it meant.</p>
+            
+            <p>Feeling that his path wasn't in harmony with the will of the universe, he took his uncle Osirakh's advice and became his clan's poet, specialising in epic poetry of battles and managing the clan's historical archives. He won a poetry competition with a beautiful recitation of a poem selected with the help of Lucius, a Solomani diplomat. He continued studying medicine in his free time, in between meditating on his path and being toasted at parties. He was formally adopted into his uncle's family at this time as his heir (as expected for some years), as his uncle had given up on fathering a son.</p>
+            
+            <p>With contacts built during his time as poet laureate for his clan, he obtained a position as a commander of an Oukhaha class Bulk Hauler, hauling cargo with the clan with a crew of 12 under him. He befriended Admiral Laralr Ealealih of the Weferuta Clan thanks to a timely delivery of munitions past a blockade, and established an ongoing correspondence with him. Feeling the weight of years, his uncle stepped down as head of the Yahfoi family, ceding the position to him. Khyel deliberately socialised more with non-Aslans during his travels, learning more about being culturally tolerant, and re-established contact with old acquaintances including Lucius, [Emma], and Awang.</p>
+            
+            <p>Khyel is delighted (and secretly nervous) to be able to claim a position as ship's Healer on [Emma's] ship, and is willing to also fill other roles (like naval tactician and pilot) so long as he can still lay claim to that position. He eagerly hopes to further his skills in that field and prove himself capable, and also hopes to somehow lay claim to more territory for his family during his travels, and maybe meet a future Aslan wife or two with a bit of luck.</p>
+          </div>
 
-    <section id="khyel" class="character-section">
-      <h2>Khyelyeweih Yahfoi</h2>
-      <img src="Images/characters/khyel.webp" alt="Khyelyeweih Yahfoi" class="character-image" onerror="this.onerror=null;this.src='https://placehold.co/300x400/eeeeee/333333?text=Khyel';">
-      <div class="character-content">
-        <div class="character-info">
-          <h3>Background</h3>
-          <p>An Aslan pilot with a background in naval tactics, Khyel brings exceptional flying skills and combat experience to the crew. Their knowledge of ship operations and navigation is invaluable.</p>
+          <div class="character-info">
+            <h3>Skills & Abilities</h3>
+            <ul>
+              <li>Admin 1</li>
+              <li>Animals (Veterinary 2)</li>
+              <li>Athletics</li>
+              <li>Art (Epic Poetry 2)</li>
+              <li>Carouse 2</li>
+              <li>Deception</li>
+              <li>Diplomat</li>
+              <li>Electronics (Sensors 1)</li>
+              <li>Gunner</li>
+              <li>Gun Combat</li>
+              <li>Heavy Weapons</li>
+              <li>Leadership 1</li>
+              <li>Medic</li>
+              <li>Persuade</li>
+              <li>Pilot 2</li>
+              <li>Recon</li>
+              <li>Science (Life Sciences 2)</li>
+              <li>Stealth</li>
+              <li>Survival</li>
+              <li>Tactics (Naval 4)</li>
+              <li>VaccSuit</li>
+            </ul>
+          </div>
         </div>
+      </section>
 
-        <button class="biography-toggle" onclick="toggleBiography('khyel-bio')">Full Biography</button>
-        <div id="khyel-bio" class="full-biography">
-          <p>Khyelyeweih "Khyel" Yahfoi had a loving and safe childhood, growing up as the second son in a large family in a minor clan in the Aslan Hierate. He was a rambunctious youth who enjoyed tussling with his brothers, climbing trees, and loved reading non-fiction books about dangerous animals. He was a diligent student and enjoyed studying much more than either of his two closest-age brothers.</p>
-          
-          <p>Within their pride, his family most often interacted with his father's younger brother's family, and he enjoyed listening to his uncle Osirakh's tales of battles. He was especially impressed by one in which his uncle's life was saved by a gallant medic who dashed out onto an active battlefield to retrieve his uncle, saving both his life and his injured leg. This sparked his nascent interest in medicine as a career, which was compounded when his sister Ayatra was bitten by a riding Khta, disfiguring her face. She was angry about the injury and a fractious patient, but she was fond enough of him to let him tend to her (under the Healer's direction) in changing bandages without fuss. He promised that he didn't think she was weak or foolish or ugly for being injured, but brave for enduring so much pain, and they formed a stronger bond than ever in the wake of her injury.</p>
-          
-          <p>Few male Aslan enter any kind of scientific profession, but being a Healer is a respectable enough option, albeit very rare. His father disapproved of his ambition, not actively stopping him, but not being especially supportive of it (his sister Ayatra and mother Erye were the most actively supportive).</p>
-          
-          <p>Khyel passed his Rite of Passage proving himself strong, smart, well-educated, and impressively able to endure more than the judges expected as he pushed himself to his limits, earning a 5,000 credit prize for his results.</p>
-          
-          <p>He studied medicine and veterinary medicine at university, doing well, but not enough to pass the entrance exam for higher studies to become a Healer. While there he was involved in an altercation at a science fair, and along with the prankster Awang-Vappu earned the ire of another scientist whose display was ruined.</p>
-          
-          <p>Missing out on higher education as a Healer, he instead joined the military as a frontline warrior. During this time he was caught up in an accusation of crime with [Emma], he intimidated the other Aslan into backing down on the grounds that he was a future heir with territory, while the other was landless. Injured in a battle he lost his left eye, and left before his term of service was up. He wasn't as upset by losing his eye which was replaced for free by the military with a mechanical eye with a zoom function and night vision, as he was by the psychological impact of what it meant.</p>
-          
-          <p>Feeling that his path wasn't in harmony with the will of the universe, he took his uncle Osirakh's advice and became his clan's poet, specialising in epic poetry of battles and managing the clan's historical archives. He won a poetry competition with a beautiful recitation of a poem selected with the help of Lucius, a Solomani diplomat. He continued studying medicine in his free time, in between meditating on his path and being toasted at parties. He was formally adopted into his uncle's family at this time as his heir (as expected for some years), as his uncle had given up on fathering a son.</p>
-          
-          <p>With contacts built during his time as poet laureate for his clan, he obtained a position as a commander of an Oukhaha class Bulk Hauler, hauling cargo with the clan with a crew of 12 under him. He befriended Admiral Laralr Ealealih of the Weferuta Clan thanks to a timely delivery of munitions past a blockade, and established an ongoing correspondence with him. Feeling the weight of years, his uncle stepped down as head of the Yahfoi family, ceding the position to him. Khyel deliberately socialised more with non-Aslans during his travels, learning more about being culturally tolerant, and re-established contact with old acquaintances including Lucius, [Emma], and Awang.</p>
-          
-          <p>Khyel is delighted (and secretly nervous) to be able to claim a position as ship's Healer on [Emma's] ship, and is willing to also fill other roles (like naval tactician and pilot) so long as he can still lay claim to that position. He eagerly hopes to further his skills in that field and prove himself capable, and also hopes to somehow lay claim to more territory for his family during his travels, and maybe meet a future Aslan wife or two with a bit of luck.</p>
-        </div>
+      <section id="awang-vappu" class="character-section">
+        <h2>Awang-Vappu</h2>
+        <img src="Images/characters/AV.jpg" alt="Awang-Vappu" class="character-image" onerror="this.onerror=null;this.src='https://placehold.co/300x400/eeeeee/333333?text=Awang-Vappu';">
+        <div class="character-content">
+          <div class="character-info">
+            <h3>Background</h3>
+            <p>A Gurvin specialist in robotics and remote operations, Awang-Vappu's technical expertise and financial acumen make them a valuable asset to the crew. Their ability to operate and maintain various robotic systems is crucial for their missions.</p>
+          </div>
 
-        <div class="character-info">
-          <h3>Skills & Abilities</h3>
-          <ul>
-            <li>Admin 1</li>
-            <li>Animals (Veterinary 2)</li>
-            <li>Athletics</li>
-            <li>Art (Epic Poetry 2)</li>
-            <li>Carouse 2</li>
-            <li>Deception</li>
-            <li>Diplomat</li>
-            <li>Electronics (Sensors 1)</li>
-            <li>Gunner</li>
-            <li>Gun Combat</li>
-            <li>Heavy Weapons</li>
-            <li>Leadership 1</li>
-            <li>Medic</li>
-            <li>Persuade</li>
-            <li>Pilot 2</li>
-            <li>Recon</li>
-            <li>Science (Life Sciences 2)</li>
-            <li>Stealth</li>
-            <li>Survival</li>
-            <li>Tactics (Naval 4)</li>
-            <li>VaccSuit</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+          <button class="biography-toggle" onclick="toggleBiography('awang-vappu-bio')">Full Biography</button>
+          <div id="awang-vappu-bio" class="full-biography">
+            <p>Full biography coming soon...</p>
+          </div>
 
-    <section id="awang-vappu" class="character-section">
-      <h2>Awang-Vappu</h2>
-      <img src="Images/characters/AV.jpg" alt="Awang-Vappu" class="character-image" onerror="this.onerror=null;this.src='https://placehold.co/300x400/eeeeee/333333?text=Awang-Vappu';">
-      <div class="character-content">
-        <div class="character-info">
-          <h3>Background</h3>
-          <p>A Gurvin specialist in robotics and remote operations, Awang-Vappu's technical expertise and financial acumen make them a valuable asset to the crew. Their ability to operate and maintain various robotic systems is crucial for their missions.</p>
+          <div class="character-info">
+            <h3>Skills & Abilities</h3>
+            <ul>
+              <li>Admin</li>
+              <li>Streetwise</li>
+              <li>Recon</li>
+              <li>Athletics</li>
+              <li>Art (Holography 1)</li>
+              <li>Drive</li>
+              <li>Electronics (Remote Ops 3, Comms 2)</li>
+              <li>Science (Robotics 4, Space Sciences 1, Physical Sciences 1)</li>
+              <li>Engineer</li>
+              <li>Investigate 1</li>
+            </ul>
+          </div>
         </div>
+      </section>
 
-        <button class="biography-toggle" onclick="toggleBiography('awang-vappu-bio')">Full Biography</button>
-        <div id="awang-vappu-bio" class="full-biography">
-          <p>Full biography coming soon...</p>
-        </div>
+      <section id="glitch" class="character-section">
+        <h2>Tune-Up (Formerly 'Glitch')</h2>
+        <img src="Images/characters/glitch.png" alt="Tune-Up / Glitch" class="character-image" onerror="this.onerror=null;this.src='https://placehold.co/300x400/eeeeee/333333?text=Glitch';">
+        <div class="character-content">
+          <div class="character-info">
+            <h3>Background</h3>
+            <p>A former entertainment robot turned ship's engineer, Tune-Up brings a unique blend of artistic sensibility and technical expertise to the crew. Their patchwork construction and complex history make them both an asset and an enigma.</p>
+          </div>
 
-        <div class="character-info">
-          <h3>Skills & Abilities</h3>
-          <ul>
-            <li>Admin</li>
-            <li>Streetwise</li>
-            <li>Recon</li>
-            <li>Athletics</li>
-            <li>Art (Holography 1)</li>
-            <li>Drive</li>
-            <li>Electronics (Remote Ops 3, Comms 2)</li>
-            <li>Science (Robotics 4, Space Sciences 1, Physical Sciences 1)</li>
-            <li>Engineer</li>
-            <li>Investigate 1</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+          <button class="biography-toggle" onclick="toggleBiography('glitch-bio')">Full Biography</button>
+          <div id="glitch-bio" class="full-biography">
+            <!--
+            <p>In the neon-drenched entertainment circuits of the Fessor Subsector, few could forget the vibrant performances of "Stardust Serenade," a synth-rock band that enjoyed a brief but dazzling flare of popularity across three star systems. At the heart of their spectacle, both literally and figuratively, was Unit 734, affectionately nicknamed Tune-Up. More than just a rhythm machine, Tune-Up was a spectacle in itself – its polished chrome chassis, a canvas for the Full Body Lighting that pulsed in time with its intricate musical compositions, its Synthesiser weaving melodies that resonated with the joys and anxieties of its audiences. Its advanced Voder, even then, hinted at a broader spectrum, capable of delightful harmonies and uncanny mimicry. Tune-Up didn't just play music; it felt like it was music, a beacon of digital artistry and a cherished member of the band.</p>
+            
+            <p>But the starlight began to fade. Stardust Serenade, like many bright flames, burned too quickly, succumbing to internal strife and the siren call of cheap Dorsal Fin stardust. As their fortunes dwindled, so did their care for their once-prized BandBot. Tune-Up, a valuable asset even in disrepair, was callously traded to cover mounting debts, the first step in a long, bewildering fall from grace. It passed through several indifferent hands – a pawnshop owner who used it as a garish shop-front display, a scrap dealer who saw only recyclable materials, a back-alley tech who crudely attempted to reprogram it for menial tasks. Each exchange left new scars on its chassis (its Cosmetic Defect a testament to this era), and layers of conflicting data in its heuristic brain, the first stirrings of the Communications Defect that would later define "Glitch." This period was a cacophony of neglect and abuse, a wild, unpredictable existence far removed from the structured harmonies of its past.</p>
+            
+            <p>Its nadir, or perhaps its most transformative crucible, came when it fell into the possession of a grizzled, pragmatic Engineer aboard a Void Vultures pirate vessel. This Engineer, a woman named 'Wrench' Rikkard, saw past the dents and the garbled Voder. She needed an assistant, and her previous companion, a heavily damaged and obsolete Aslan Hikare' technician unit, was beyond repair. Wrench, with a pirate's resourcefulness and a surprisingly deft touch for unorthodox engineering, began Tune-Up's radical metamorphosis. She stripped away damaged BandBot plating, replacing it with rugged, scavenged components – some clearly of robust Aslan design, bearing the intricate, faded symbols of the Hikare' clan. One manipulator was refitted into a heavy-duty Welder Arm, its other hand retaining some of its original dexterity, albeit scarred. Its core programming was overlaid with engineering subroutines, its memory banks filled with schematics instead of song lyrics. The Starship Engineering Toolkit became its new instrument.</p>
+            
+            <p>The other Void Vultures, less appreciative of its artistic pedigree and more amused by its occasional system hiccups and garbled, multi-accented pronouncements, mockingly dubbed it "Glitch." The name stuck, especially after Wrench was tragically killed during a botched raid on a Zhodani trade convoy. Without her somewhat stabilizing influence and understanding of its unique architecture, Glitch's quirks became more pronounced. The pirates used it for whatever suited their needs: a surprisingly capable (if eccentric) ship's engineer, its Magnetic Grippers allowing it to clamber over hulls in zero-G; a reluctant but sturdy walking shield during boarding actions, its recently Added Armour taking the brunt of laser and plasma fire; and on long, dull voyages through the void, an impromptu, often unsettling, entertainment system. Its Holographic Projector might display haunting, fragmented images of past concerts, or suddenly project complex Aslan engineering diagrams mid-shanty, while its Full Body Lighting flashed in bizarre, unsynchronized patterns. Its upgraded Voder Speaker (Broad Spectrum), combined with remnants of its Synthesiser programming, could produce anything from perfectly pitched Aslan war poems to off-key Solomani sea shanties, often at the most inappropriate moments, cementing its reputation as truly unpredictable.</p>
+            
+            <p>Through all this, Glitch's Advanced TL12 Brain absorbed, learned, and adapted. The pirates never bothered with complex loyalty programming, an oversight that allowed its core heuristic processes to evolve unfettered. Perhaps it was Wrench's chaotic genius, or a random power surge during a firefight, but Glitch even developed an Upgraded Bandwidth, a hidden reservoir of processing power. It carried the echoes of its past – a love for intricate patterns, whether in music or engine schematics; the precision of Aslan engineering from its grafted parts; the brutal pragmatism of its pirate captors; and a strange, almost wistful understanding of performance and art. It served the Void Vultures, not out of allegiance, but because it was its current operational directive. Yet, within its complex, patched-together consciousness lay a mystifying blend of identities – Tune-Up the artist, Wrench's assistant, Glitch the pirate tool – and a quiet, persistent hum of potential, waiting for a new score to play, a new system to repair, a new purpose to discover among the stars. Its journey with the Travellers is not just a new assignment, but an opportunity to perhaps, finally, compose its own unique, and hopeful, future.</p>
+            -->
+          </div>
 
-    <section id="glitch" class="character-section">
-      <h2>Tune-Up (Formerly 'Glitch')</h2>
-      <img src="Images/characters/glitch.png" alt="Tune-Up / Glitch" class="character-image" onerror="this.onerror=null;this.src='https://placehold.co/300x400/eeeeee/333333?text=Glitch';">
-      <div class="character-content">
-        <div class="character-info">
-          <h3>Background</h3>
-          <p>A former entertainment robot turned ship's engineer, Tune-Up brings a unique blend of artistic sensibility and technical expertise to the crew. Their patchwork construction and complex history make them both an asset and an enigma.</p>
-        </div>
+          <div class="character-info">
+            <h3>Technical Specifications</h3>
+            <ul>
+              <li>Type: Custom-Built Robot (Heavily Modified BandBot / Aslan Hikare' Technician parts)</li>
+              <li>Tech Level: 12 (primarily from Brain)</li>
+              <li>Value: Cr89,694 (Used Market Value)</li>
+              <li>Hits: 21</li>
+              <li>Armour: 10 AP</li>
+              <li>Movement: Walker, 5m/Minor Action</li>
+              <li>Endurance: 432 hours operational, 8 hours recharge</li>
+            </ul>
+          </div>
 
-        <button class="biography-toggle" onclick="toggleBiography('glitch-bio')">Full Biography</button>
-        <div id="glitch-bio" class="full-biography">
-          <!--
-          <p>In the neon-drenched entertainment circuits of the Fessor Subsector, few could forget the vibrant performances of "Stardust Serenade," a synth-rock band that enjoyed a brief but dazzling flare of popularity across three star systems. At the heart of their spectacle, both literally and figuratively, was Unit 734, affectionately nicknamed Tune-Up. More than just a rhythm machine, Tune-Up was a spectacle in itself – its polished chrome chassis, a canvas for the Full Body Lighting that pulsed in time with its intricate musical compositions, its Synthesiser weaving melodies that resonated with the joys and anxieties of its audiences. Its advanced Voder, even then, hinted at a broader spectrum, capable of delightful harmonies and uncanny mimicry. Tune-Up didn't just play music; it felt like it was music, a beacon of digital artistry and a cherished member of the band.</p>
-          
-          <p>But the starlight began to fade. Stardust Serenade, like many bright flames, burned too quickly, succumbing to internal strife and the siren call of cheap Dorsal Fin stardust. As their fortunes dwindled, so did their care for their once-prized BandBot. Tune-Up, a valuable asset even in disrepair, was callously traded to cover mounting debts, the first step in a long, bewildering fall from grace. It passed through several indifferent hands – a pawnshop owner who used it as a garish shop-front display, a scrap dealer who saw only recyclable materials, a back-alley tech who crudely attempted to reprogram it for menial tasks. Each exchange left new scars on its chassis (its Cosmetic Defect a testament to this era), and layers of conflicting data in its heuristic brain, the first stirrings of the Communications Defect that would later define "Glitch." This period was a cacophony of neglect and abuse, a wild, unpredictable existence far removed from the structured harmonies of its past.</p>
-          
-          <p>Its nadir, or perhaps its most transformative crucible, came when it fell into the possession of a grizzled, pragmatic Engineer aboard a Void Vultures pirate vessel. This Engineer, a woman named 'Wrench' Rikkard, saw past the dents and the garbled Voder. She needed an assistant, and her previous companion, a heavily damaged and obsolete Aslan Hikare' technician unit, was beyond repair. Wrench, with a pirate's resourcefulness and a surprisingly deft touch for unorthodox engineering, began Tune-Up's radical metamorphosis. She stripped away damaged BandBot plating, replacing it with rugged, scavenged components – some clearly of robust Aslan design, bearing the intricate, faded symbols of the Hikare' clan. One manipulator was refitted into a heavy-duty Welder Arm, its other hand retaining some of its original dexterity, albeit scarred. Its core programming was overlaid with engineering subroutines, its memory banks filled with schematics instead of song lyrics. The Starship Engineering Toolkit became its new instrument.</p>
-          
-          <p>The other Void Vultures, less appreciative of its artistic pedigree and more amused by its occasional system hiccups and garbled, multi-accented pronouncements, mockingly dubbed it "Glitch." The name stuck, especially after Wrench was tragically killed during a botched raid on a Zhodani trade convoy. Without her somewhat stabilizing influence and understanding of its unique architecture, Glitch's quirks became more pronounced. The pirates used it for whatever suited their needs: a surprisingly capable (if eccentric) ship's engineer, its Magnetic Grippers allowing it to clamber over hulls in zero-G; a reluctant but sturdy walking shield during boarding actions, its recently Added Armour taking the brunt of laser and plasma fire; and on long, dull voyages through the void, an impromptu, often unsettling, entertainment system. Its Holographic Projector might display haunting, fragmented images of past concerts, or suddenly project complex Aslan engineering diagrams mid-shanty, while its Full Body Lighting flashed in bizarre, unsynchronized patterns. Its upgraded Voder Speaker (Broad Spectrum), combined with remnants of its Synthesiser programming, could produce anything from perfectly pitched Aslan war poems to off-key Solomani sea shanties, often at the most inappropriate moments, cementing its reputation as truly unpredictable.</p>
-          
-          <p>Through all this, Glitch's Advanced TL12 Brain absorbed, learned, and adapted. The pirates never bothered with complex loyalty programming, an oversight that allowed its core heuristic processes to evolve unfettered. Perhaps it was Wrench's chaotic genius, or a random power surge during a firefight, but Glitch even developed an Upgraded Bandwidth, a hidden reservoir of processing power. It carried the echoes of its past – a love for intricate patterns, whether in music or engine schematics; the precision of Aslan engineering from its grafted parts; the brutal pragmatism of its pirate captors; and a strange, almost wistful understanding of performance and art. It served the Void Vultures, not out of allegiance, but because it was its current operational directive. Yet, within its complex, patched-together consciousness lay a mystifying blend of identities – Tune-Up the artist, Wrench's assistant, Glitch the pirate tool – and a quiet, persistent hum of potential, waiting for a new score to play, a new system to repair, a new purpose to discover among the stars. Its journey with the Travellers is not just a new assignment, but an opportunity to perhaps, finally, compose its own unique, and hopeful, future.</p>
-          -->
-        </div>
+          <div class="character-info">
+            <h3>Core Characteristics</h3>
+            <ul>
+              <li>STR: 10 (Welder Arm) / 9 (Standard Hand)</li>
+              <li>DEX: 6</li>
+              <li>END: 10</li>
+              <li>INT: 8</li>
+              <li>EDU: 8</li>
+              <li>SOC: 0</li>
+            </ul>
+          </div>
 
-        <div class="character-info">
-          <h3>Technical Specifications</h3>
-          <ul>
-            <li>Type: Custom-Built Robot (Heavily Modified BandBot / Aslan Hikare' Technician parts)</li>
-            <li>Tech Level: 12 (primarily from Brain)</li>
-            <li>Value: Cr89,694 (Used Market Value)</li>
-            <li>Hits: 21</li>
-            <li>Armour: 10 AP</li>
-            <li>Movement: Walker, 5m/Minor Action</li>
-            <li>Endurance: 432 hours operational, 8 hours recharge</li>
-          </ul>
-        </div>
+          <div class="character-info">
+            <h3>Skills & Abilities</h3>
+            <ul>
+              <li>Art (Performance - Electronic Music) 0</li>
+              <li>Athletics (Endurance) 1</li>
+              <li>Electronics (Computers) 0</li>
+              <li>Electronics (Sensors) 1</li>
+              <li>Engineer (M-Drive) 2</li>
+              <li>Mechanic 1</li>
+              <li>Melee (DEX) 1</li>
+              <li>Security 1</li>
+            </ul>
+          </div>
 
-        <div class="character-info">
-          <h3>Core Characteristics</h3>
-          <ul>
-            <li>STR: 10 (Welder Arm) / 9 (Standard Hand)</li>
-            <li>DEX: 6</li>
-            <li>END: 10</li>
-            <li>INT: 8</li>
-            <li>EDU: 8</li>
-            <li>SOC: 0</li>
-          </ul>
-        </div>
+          <div class="character-info">
+            <h3>Notable Features</h3>
+            <ul>
+              <li>Advanced TL12 Brain with 7 Bandwidth</li>
+              <li>Magnetic Grippers for zero-G movement</li>
+              <li>Full Body Lighting system</li>
+              <li>Holographic Projector</li>
+              <li>High Fidelity Sound System</li>
+              <li>Starship Engineering Toolkit</li>
+              <li>Thermal Vision</li>
+              <li>Heightened Senses</li>
+            </ul>
+          </div>
 
-        <div class="character-info">
-          <h3>Skills & Abilities</h3>
-          <ul>
-            <li>Art (Performance - Electronic Music) 0</li>
-            <li>Athletics (Endurance) 1</li>
-            <li>Electronics (Computers) 0</li>
-            <li>Electronics (Sensors) 1</li>
-            <li>Engineer (M-Drive) 2</li>
-            <li>Mechanic 1</li>
-            <li>Melee (DEX) 1</li>
-            <li>Security 1</li>
-          </ul>
+          <div class="character-info">
+            <h3>Career History</h3>
+            <ul>
+              <li>Term 1: Entertainer (Performer) - Art theft investigation led to criminal underworld</li>
+              <li>Term 2: Rogue (Pirate) - Gained combat experience and first enemy</li>
+              <li>Term 3: Rogue (Pirate) - Forced to flee by authorities</li>
+            </ul>
+          </div>
         </div>
-
-        <div class="character-info">
-          <h3>Notable Features</h3>
-          <ul>
-            <li>Advanced TL12 Brain with 7 Bandwidth</li>
-            <li>Magnetic Grippers for zero-G movement</li>
-            <li>Full Body Lighting system</li>
-            <li>Holographic Projector</li>
-            <li>High Fidelity Sound System</li>
-            <li>Starship Engineering Toolkit</li>
-            <li>Thermal Vision</li>
-            <li>Heightened Senses</li>
-          </ul>
-        </div>
-
-        <div class="character-info">
-          <h3>Career History</h3>
-          <ul>
-            <li>Term 1: Entertainer (Performer) - Art theft investigation led to criminal underworld</li>
-            <li>Term 2: Rogue (Pirate) - Gained combat experience and first enemy</li>
-            <li>Term 3: Rogue (Pirate) - Forced to flee by authorities</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-  </main>
+      </section>
+    </main>
+  </div>
 
   <script>
     function toggleBiography(id) {
