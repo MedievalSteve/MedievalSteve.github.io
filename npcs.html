@@ -152,6 +152,19 @@
       font-size: 1.2rem;
     }
 
+    .filter-category {
+      margin-bottom: 20px;
+    }
+
+    .filter-category-title {
+      color: var(--accent-color);
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+    }
+
     .filter-tags {
       display: flex;
       flex-wrap: wrap;
@@ -329,21 +342,50 @@
     <main>
       <div class="filter-section">
         <h2 class="filter-title">Filter by Tags</h2>
-        <div class="filter-tags">
-          <span class="filter-tag" data-tag="university">University</span>
-          <span class="filter-tag" data-tag="zhodani">Zhodani</span>
-          <span class="filter-tag" data-tag="ghenani">Ghenani</span>
-          <span class="filter-tag" data-tag="collonades">Collonades</span>
-          <span class="filter-tag" data-tag="drenalch">Drenalch</span>
-          <span class="filter-tag" data-tag="nielkladlief">Nielkladlief</span>
-          <span class="filter-tag" data-tag="employer">Employer</span>
-          <span class="filter-tag" data-tag="act1">Act I: Shadows of the Past</span>
-          <span class="filter-tag" data-tag="mission1">Mission 1: The Seeds of Curiosity</span>
-          <span class="filter-tag" data-tag="bureaucrat">Bureaucrat</span>
-          <span class="filter-tag" data-tag="diplomat">Diplomat</span>
-          <span class="filter-tag" data-tag="ancient">Ancient</span>
-          <span class="filter-tag" data-tag="guardian">Guardian</span>
-          <span class="filter-tag" data-tag="prole">Prole</span>
+        
+        <div class="filter-category">
+          <div class="filter-category-title">Story</div>
+          <div class="filter-tags">
+            <span class="filter-tag" data-tag="act1">Act I: Shadows of the Past</span>
+            <span class="filter-tag" data-tag="mission1">Mission 1: The Seeds of Curiosity</span>
+            <span class="filter-tag" data-tag="mission2">Mission 2: The Shadows of the Past</span>
+          </div>
+        </div>
+
+        <div class="filter-category">
+          <div class="filter-category-title">Locations</div>
+          <div class="filter-tags">
+            <span class="filter-tag" data-tag="university">University</span>
+            <span class="filter-tag" data-tag="collonades">Collonades</span>
+            <span class="filter-tag" data-tag="drenalch">Drenalch</span>
+            <span class="filter-tag" data-tag="nielkladlief">Nielkladlief</span>
+          </div>
+        </div>
+
+        <div class="filter-category">
+          <div class="filter-category-title">Races</div>
+          <div class="filter-tags">
+            <span class="filter-tag" data-tag="zhodani">Zhodani</span>
+            <span class="filter-tag" data-tag="ghenani">Ghenani</span>
+          </div>
+        </div>
+
+        <div class="filter-category">
+          <div class="filter-category-title">Roles</div>
+          <div class="filter-tags">
+            <span class="filter-tag" data-tag="employer">Employer</span>
+            <span class="filter-tag" data-tag="bureaucrat">Bureaucrat</span>
+            <span class="filter-tag" data-tag="diplomat">Diplomat</span>
+            <span class="filter-tag" data-tag="prole">Prole</span>
+          </div>
+        </div>
+
+        <div class="filter-category">
+          <div class="filter-category-title">Other</div>
+          <div class="filter-tags">
+            <span class="filter-tag" data-tag="ancient">Ancient</span>
+            <span class="filter-tag" data-tag="guardian">Guardian</span>
+          </div>
         </div>
       </div>
 
