@@ -77,6 +77,11 @@
       padding: 20px;
       margin-bottom: 20px;
       border: 1px solid var(--accent-color);
+      display: none;
+    }
+
+    .npc-entry.visible {
+      display: block;
     }
 
     header {
@@ -279,6 +284,40 @@
       font-family: 'Orbitron', sans-serif;
       text-transform: uppercase;
       letter-spacing: 1px;
+    }
+
+    .filter-group {
+      margin-bottom: 20px;
+    }
+
+    .filter-group h3 {
+      color: var(--accent-color);
+      margin-bottom: 10px;
+      font-size: 1.1em;
+    }
+
+    .filter-button {
+      display: block;
+      width: 100%;
+      padding: 8px 12px;
+      margin: 5px 0;
+      background: var(--background-color);
+      color: var(--text-color);
+      border: 1px solid var(--accent-color);
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.3s ease;
+    }
+
+    .filter-button:hover {
+      background: var(--accent-color);
+      color: var(--background-color);
+    }
+
+    .filter-button.active {
+      background: var(--accent-color);
+      color: var(--background-color);
     }
 
     @media (max-width: 768px) {
@@ -707,31 +746,36 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-      const filterTags = document.querySelectorAll('.filter-tag');
-      const npcSections = document.querySelectorAll('.npc-entry');
+      const filterButtons = document.querySelectorAll('.filter-button');
+      const npcEntries = document.querySelectorAll('.npc-entry');
+      let activeFilters = new Set();
 
       // Function to update visibility
       function updateVisibility() {
-        const activeTags = Array.from(document.querySelectorAll('.filter-tag.active'))
-          .map(t => t.dataset.tag);
-
-        npcSections.forEach(section => {
-          const sectionTags = section.dataset.tags.split(',');
-          const shouldShow = activeTags.length === 0 || 
-            activeTags.some(activeTag => sectionTags.includes(activeTag));
-          section.style.display = shouldShow ? 'block' : 'none';
+        npcEntries.forEach(entry => {
+          const tags = entry.getAttribute('data-tags').split(',');
+          const shouldShow = activeFilters.size === 0 || 
+            Array.from(activeFilters).some(filter => tags.includes(filter));
+          entry.classList.toggle('visible', shouldShow);
         });
       }
 
-      // Add click handlers to filter tags
-      filterTags.forEach(tag => {
-        tag.addEventListener('click', function() {
-          this.classList.toggle('active');
+      // Add click handlers to filter buttons
+      filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const tag = this.getAttribute('data-tag');
+          if (activeFilters.has(tag)) {
+            activeFilters.delete(tag);
+            this.classList.remove('active');
+          } else {
+            activeFilters.add(tag);
+            this.classList.add('active');
+          }
           updateVisibility();
         });
       });
 
-      // Initial visibility update
+      // Show all entries initially
       updateVisibility();
     });
   </script>
