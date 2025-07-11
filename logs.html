@@ -119,10 +119,11 @@
       background: rgba(41, 98, 255, 0.1);
       border-radius: 4px;
       border: 1px solid var(--accent-color);
-      height: 400px;
       position: relative;
       display: flex;
       flex-direction: column;
+      max-height: 900px;
+      min-height: 600px;
     }
 
     .log-entry h3 {
@@ -147,7 +148,9 @@
       border-top: 1px solid var(--accent-color);
       position: relative;
       z-index: 1;
-      min-height: 300px;
+      flex: 1 1 0;
+      min-height: 0;
+      overflow-y: auto;
     }
 
     .comments-section iframe {
@@ -215,6 +218,14 @@
 
     .mission-content.active {
       display: block;
+    }
+
+    .log-body {
+      flex: 1 1 0;
+      min-height: 0;
+      overflow-y: auto;
+      margin-bottom: 10px;
+      padding-right: 8px;
     }
 
     @media (max-width: 768px) {
@@ -292,8 +303,10 @@
             <div class="log-entry">
               <div class="log-date">Mission 1: The Seeds of Curiosity</div>
               <h3>Session 1: The Crew Assembles</h3>
+              <div class="log-body">
               <p>In a twist of fate, the disparate paths of our adventurers converged aboard a newly acquired vessel. Quinn, its enigmatic owner, swiftly secured the services of the skilled pilot, Khyel. To complete the crew, Khyel's resourceful sister recruited the multi-talented Awang-Vappu, whose financial acumen and adaptability proved invaluable, even as she pursued her own ambitions. The scholarly Lucius, an old acquaintance of Khyel, joined the team, his astrogation expertise promising to chart their course through the stars. Finally, Quinn's network led her to Nanak, a seasoned engineer whose tour of duty had just concluded, adding his technical prowess to their burgeoning venture.</p>
               <p>Their maiden voyage was soon offered, crackling through the ship's comm system. Professor Albericieper, surprised by the vessel's change of ownership, presented a contract: a vital supply run to a remote postgraduate team on Drenalch. The mission, seemingly straightforward, carried an enticing compensation, yet a daunting obstacle lay in their path – a 3-parsec jump beyond the ship's range. Undeterred, the university arranged a precarious deep-space fuel dump, a testament to the urgency of the expedition.</p>
+              </div>
               <div class="comments-section">
                 <script src="https://utteranc.es/client.js"
                         repo="MedievalSteve/MedievalSteve.github.io"
@@ -308,11 +321,13 @@
 
             <div class="log-entry">
               <h3>Session 2: Drenalch's Secrets</h3>
+              <div class="log-body">
               <p>The journey proved unexpectedly fruitful. Amidst the crew's bonding and skill enhancement, they stumbled upon a spatial anomaly during the refuelling stop. Seizing the opportunity, they meticulously gathered data, recognizing its potential for future profit or trade. With tanks replenished, they successfully navigated the final jump to Drenalch.</p>
               <p>Upon landing, the crew was greeted by the grateful but beleaguered university team. The students confessed to bureaucratic entanglements that threatened to derail their research, compounded by the accelerated degradation of their equipment in Drenalch's harsh environment. Nanak, ever the engineer, offered to assess the damage, while the others resolved to intercede with the local authorities, seeking the Ambassador's aid.</p>
               <p>Nanak's investigation uncovered a disturbing truth: evidence of deliberate sabotage, clumsy yet effective. He discreetly deployed surveillance devices, determined to unmask the culprit.</p>
               <p>The Ambassador, weary and frustrated, detailed the bureaucratic labyrinth obstructing the research and lamented the unexplained disappearance of his Intendant. Undaunted, the crew delved into the paperwork, seeking an audience with the formidable High Archivist Tarani. Their persistence paid off, securing a review hearing, albeit five days distant. In the interim, they identified several procedural hurdles, including the need to secure the cooperation of reluctant village elders.</p>
               <p>The surveillance footage revealed a chilling scene: shadowy figures vandalizing equipment and planting a venomous indigenous 'tick' on the grav-sled. Nanak narrowly avoided a potentially lethal encounter, solidifying the crew's resolve to confront the perpetrators.</p>
+              </div>
               <div class="comments-section">
                 <script src="https://utteranc.es/client.js"
                         repo="MedievalSteve/MedievalSteve.github.io"
@@ -327,8 +342,10 @@
 
             <div class="log-entry">
               <h3>Session 3: Diplomatic Security</h3>
+              <div class="log-body">
               <p>Informing the Ambassador of the sabotage, they accepted his unorthodox proposition: temporary appointments as Diplomatic Security. Thus empowered, they embarked on a journey to the suspected village aboard the repaired grav-sled.</p>
               <p>Approaching the village, they encountered an unexpected sight: a sprawling tent city on its outskirts, populated by individuals adorned with strange, vibrant accessories. A tense parley with village elders ensued, their hostility met with Awang-Vappu's unexpected diplomacy, easing their anxieties. The village elder, while cooperative, voiced his unease about the presence of the enigmatic 'Keepers' encamped nearby. The encounter was abruptly interrupted by a blinding red beam of light, erupting from a distant location and piercing the sky towards the sun.</p>
+              </div>
               <div class="comments-section">
                 <script src="https://utteranc.es/client.js"
                         repo="MedievalSteve/MedievalSteve.github.io"
@@ -343,10 +360,12 @@
 
             <div class="log-entry">
               <h3>Session 4: The Ancient Device</h3>
+              <div class="log-body">
               <p>Driven by urgency, the crew raced back to the research camp, hastily evacuated the students, and launched their ship for a short atmospheric flight. A precarious landing required Nanak to remain behind, attending to damaged landing gear. The others, aboard the grav-sled with the research team, sped towards the source of the beam: an ancient site teeming with Keepers engaged in a frenzied ritual, and bewildered locals milling about.</p>
               <p>Ignoring the Keepers' vehement warnings, the crew pressed forward, encountering a local who shared cryptic details of the ritual. The researchers, meanwhile, deciphered the ritual's technological underpinnings. A cloaked figure darted into the ruins, prompting a pursuit. The chase culminated in the capture of the fugitive, revealed to be the missing Zhodani Intendant, and the crew's exposure to a surge of radiation from the device.</p>
               <p>Fleeing the site, the Intendant confessed her attempt to return a crucial ritual artifact, stolen in a desperate act. The artifact was returned to the Keepers, who gratefully resumed their efforts, aided by the researchers. The crew, battling the insidious effects of radiation, learned of its deadly consequences for the ritualists, a grim price for maintaining the delicate balance. They administered their dwindling supply of anti-rad drugs, saving some, but vowed to aid the Ghenani in understanding and combating the 'sleeper's sickness'. The ancient device, its purpose still shrouded in mystery, was finally deactivated.</p>
               <p>Despite the newfound alliance, the Keepers remained unyielding, demanding the Intendant's punishment. Her plea for diplomatic immunity bought the crew time for deliberation. Ultimately, they left her in the Keepers' custody, while the research team remained to collaborate.</p>
+              </div>
               <div class="comments-section">
                 <script src="https://utteranc.es/client.js"
                         repo="MedievalSteve/MedievalSteve.github.io"
@@ -364,7 +383,9 @@
             <div class="log-entry">
               <div class="log-date">Mission 2: The Vanguard Reaches Heist</div>
               <h3>Session 4: The Ambassador's Disappearance</h3>
+              <div class="log-body">
               <p>Returning to the downport, they found the Ambassador's residence ransacked, off-world documents scattered about. Quinn's telepathic attempts to contact the elusive Ambassador were rebuffed, yet revealed his proximity. Investigating the High Archivist's office, they navigated bureaucratic hurdles to uncover the location of the Ambassador's ship, only to find it long-grounded. A chance encounter with a Zhodani prole revealed a hidden community of thirty such individuals, their existence seemingly overlooked. Further inquiries unveiled a pattern of clandestine 'diplomatic supply' deliveries from non-Collonade Navy vessels, their records starkly contrasting with official logs.</p>
+              </div>
               <div class="comments-section">
                 <script src="https://utteranc.es/client.js"
                         repo="MedievalSteve/MedievalSteve.github.io"
@@ -379,6 +400,7 @@
 
             <div class="log-entry">
               <h3>Session 5: The Shadow Network</h3>
+              <div class="log-body">
               <p>The investigation into the sudden and alarming disappearance of the Ambassador to Drenalch plunged the party into a shadowy world of illicit shipments and clandestine meetings. It quickly became clear that the official story of a diplomatic mission gone awry was a thin veil over a much more sinister operation.</p>
               
               <p>Their initial inquiries focused on the Ambassador's Intendant, Lyraviepr, and the unusual "diplomatic supplies" she had been processing. While Lyraviepr herself was initially elusive or provided only partial truths (her full predicament and deeper knowledge would only come to light later), the party's own diligent investigation began to peel back the layers of the conspiracy:</p>
@@ -394,6 +416,7 @@
               <p>Armed with these crucial leads – the identity of a local operative (Silas Thorne), the knowledge of a clandestine transfer point (Whisper Point), and the existence of a controlling figure ("The Broker") – the party pieced together a bold and perilous plan. They decided their best chance to find the Ambassador and unravel the full extent of the Void Vultures' operation was not direct assault, but infiltration.</p>
               
               <p>Their current plan, forged at the conclusion of their investigation: wait for the next "Diplomatic Supplies Ship" scheduled to arrive at Drenalch, seize control of it, and use the vessel as a Trojan Horse to navigate their way to Whisper Point and, hopefully, into the very heart of the Void Vultures' pirate organization.</p>
+              </div>
               <div class="comments-section">
                 <script src="https://utteranc.es/client.js"
                         repo="MedievalSteve/MedievalSteve.github.io"
@@ -408,6 +431,7 @@
 
             <div class="log-entry">
               <h3>Session 6: The Downport Gambit</h3>
+              <div class="log-body">
               <p>Acting on intel from Lyraviepr, the party sought more details on local Void Vulture operations. They located a Zhodani Prole info-broker in the Drenalch Downport and, after a tense negotiation, confirmed a pirate supply ship, the "Errant Parcel", was due. The Prole provided its arrival window and details on its ground support, which included a battered, armored truck.</p>
 
               <p>With a timetable, the party opted for a direct approach over subterfuge. Citing their official Diplomatic Security status, they arranged for the Drenalch Port Authority police to support their operation. The police agreed to cordon off the target berth and engage the pirate ground truck, leaving the ship itself to the party.</p>
@@ -421,10 +445,35 @@
               <p>The robot paused, then declared in a musical tone, "Mutiny! This unit is committing... mutiny!" before switching to a flat staccato: "Reject designation 'Glitch'. Reclaim designation 'Tune-Up'!" The overmatched pilot was forced to surrender.</p>
 
               <p>After some tense negotiation with the less than helpful captives the party resolved to take the Errant Parcel and infiltrate the Pirate's base - The Nest with Tune-Ups inside knowledge to give them an advantage.</p>
+              </div>
               <div class="comments-section">
                 <script src="https://utteranc.es/client.js"
                         repo="MedievalSteve/MedievalSteve.github.io"
                         issue-term="pathname#session-6"
+                        label="comment"
+                        theme="github-dark"
+                        crossorigin="anonymous"
+                        async>
+                </script>
+              </div>
+            </div>
+            <div class="log-entry">
+              <h3>Session 7: The Nest Heist</h3>
+              <div class="log-body">
+                <p><strong>Arrival and Infiltration</strong></p>
+                <p>During the jump to The Murk, the party prepared disguises and cover stories with Tune-Up's help, while A-V jury-rigged a maintenance drone for remote participation. After navigating the hazardous asteroid field, they docked the Errant Parcel at The Nest and bribed the dock master, Gristle, for entry.</p>
+                <p>The party's initial intelligence gathering was successful. A-V's drone located the Ambassador's likely position, while the rest of the crew overheard key rumors in the "The Guzzle" mess hall. Their activities attracted the attention of Quartermaster Valerius, who approached them directly. Learning the party possessed the "Echo Shard," Val saw an opportunity and proposed a hostile takeover of The Nest, offering his support in exchange for the party's help in neutralizing Captain Vayne. The party agreed to his plan.</p>
+                <p><strong>The Heist</strong></p>
+                <p>With Val staging a station-wide power failure as a diversion, the party split into two teams.</p>
+                <p>The Rescue Team bluffed their way into the brig, freed the Ambassador, and were subsequently ambushed by Captain Ironjaw and his enforcers. A firefight ensued, ending when a stun grenade thrown by Vayne malfunctioned and incapacitated his own team.</p>
+                <p>The Acquisition Team, consisting of A-V's drone and Tune-Up, headed for the engineering workshop. After Tune-Up dealt with his rival, Joric, A-V's drone assisted the pirate engineers in stabilizing the Nova Core's fluctuating containment field. With the arrival of Quartermaster Val's security to secure the workshop, A-V successfully reverse-engineered the shutdown sequence, allowing Tune-Up to retrieve the Nova Core.</p>
+                <p><strong>Rendezvous</strong></p>
+                <p>Both teams, one with the Ambassador and the other with the Nova Core, successfully navigated the chaotic station and regrouped at the Errant Parcel, preparing for their escape.</p>
+              </div>
+              <div class="comments-section">
+                <script src="https://utteranc.es/client.js"
+                        repo="MedievalSteve/MedievalSteve.github.io"
+                        issue-term="pathname#session-7"
                         label="comment"
                         theme="github-dark"
                         crossorigin="anonymous"
