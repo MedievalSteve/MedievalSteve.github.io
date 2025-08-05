@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Organizations - Big Space Campaign</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #1a237e;
+      --secondary-color: #0d47a1;
+      --accent-color: #2962ff;
+      --text-color: #e0e0e0;
+      --background-color: #121212;
+      --card-bg: #1e1e1e;
+      --header-bg: #000051;
+      --nav-hover: #304ffe;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: var(--background-color);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    #nav-placeholder {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    .content-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+
+    .main-content {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      max-width: 1200px;
+      gap: 40px;
+      padding: 0 20px;
+      margin-top: 20px;
+    }
+
+    .filter-section {
+      width: 25%;
+      min-width: 250px;
+      background: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      padding: 20px;
+      margin: 0;
+      border: 1px solid var(--accent-color);
+      align-self: flex-start;
+      position: sticky;
+      top: 100px;
+      max-height: calc(100vh - 120px);
+      overflow-y: auto;
+    }
+
+    .filter-section::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .filter-section::-webkit-scrollbar-track {
+      background: var(--background-color);
+      border-radius: 4px;
+    }
+
+    .filter-section::-webkit-scrollbar-thumb {
+      background: var(--accent-color);
+      border-radius: 4px;
+    }
+
+    .filter-section::-webkit-scrollbar-thumb:hover {
+      background: var(--nav-hover);
+    }
+
+    .filter-group {
+      margin-bottom: 20px;
+    }
+
+    .filter-group h3 {
+      color: var(--accent-color);
+      margin-bottom: 10px;
+      font-size: 1.1em;
+    }
+
+    .filter-button {
+      display: block;
+      width: 100%;
+      padding: 8px 12px;
+      margin: 5px 0;
+      background: var(--background-color);
+      color: var(--text-color);
+      border: 1px solid var(--accent-color);
+      border-radius: 4px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.3s ease;
+    }
+
+    .filter-button:hover {
+      background: var(--accent-color);
+      color: var(--background-color);
+    }
+
+    .filter-button.active {
+      background: var(--accent-color);
+      color: var(--background-color);
+    }
+
+    .organization-section {
+      width: 75%;
+      min-width: 500px;
+      display: block;
+    }
+
+    .organization-entry {
+      display: block;
+      background: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid var(--accent-color);
+      width: 100%;
+    }
+
+    .organization-entry.hidden {
+      display: none;
+    }
+
+    header {
+      margin-top: 40px;
+      margin-bottom: 40px;
+      text-align: center;
+      width: 100%;
+      background: linear-gradient(to bottom, var(--header-bg), var(--background-color));
+      padding: 2rem 0;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--accent-color);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(41, 98, 255, 0.3);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .organization-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .stat-box {
+      background: rgba(41, 98, 255, 0.1);
+      padding: 15px;
+      border-radius: 4px;
+      border: 1px solid var(--accent-color);
+    }
+
+    .stat-label {
+      color: var(--accent-color);
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .organization-image {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      border-radius: 8px;
+      margin: 20px 0;
+      border: 1px solid var(--accent-color);
+    }
+
+    .organization-logo {
+      width: 100%;
+      max-width: 300px;
+      height: auto;
+      border-radius: 8px;
+      margin: 20px 0;
+      border: 1px solid var(--accent-color);
+    }
+
+    .organization-info {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: rgba(41, 98, 255, 0.1);
+      border-radius: 4px;
+      border: 1px solid var(--accent-color);
+    }
+
+    .organization-info h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .organization-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+      padding: 15px;
+      background: rgba(41, 98, 255, 0.1);
+      border-radius: 4px;
+      border: 1px solid var(--accent-color);
+    }
+
+    .organization-links a {
+      color: var(--accent-color);
+      text-decoration: none;
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 8px 16px;
+      border-radius: 4px;
+      background: rgba(41, 98, 255, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .organization-links a:hover {
+      background: rgba(41, 98, 255, 0.2);
+      color: #64b5f6;
+    }
+
+    @media (max-width: 768px) {
+      .organization-section {
+        margin: 10px;
+        padding: 16px;
+      }
+
+      .organization-links {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+
+    .organization-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 10px 0;
+    }
+
+    .organization-tag {
+      background: var(--accent-color);
+      color: var(--background-color);
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.9em;
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .organization-content {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Include Navigation -->
+  <div id="nav-placeholder"></div>
+  <script>
+    fetch('navigation.html?v=' + Date.now())
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('nav-placeholder').innerHTML = data;
+        // Set active state after navigation is loaded
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+        const navLinks = document.querySelectorAll('.nav-links a');
+        navLinks.forEach(link => {
+          const linkPage = link.getAttribute('href');
+          if (linkPage === currentPage) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+      });
+  </script>
+  <div class="content-wrapper">
+    <header>
+      <h1>Organizations</h1>
+    </header>
+
+    <div class="main-content">
+      <div class="filter-section">
+        <h2>Filters</h2>
+        <div class="filter-group">
+          <h3>Type</h3>
+          <button class="filter-button" data-tag="academic">Academic</button>
+          <button class="filter-button" data-tag="commercial">Commercial</button>
+          <button class="filter-button" data-tag="criminal">Criminal</button>
+          <button class="filter-button" data-tag="government">Government</button>
+          <button class="filter-button" data-tag="local">Local</button>
+        </div>
+
+        <div class="filter-group">
+          <h3>Faction</h3>
+          <button class="filter-button" data-tag="zhodani-consulate-colonnade-province">Zhodani Consulate Colonnade Province</button>
+          <button class="filter-button" data-tag="diadem">Diadem</button>
+          <button class="filter-button" data-tag="hyperion">Hyperion</button>
+          <button class="filter-button" data-tag="independent">Independent</button>
+          <button class="filter-button" data-tag="pirate">Pirate</button>
+        </div>
+
+        <div class="filter-group">
+          <h3>Mission</h3>
+          <button class="filter-button" data-tag="mission1">Mission 1</button>
+          <button class="filter-button" data-tag="mission2">Mission 2</button>
+          <button class="filter-button" data-tag="mission3">Mission 3</button>
+        </div>
+      </div>
+
+      <div class="organization-section">
+        <section id="colonnade-university" class="organization-entry" data-tags="academic,zhodani-consulate-colonnade-province,mission1">
+          <h2>Colonnade University</h2>
+          <img src="Images/organisations/colonnade_university_logo.jpg" alt="Colonnade University Logo" class="organization-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=Colonnade+University+Logo';">
+          <div class="organization-tags">
+            <span class="organization-tag">Academic</span>
+            <span class="organization-tag">Zhodani Consulate Colonnade Province</span>
+            <span class="organization-tag">Mission 1</span>
+          </div>
+          <div class="organization-content">
+            <p>The Colonnade University stands as one of the most prestigious institutions of higher learning in the Vanguard Reaches. Founded in 1023, it has grown to become a center of academic excellence and cultural exchange, attracting students and scholars from across the sector.</p>
+            
+            <div class="organization-stats">
+              <div class="stat-box">
+                <div class="stat-label">Founded</div>
+                <div>1023</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Location</div>
+                <div>Nielkladlief</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Status</div>
+                <div>Active</div>
+              </div>
+            </div>
+
+            <div class="organization-info">
+              <h3>Academic Programs</h3>
+              <p>The university offers comprehensive studies in sciences, humanities, and technical fields, with particular emphasis on:</p>
+              <ul>
+                <li><strong>Interstellar Studies:</strong> Diplomatic relations, trade economics, and cultural exchange</li>
+                <li><strong>Advanced Sciences:</strong> Physics, engineering, and technological research</li>
+                <li><strong>Cultural Arts:</strong> Literature, music, and visual arts from across the sector</li>
+                <li><strong>Political Science:</strong> Governance systems and administrative theory</li>
+              </ul>
+            </div>
+
+            <div class="organization-info">
+              <h3>Research Facilities</h3>
+              <p>The university maintains state-of-the-art laboratories and research centers, including:</p>
+              <ul>
+                <li><strong>Advanced Physics Laboratory:</strong> Cutting-edge research in quantum mechanics and space-time physics</li>
+                <li><strong>Cultural Archives:</strong> Extensive collection of artifacts and documents from across the Vanguard Reaches</li>
+                <li><strong>Diplomatic Training Center:</strong> Simulation facilities for training future ambassadors and negotiators</li>
+                <li><strong>Technology Innovation Hub:</strong> Collaborative space for developing new technologies and applications</li>
+              </ul>
+            </div>
+
+            <div class="organization-info">
+              <h3>Cultural Exchange</h3>
+              <p>The university hosts regular symposiums and conferences with representatives from various worlds, fostering understanding and cooperation across the sector. Notable events include:</p>
+              <ul>
+                <li><strong>Annual Sector Summit:</strong> Gathering of academic and political leaders from across the Vanguard Reaches</li>
+                <li><strong>Cultural Festival:</strong> Celebration of diverse traditions and artistic expressions</li>
+                <li><strong>Research Symposium:</strong> Presentation of breakthrough discoveries and innovations</li>
+              </ul>
+            </div>
+
+            <div class="organization-info">
+              <h3>Notable Alumni</h3>
+              <p>Many graduates have gone on to serve in prominent positions within the Zhodani Consulate and beyond:</p>
+              <ul>
+                <li><strong>Ambassador Voristlas:</strong> Current diplomatic representative to the Vanguard Reaches</li>
+                <li><strong>Professor Albericiepr:</strong> Leading researcher in interstellar communications</li>
+                <li><strong>Council Member Renniepr:</strong> Senior administrator in the Colonnade Province</li>
+              </ul>
+            </div>
+
+            <div class="organization-info">
+              <h3>Main Campus</h3>
+              <img src="Images/locations/University.jpg" alt="Colonnade University Campus" class="organization-logo" onerror="this.onerror=null;this.src='https://placehold.co/300x200/eeeeee/333333?text=Colonnade+University+Campus';">
+              <p>The Colonnade University campus in Nielkladlief serves as the premier center of learning in the Zhodani Consulate Colonnade Province. The campus features state-of-the-art facilities, extensive research laboratories, and beautiful architectural designs that reflect the cultural heritage of the Zhodani people.</p>
+            </div>
+
+            <div class="organization-links">
+              <a href="locations.html#nielkladlief">Location: Nielkladlief</a>
+              <a href="npcs.html#professor-albericiepr">Professor Albericiepr</a>
+            </div>
+          </div>
+        </section>
+
+        <section id="void-vultures" class="organization-entry" data-tags="criminal,pirate,mission2">
+          <h2>Void Vultures Pirates</h2>
+          <img src="Images/npcs/Pirates/pirate_gang.jpg" alt="Void Vultures Pirates" class="organization-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=Void+Vultures+Pirates';">
+          <div class="organization-tags">
+            <span class="organization-tag">Criminal</span>
+            <span class="organization-tag">Pirate</span>
+            <span class="organization-tag">Mission 2</span>
+          </div>
+          <div class="organization-content">
+            <p>The Void Vultures are a notorious pirate gang operating in the Vanguard Reaches, known for their audacious raids and sophisticated operations. Led by Captain Roric Ironjaw Vayne, they have established a network of hidden bases and safe houses throughout the sector.</p>
+            
+            <div class="organization-stats">
+              <div class="stat-box">
+                <div class="stat-label">Leader</div>
+                <div>Captain Roric Ironjaw Vayne</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Base of Operations</div>
+                <div>The Nest</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Status</div>
+                <div>Active</div>
+              </div>
+            </div>
+
+            <div class="organization-info">
+              <h3>Leadership Structure</h3>
+              <p>The Void Vultures operate under a hierarchical command structure:</p>
+              <ul>
+                <li><strong>Captain Roric Ironjaw Vayne:</strong> Ruthless leader with a reputation for strategic brilliance</li>
+                <li><strong>Silas Thorne:</strong> Second-in-command and tactical specialist</li>
+                <li><strong>Greasey Engineer:</strong> Technical expert responsible for ship maintenance and modifications</li>
+                <li><strong>Heavy Pirate:</strong> Enforcer and security specialist</li>
+                <li><strong>Tech Specialist:</strong> Communications and electronic warfare expert</li>
+              </ul>
+            </div>
+
+            <div class="organization-info">
+              <h3>Operations</h3>
+              <p>The Void Vultures specialize in several types of criminal activities:</p>
+              <ul>
+                <li><strong>Ship Hijacking:</strong> Targeting merchant vessels and passenger ships for cargo and valuables</li>
+                <li><strong>Smuggling:</strong> Transporting illegal goods and contraband across sector borders</li>
+                <li><strong>Information Theft:</strong> Stealing sensitive data and trade secrets for sale to the highest bidder</li>
+                <li><strong>Protection Rackets:</strong> Extorting payments from legitimate businesses in exchange for "protection"</li>
+              </ul>
+            </div>
+
+            <div class="organization-info">
+              <h3>Territory and Bases</h3>
+              <p>The gang maintains several operational bases throughout the sector:</p>
+              <ul>
+                <li><strong>The Nest:</strong> Primary base of operations, a hidden space station</li>
+                <li><strong>The Murk:</strong> Debris field used for ambushes and hiding stolen goods</li>
+                <li><strong>Safe Houses:</strong> Various hidden locations for crew rest and resupply</li>
+                <li><strong>Whisper Point:</strong> Remote rendezvous location for clandestine meetings</li>
+              </ul>
+            </div>
+
+            <div class="organization-info">
+              <h3>Notable Activities</h3>
+              <p>The Void Vultures have been involved in several high-profile incidents:</p>
+              <ul>
+                <li><strong>Ambassador's Intendant Compromise:</strong> Successfully corrupted Lyraviepr to serve their interests</li>
+                <li><strong>University Research Theft:</strong> Stole valuable research data from the Colonnade University</li>
+                <li><strong>Trade Route Disruption:</strong> Caused significant delays and losses to legitimate commerce</li>
+                <li><strong>Information Network:</strong> Established a sophisticated intelligence gathering operation</li>
+              </ul>
+            </div>
+
+            <div class="organization-links">
+              <a href="locations.html#the-nest">Base: The Nest</a>
+              <a href="locations.html#the-murk">Territory: The Murk</a>
+              <a href="npcs.html#captain-roric">Captain Roric</a>
+            </div>
+          </div>
+        </section>
+
+        <section id="igs" class="organization-entry" data-tags="academic,diadem,mission3">
+          <h2>Institute for Geophysical Studies (IGS)</h2>
+          <img src="Images/organisations/igs_logo.png" alt="IGS Corporate Logo" class="organization-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=IGS+Logo';">
+          <div class="organization-tags">
+            <span class="organization-tag">Academic</span>
+            <span class="organization-tag">Diadem</span>
+            <span class="organization-tag">Mission 3</span>
+          </div>
+          <div class="organization-content">
+            <p>The preeminent scientific organisation in the Vanguard Reaches is the Institute for Geophysical Studies (IGS) of Tiffanye, which sponsors archaeological, anthropological and xenopological expeditions and planetary exploration by leading scientists, lay organisations and wealthy patrons. Founded in 924, the IGS is the most famous institution linked to Tiffanye. It is a private, member supported organisation funded by donations, grants and subscriptions and fees generated by its media empire, including science and exploration-themed series and several showcase museums on Tiffanye.</p>
+            
+            <div class="organization-stats">
+              <div class="stat-box">
+                <div class="stat-label">Headquarters</div>
+                <div>Tiffanye</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Founded</div>
+                <div>924</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Status</div>
+                <div>Active</div>
+              </div>
+            </div>
+
+            <div class="organization-info">
+              <h3>Operations and Structure</h3>
+              <p>IGS operations are part science, part education and part entertainment. The organisation maintains a staff of both science and media personalities, and has a fleet of exploratory vessels engaging in expeditions, mostly within the Vanguard Reaches but some ranging 50 or more parsecs from Tiffanye. Some of these expeditions are research focused, others more guided tours for wealthy patrons and more are media vehicles in support of series or specials.</p>
+            </div>
+
+            <div class="organization-info">
+              <h3>Research Focus</h3>
+              <p>Much of the IGS's work focuses on softer sciences, including descriptive xenology and sophontology but serious work in physical and life sciences occurs on some focused expeditions. The organization specializes in:</p>
+              <ul>
+                <li><strong>Archaeological Research:</strong> Investigation of ancient civilizations and artifacts</li>
+                <li><strong>Anthropological Studies:</strong> Study of human cultures and societies</li>
+                <li><strong>Xenopological Research:</strong> Analysis of alien species and civilizations</li>
+                <li><strong>Planetary Exploration:</strong> Survey and documentation of new worlds</li>
+                <li><strong>Physical Sciences:</strong> Geological and atmospheric studies</li>
+                <li><strong>Life Sciences:</strong> Biological research and ecological studies</li>
+              </ul>
+            </div>
+
+            <div class="organization-info">
+              <h3>Notable Expeditions</h3>
+              <p>The IGS has conducted numerous significant expeditions throughout its history:</p>
+              <ul>
+                <li><strong>Goblin's Planet Expedition:</strong> While the abortive IGS expedition to Goblin's Planet in The Beyond might be more famous, it represents the organization's willingness to explore dangerous frontiers</li>
+                <li><strong>Damrong Research Base:</strong> The work of the IGS exploration base on the habitable moon Damrong investigating ancient stone age ruins has garnered serious scientific results</li>
+                <li><strong>Vanguard Reaches Surveys:</strong> Extensive mapping and documentation of the sector's diverse worlds and cultures</li>
+                <li><strong>Long-Range Expeditions:</strong> Missions ranging 50 or more parsecs from Tiffanye to explore distant regions</li>
+              </ul>
+            </div>
+
+            <div class="organization-info">
+              <h3>Media Empire</h3>
+              <p>The IGS maintains a sophisticated media operation that serves both educational and commercial purposes:</p>
+              <ul>
+                <li><strong>Science Series:</strong> Educational programming focused on scientific discoveries and exploration</li>
+                <li><strong>Exploration Documentaries:</strong> Real-time coverage of expeditions and discoveries</li>
+                <li><strong>Showcase Museums:</strong> Several museums on Tiffanye displaying artifacts and research findings</li>
+                <li><strong>Educational Content:</strong> Materials for academic institutions and public education</li>
+                <li><strong>Commercial Licensing:</strong> Sale of media content to broadcasters and educational organizations</li>
+              </ul>
+            </div>
+
+            <div class="organization-info">
+              <h3>Fleet and Equipment</h3>
+              <p>The Baixing-built IGS fleet includes a few large Discovery vessels but most of its starships are variations of the 400-ton Explorer science vessel, capable of supporting 20 people on an extended expedition and equipped with a runabout for short-term investigations.</p>
+            </div>
+
+            <div class="organization-info">
+              <h3>Political Controversies</h3>
+              <p>The IGS has faced political challenges and accusations from various factions:</p>
+              <ul>
+                <li><strong>Hyperion Accusations:</strong> Both Hyperion and Harmony have accused the IGS of operating spy ships in their territories</li>
+                <li><strong>Tellerian Cluster Incidents:</strong> IGS vessels in the Tellerian Cluster have come under fire from multiple factions</li>
+                <li><strong>Eli Hostage Crisis:</strong> In 1099, the Eli held one ship's crew hostage, highlighting the dangers of exploration</li>
+                <li><strong>Official Denials:</strong> Tiffanye's Collective denies funding more than specific scientific research projects and providing a basic stipend available to all qualified non-governmental agencies</li>
+              </ul>
+            </div>
+
+            <div class="organization-info">
+              <h3>Funding Model</h3>
+              <p>The IGS operates as a private, member-supported organization with multiple revenue streams:</p>
+              <ul>
+                <li><strong>Member Subscriptions:</strong> Regular contributions from supporting members</li>
+                <li><strong>Research Grants:</strong> Funding from academic and governmental sources</li>
+                <li><strong>Private Donations:</strong> Support from wealthy patrons and corporations</li>
+                <li><strong>Media Revenue:</strong> Income from documentary sales, licensing, and museum admissions</li>
+                <li><strong>Expedition Fees:</strong> Charges for guided tours and participation in research expeditions</li>
+              </ul>
+            </div>
+
+            <div class="organization-info">
+              <h3>Main Campus</h3>
+              <img src="Images/locations/IGS_main_campus.jpg" alt="IGS Main Campus" class="organization-logo" onerror="this.onerror=null;this.src='https://placehold.co/300x200/eeeeee/333333?text=IGS+Main+Campus';">
+              <p>The IGS maintains its main administrative headquarters and media production studios in the University district of Quentin on Tiffanye. This Exploration Base serves as the nerve center for all IGS operations in the Vanguard Reaches.</p>
+            </div>
+
+            <div class="organization-links">
+              <a href="locations.html#tiffanye">Headquarters: Tiffanye</a>
+              <a href="locations.html#damrong">Research Site: Damrong</a>
+            </div>
+          </div>
+        </section>
+
+        <section id="diadem-trade-league" class="organization-entry" data-tags="commercial,diadem,mission3">
+          <h2>Diadem Trade League</h2>
+          <img src="Images/organisations/diadem_trade_league.png" alt="Diadem Trade League" class="organization-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=Diadem+Trade+League';">
+          <div class="organization-tags">
+            <span class="organization-tag">Commercial</span>
+            <span class="organization-tag">Diadem</span>
+            <span class="organization-tag">Mission 3</span>
+          </div>
+          <div class="organization-content">
+            <p>The Diadem Trade League is a loosely-knit trading conglomerate that incorporates worlds in the Diadem Subsector, named for an extensive Jump-1 trade route called the "Diadem" due to its circular route. Trade has flourished via this Jump-1 route since its establishment in 1054. The League represents a coordinated economic response to external threats and competition in the Vanguard Reaches.</p>
+            
+            <div class="organization-stats">
+              <div class="stat-box">
+                <div class="stat-label">Founded</div>
+                <div>1054</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Headquarters</div>
+                <div>Baixing</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Status</div>
+                <div>Active</div>
+              </div>
+            </div>
+
+            <div class="organization-info">
+              <h3>Origins and Formation</h3>
+              <p>The Diadem Trade League grew out of the Diadem Trade Council, which was first established at Baixing in 984 as an effort to coordinate activity between Baixing and Circulus for the operation of the starport complex at Velva and between Baixing, Tiffanye and Circulus over access to Baixing's starship shipyards. The Council met every standard year at Baixing, accomplishing little from a policy standpoint, although its research staff compiled the Diadem Main Register, a comprehensive study of trade and economic statistics for all the worlds of the main and associated systems such as Aubusson and Velva.</p>
+            </div>
+
+            <div class="organization-info">
+              <h3>The Conference of Baixing</h3>
+              <p>The growing power of Hyperion Lines and concerns over Harmony's influence over warring parties on Erzurum led to renewed interest in at least discussing a more coordinated trade effort. The resulting Conference of Baixing in 1054 led to the formation of the Diadem Trade League, a strengthened organisation for coordinating internal and external trade policies, including a reduction or elimination of most internal tariffs.</p>
+            </div>
+
+            <div class="organization-info">
+              <h3>Economic Infrastructure</h3>
+              <p>The Conference of Baixing led to several key economic developments:</p>
+              <ul>
+                <li><strong>VANREX:</strong> The League-run Vanguard Reaches Security Exchange</li>
+                <li><strong>Diadem Credit:</strong> A common trading currency, although individual systems retained their own currencies for internal transactions</li>
+                <li><strong>Trade Route:</strong> The extensive Jump-1 "Diadem" trade route connecting member worlds</li>
+                <li><strong>Tariff Reduction:</strong> Elimination of most internal tariffs between member worlds</li>
+              </ul>
+            </div>
+
+            <div class="organization-info">
+              <h3>Member Worlds and Interests</h3>
+              <p>The systems with the greatest interest in coordination are the major worlds of Baixing and Tiffanye, and the high-tech worlds of Haapamaki and Nashua. Boreal and Circulus are indifferent to the idea of broader economic cooperation, while Castrum is hostile to outside interests of any kind.</p>
+              <ul>
+                <li><strong>Baixing:</strong> Major world and League headquarters, controls starship shipyards</li>
+                <li><strong>Tiffanye:</strong> Major world with significant economic influence</li>
+                <li><strong>Haapamaki:</strong> High-tech world with advanced manufacturing</li>
+                <li><strong>Nashua:</strong> High-tech world with specialized industries</li>
+                <li><strong>Circulus:</strong> Indifferent to broader cooperation, focuses on local interests</li>
+                <li><strong>Boreal:</strong> Indifferent to broader cooperation</li>
+                <li><strong>Castrum:</strong> Hostile to outside interests and League involvement</li>
+              </ul>
+            </div>
+
+            <div class="organization-info">
+              <h3>Political Dynamics</h3>
+              <p>The League faces ongoing political challenges and internal tensions:</p>
+              <ul>
+                <li><strong>Circulus-Baixing Disagreements:</strong> Disagreements over foreign policy, specifically approaches to managing Harmony, prevented further political integration</li>
+                <li><strong>Defensive Cooperation:</strong> Both Circulus and Baixing agreed to strengthen defensive measures at Velva</li>
+                <li><strong>Portmanteau Shipping Services:</strong> The rise of this corporation through mergers has both strengthened economic cohesion and caused backlash from Circulus and Boreal</li>
+                <li><strong>Hyperion Threat:</strong> The expansion of Hyperion Lines and annexation of Assoulda has increased the threat of outside interference</li>
+              </ul>
+            </div>
+
+            <div class="organization-info">
+              <h3>Key Figures</h3>
+              <p>The Conference of Baixing marked the rise to power and influence of Sharik Vanbruenig-Zhou, who used new provisions aiding corporate consolidation and trans-system investments to grow Portmanteau Shipping Services through mergers over the following two decades.</p>
+            </div>
+
+            <div class="organization-info">
+              <h3>Current Challenges</h3>
+              <p>With Hyperion Lines orchestrating the formation of the Hyperion League and encouraging the annexation of Assoulda, the threat of outside interference in the economic health of the Diadem Main has increased. The countering rise of Portmanteau Shipping Services has both strengthened economic cohesion and caused a backlash from Circulus and Boreal, who fear domination by Baixing and its interests at the expense of local authority.</p>
+            </div>
+
+            <div class="organization-links">
+              <a href="locations.html#tiffanye">Member World: Tiffanye</a>
+            </div>
+          </div>
+        </section>
+
+        <section id="hyperion-lines" class="organization-entry" data-tags="commercial,hyperion,mission3">
+          <h2>Hyperion Lines</h2>
+          <img src="Images/organisations/hyperion_lines_corporate_logo.png" alt="Hyperion Lines Corporate Logo" class="organization-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=Hyperion+Lines+Logo';">
+          <div class="organization-tags">
+            <span class="organization-tag">Commercial</span>
+            <span class="organization-tag">Hyperion</span>
+            <span class="organization-tag">Mission 3</span>
+          </div>
+          <div class="organization-content">
+            <p>Hyperion Lines is effectively a government, a combination of shipping and industrial interests united in a corporate structure that has usurped the powers of state for its own benefit. As the major link between the Diadem Main and coreward half of the sector, Hyperion Lines has become an important regional power through the Hyperion League conglomerate.</p>
+            
+            <div class="organization-stats">
+              <div class="stat-box">
+                <div class="stat-label">Founded</div>
+                <div>1037</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Headquarters</div>
+                <div>Hyperion</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Status</div>
+                <div>Active</div>
+              </div>
+            </div>
+
+            <div class="organization-info">
+              <h3>Origins and Foundation</h3>
+              <p>Hyperion Lines was founded as a shipyard and transportation company in 1037 by Annette Lupeski. The original government of Hyperion entered into a series of private-public partnerships with Hyperion Lines and some of its subsidiaries in the 1050s. Through performance targets and buyout options written into the contracts, the private corporations ended up with controlling interests in all major government functions by 1075.</p>
+            </div>
+
+            <div class="organization-info">
+              <h3>Corporate Takeover</h3>
+              <p>The Republic became a more bureaucratic and ineffective government over time. By the mid-1040s, a movement led by the Venture Party pushed through reforms to make the government more business-friendly, eventually converting government departments into public-private partnerships. Whether by carelessness or deceitful design, the contracts setting up these relationships allowed for the private corporations who operated the departments to purchase controlling interests in them.</p>
+              <p>Hyperion Lines began by taking over the operation of the aging HRH, the new Apollo Downport and the renamed Hyperion Yards. It entered into partnerships and buy-outs with the operators of other departments and by 1075 effectively controlled the entire Republican government.</p>
+            </div>
+
+            <div class="organization-info">
+              <h3>The Lupeski Family Control</h3>
+              <p>Exercising the contractual ability to purchase controlling interest in the departments by borrowing money from its own financial subsidiaries, Hyperion gained full control of the government under the umbrella of the Hyperion League holding company, controlled by Annette Lupeski and her immediate family. The renaming of the highport to the Hyperion League Highport in late 1075 was the visible symbol of the suspension of the Republic, whose legislature dissolved after the cancellation of elections in 1076.</p>
+              <p>The League's governing body is a corporate board dominated by directors belonging to the Lupeski family. Annette Lupeski died in 1095 but she had three daughters and 14 grandchildren, all of whom sit on the board of the Hyperion League. On paper, the Lupeski family owns only 21% of the overall assets of the League and all its subsidiaries, yet through a chain of directorates they retain more than 70% of the voting rights.</p>
+            </div>
+
+            <div class="organization-info">
+              <h3>Territorial Expansion</h3>
+              <p>Control of Hyperion's port and interstellar commerce was leverage for the Lupeski family to expand their holdings beyond the system:</p>
+              <ul>
+                <li><strong>Yarx:</strong> Asteroid belts for resource extraction</li>
+                <li><strong>Sadowa:</strong> Hostile ocean world purchased directly, now a Lupeski family personal retreat</li>
+                <li><strong>Assoulda:</strong> Rockball port on the Diadem Main, purchased in 1088</li>
+                <li><strong>Constance:</strong> Lower technology rich world, directly ruled by Rikardo Lupeski</li>
+                <li><strong>Patina/Enterprise:</strong> Renamed by Zara Lupeski after a coup placed her in power in 1097</li>
+              </ul>
+            </div>
+
+            <div class="organization-info">
+              <h3>Security and Military Forces</h3>
+              <p>Hyperion Lines maintains several security divisions:</p>
+              <ul>
+                <li><strong>Hyperion Lines Security:</strong> Fleet escorts and corvettes for shipping interests</li>
+                <li><strong>Hyperion Yards Security:</strong> System defence boats, fighters, and monitors for starports and shipyards</li>
+                <li><strong>Hyperion Public Safety Department (HPSD):</strong> Paramilitary law enforcement on Hyperion, Yarx, and Assoulda</li>
+                <li><strong>Hyperion Security Services (HSS):</strong> Accredited mercenary organization with 12 combat brigades</li>
+                <li><strong>Hyperion Interstellar Services (HIS):</strong> Front-line navy with Cavalier cruisers</li>
+              </ul>
+            </div>
+
+            <div class="organization-info">
+              <h3>Current Operations</h3>
+              <p>Current diplomatic efforts focus on the Tellerian Cluster, where Hyperion Lines has considerable trading interests. Hyperion Interstellar Services has conducted raids on suspected Eli marauder bases within the Cluster, a technical violation of the Council of Worlds Agreement – except Hyperion was not a signatory of the document.</p>
+              <p>'Strictly commercial' contracts between HIS and major Mayan shipping lines have led to lucrative deals to provide heavy escort support to Mayan merchant shipping. A clause in these contracts allows HIS to 'actively investigate and pursue' any attacks on Mayan assets, providing a way for Maya to overcome restrictions imposed by the Council of Worlds Agreement.</p>
+            </div>
+
+            <div class="organization-info">
+              <h3>Political Recognition</h3>
+              <p>The Hyperion League is a new government with unconventional structure, not recognized as a state by many interstellar or world governments. However, some powers have extended recognition:</p>
+              <ul>
+                <li><strong>Trelyn Domain:</strong> Quick to recognize the League as sovereign government in 1089</li>
+                <li><strong>Jarnac Pashalic:</strong> Extended recognition soon after</li>
+                <li><strong>Eslyat Magistracy:</strong> Established formal embassy in 1097</li>
+                <li><strong>Kajaani Triumvirate:</strong> Withdrew recognition in 1097 to protest the takeover of Enterprise</li>
+              </ul>
+            </div>
+
+            <div class="organization-info">
+              <h3>Impact on the Sector</h3>
+              <p>The worlds of the Diadem Main are especially wary of the new state's ability to control trade to coreward and fear a Hyperion take-over of Ibadam or Finzi's Niche could provide it with complete control of the coreward trade routes. The expansion of Hyperion Lines and the formation of the Hyperion League has challenged the independence of systems in the Diadem Main and caused some to consider the benefits of more closely aligned policies, as seen in the formation of the Diadem Trade League.</p>
+            </div>
+
+            <div class="organization-info">
+              <h3>Corporate Identity</h3>
+              <p>The Hyperion Lines corporate logo represents the company's dominance in shipping and industrial operations throughout the Vanguard Reaches. The logo is a symbol of corporate power and the family's control over interstellar commerce in the region.</p>
+            </div>
+
+            <div class="organization-info">
+              <h3>Headquarters</h3>
+              <img src="Images/organisations/hyperion_lines_headquarters.png" alt="Hyperion Lines Headquarters" class="organization-logo" onerror="this.onerror=null;this.src='https://placehold.co/300x200/eeeeee/333333?text=Hyperion+Lines+Headquarters';">
+              <p>The Hyperion Lines headquarters complex dominates the landscape of Hyperion, serving as both the corporate center and the de facto seat of government for the Hyperion League. The massive facility houses administrative offices, corporate boardrooms, and the operational center for the company's vast shipping and industrial empire.</p>
+            </div>
+
+            <div class="organization-links">
+              <a href="locations.html#hyperion">Headquarters: Hyperion</a>
+            </div>
+          </div>
+        </section>
+
+        <section id="echo-keepers" class="organization-entry" data-tags="local,ghenani,mission1">
+          <h2>The Echo Keepers</h2>
+          <img src="Images/npcs/EchoKeeper.png" alt="The Echo Keepers" class="organization-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=Echo+Keepers';">
+          <div class="organization-tags">
+            <span class="organization-tag">Local</span>
+            <span class="organization-tag">Ghenani</span>
+            <span class="organization-tag">Mission 1</span>
+          </div>
+          <div class="organization-content">
+            <p>The Echo Keepers, also known as "The Keepers of the Echoes" or "Ghenani Echo Keepers," are a faction that serves as guardians of ancient Ghenani sites and technology. They are deeply committed to preserving and protecting their sacred heritage.</p>
+            
+            <div class="organization-stats">
+              <div class="stat-box">
+                <div class="stat-label">Type</div>
+                <div>Guardian Faction</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Race</div>
+                <div>Ghenani</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Status</div>
+                <div>Active</div>
+              </div>
+            </div>
+
+            <div class="organization-info">
+              <h3>Purpose and Mission</h3>
+              <p>The Echo Keepers are the primary protectors of Ancients' sites and technology of Ghenani significance. They are dedicated to safeguarding planets with significant ancient ruins and sacred sites, maintaining the cosmic balance and preserving their ancient heritage.</p>
+            </div>
+
+            <div class="organization-info">
+              <h3>Key Characteristics</h3>
+              <ul>
+                <li><strong>Guardians of Ancient Sites/Technology:</strong> Primary protectors of Ancients' sites and technology of Ghenani significance</li>
+                <li><strong>Isolationist Tendencies:</strong> Generally wary of outsiders and external interference</li>
+                <li><strong>Reverence for Cosmic Balance:</strong> Particularly concerned with maintaining cosmic harmony</li>
+                <li><strong>Protection of Guardian Worlds:</strong> Dedicated to safeguarding planets with significant ancient ruins and sacred sites</li>
+                <li><strong>Strict Justice:</strong> Known for their severity, especially regarding thefts of Ancients' technology</li>
+              </ul>
+            </div>
+
+            <div class="organization-info">
+              <h3>Leadership</h3>
+              <p>The organization is led by Echo Keeper Lobon, a severe and dedicated leader driven by a desperate need to protect his people from the "Sleeping Sickness" (radiation poisoning). While deeply distrustful of outsiders, his caution stems from rational concern rather than blind zealotry.</p>
+            </div>
+
+            <div class="organization-links">
+              <a href="npcs.html#lobon">Leader: Echo Keeper Lobon</a>
+            </div>
+          </div>
+        </section>
+
+        <section id="zhodani-consulate" class="organization-entry" data-tags="government,zhodani-consulate-colonnade-province,mission1,mission2,mission3">
+          <h2>Zhodani Consulate Colonnade Province</h2>
+          <img src="Images/organisations/zhodani_consulate_colonnade_province_logo.jpg" alt="Zhodani Consulate Colonnade Province Logo" class="organization-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=Zhodani+Consulate+Colonnade+Province+Logo';">
+          <div class="organization-tags">
+            <span class="organization-tag">Government</span>
+            <span class="organization-tag">Zhodani Consulate Colonnade Province</span>
+            <span class="organization-tag">Mission 1</span>
+            <span class="organization-tag">Mission 2</span>
+            <span class="organization-tag">Mission 3</span>
+          </div>
+          <div class="organization-content">
+            <p>Still referred to as the Driantia Steblenzhtia or 'Vanguard Consulate' by most of its inhabitants, the Colonnade Province is more than a Zhodani client state; it is a detached extension of the Zhodani Consulate, complete with Zhodani military bases and other governmental institutions.</p>
+            
+            <div class="organization-stats">
+              <div class="stat-box">
+                <div class="stat-label">Capital</div>
+                <div>Nielkladlief</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Population</div>
+                <div>45 Billion</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Territory</div>
+                <div>88 Systems</div>
+              </div>
+            </div>
+
+            <div class="organization-info">
+              <h3>Historical Development</h3>
+              <p>The Colonnade Province evolved from the establishment of the Colonnade Administrative District (CAD) in 576, initially a loose federation to stabilize regions of the Far Frontiers and Vanguard Reaches in response to the arrival of the first colonists from Imperial space. After the First Frontier War, the Zhodani Consulate increased efforts to block potential Imperial expansion by encouraging the colonization of the spinward region of the Vanguard Reaches, leading to the establishment of the Driantia Steblenzhtia in 626.</p>
+              <p>While the CAD was a loose federation that welcomed and incorporated immigrants from the Imperium, the Driantia Steblenzhtia – while initially notably tolerant of alternative forms of government and cultural innovations – was not open to immigrants not from the Zhodani Consulate or its client states. Over time, the policies of these two states became more aligned, rejecting non-Zhodani immigration and practices until the two states merged to become the current Colonnade Province in 879.</p>
+            </div>
+
+            <div class="organization-info">
+              <h3>Territory and Demographics</h3>
+              <p>Covering 88 systems along the spinward subsectors of the Vanguard Reaches and coreward into the Wulfek subsector of the Far Frontiers, with a few outlying systems further spinward in the Yiklerzdanzh and Chtedria (Fulani) sectors, the Colonnade Province has a population of 45 billion, mostly humans of Zhodani or Vlazhdumecta descent. Descendants of Vilani and Solomani immigrants who arrived prior to 750 account for barely 5% of the population of the Province.</p>
+              <p>The Province is essentially a miniature version of the Zhodani Consulate and many residents consider themselves to be Consular citizens, just waiting for the greater Consulate to officially recognize their inclusion in the greater realm.</p>
+            </div>
+
+            <div class="organization-info">
+              <h3>Government Structure</h3>
+              <p>The region is ruled by its Provincial Council at Nielkladlief, with subsector councils at Chyia Nedlkel, Dlieblafia and Yavakrbi. As within the Consulate, only Nobles have the franchise and only the Nobles and those talented Proles promoted to Intendants are trained to use psionic powers.</p>
+              <p>The Province supports its own independent interstellar military forces, although Consular Navy vessels and liaisons often engage in goodwill visits and joint exercises. A Provincial Guard modelled on the Consular Guard focuses on psionically trained troops. A separate branch of the Tavrchedl' reports to the Provincial leadership at Nielkladlief but its practices are identical to those within the Consulate.</p>
+            </div>
+
+            <div class="organization-info">
+              <h3>Military and Security</h3>
+              <p>The Province is not expansionist and has not fought any wars with its neighbours. Despite its initial purpose as a check on Imperial expansion and the Third Imperium's two attempts to counter that expansion by sponsoring settlements in the Andwella and Trelyn subsectors, neither the Third or Fourth Frontier Wars led to direct conflict between the Colonnade and the Third Imperium's proxies.</p>
+              <p>The Province's major military concern is the continued warfare and lawlessness in the Tellerian Cluster and the Provincial Navy's major role is to provide escort support to commercial traffic within the cluster. Major Provincial fleet elements mostly remain within the Province's borders, occasionally engaging in patrols up to 10 parsecs further to show the flag or discourage lawless activity.</p>
+            </div>
+
+            <div class="organization-info">
+              <h3>Diplomatic Relations</h3>
+              <p>The Colonnade maintains good relations with all other states in the Vanguard Reaches. Close contact with the Murian Altarean Confederation has existed since the earliest days of the CAD. The return of Zhodani citizens after the misjumped Brenchrodl Rits arrived at Elliador has engendered good relations with the Eslyat Magistracy despite the race's sometimes aggressive expansion.</p>
+              <p>Although 'Imperials' of Vilani and Solomani descent are no longer welcomed to settle within the Province, the 'Imperial' states, from Telleria to Hyperion, the Diadem and even the Trelyn Domain maintain good relations with the Colonnade. Contact further afield with the Corellan League, Kajaani Triumvirate and Jarnac Pashalic are hampered more by distance than distaste and Triumvirate trade expeditions are regularly welcomed at Yavakrbi.</p>
+            </div>
+
+            <div class="organization-info">
+              <h3>Cultural Identity</h3>
+              <p>The Colonnade Province has achieved its founding goals to spread Zhodani civilisation to the steblenzhtia or 'vanguard' region and block further Imperial expansion to spinward. Its citizens mostly look forward to the day when the Consulate recognizes them as full members of Humaniti's oldest interstellar state.</p>
+              <p>Early Zhodani and Vlazhdumecta settlers had occupied scattered worlds in the spinward regions of the Vanguard Reaches and Far Frontiers for thousands of years. The earliest well-document settlement in the Vanguard Reaches is at Zdodren – now Chyia Nedlkel – settled by Vlazhdumecta prospectors in -2950.</p>
+            </div>
+
+            <div class="organization-links">
+              <a href="locations.html#nielkladlief">Capital: Nielkladlief</a>
+              <a href="locations.html#chyia-nedlkel">Subsector Council: Chyia Nedlkel</a>
+              <a href="locations.html#dlieblafia">Subsector Council: Dlieblafia</a>
+              <a href="locations.html#yavakrbi">Subsector Council: Yavakrbi</a>
+            </div>
+          </div>
+        </section>
+
+        <section id="tyrannus-combine" class="organization-entry" data-tags="criminal,independent,mission2">
+          <h2>Tyrannus Combine</h2>
+          <img src="Images/organisations/tyrannus_combine.png" alt="Tyrannus Combine" class="organization-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=Tyrannus+Combine';">
+          <div class="organization-tags">
+            <span class="organization-tag">Criminal</span>
+            <span class="organization-tag">Independent</span>
+            <span class="organization-tag">Mission 2</span>
+          </div>
+          <div class="organization-content">
+            <p>The Tyrannus Combine is an aggressive, expansionist, human-centric militaristic power known for its brutality and disdain for "primitive" cultures or those who "hoard" ancient technology. This enigmatic organization operates with ruthless efficiency and maintains a policy of eliminating witnesses to their operations.</p>
+            
+            <div class="organization-stats">
+              <div class="stat-box">
+                <div class="stat-label">Type</div>
+                <div>Militaristic Power</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Ideology</div>
+                <div>Human-Centric</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Status</div>
+                <div>Active</div>
+              </div>
+            </div>
+
+            <div class="organization-info">
+              <h3>Current Operations</h3>
+              <p>The Tyrannus Combine is currently engaged in "Project Morningstar," a codename for an advanced weapon system they are seeking to acquire. They have made substantial down payments to secure this technology and are known for their impatience with delays in delivery. Their representatives have been known to threaten contractors who fail to meet their exacting standards.</p>
+            </div>
+
+            <div class="organization-info">
+              <h3>Operational Methods</h3>
+              <p>The Combine operates with a policy of complete operational security. They are known to "sanitize" deals by eliminating all witnesses once they have obtained their objectives. This fanatical approach to secrecy makes them particularly dangerous to work with, as they have no qualms about destroying entire facilities or organizations to maintain their anonymity.</p>
+              <p>Their representatives are known for making threats such as: "The Tyrannus Combine will not tolerate further delays. Their down payment was substantial... See to it that 'Project Morningstar' is ready for demonstration..."</p>
+            </div>
+
+            <div class="organization-info">
+              <h3>Ideological Stance</h3>
+              <p>The Tyrannus Combine holds a deep-seated contempt for what they consider "primitive" cultures and those who "hoard" ancient technology. This makes them a direct ideological enemy of groups like the Ghenani, who preserve and study ancient artifacts. The Combine believes that advanced technology should be controlled by "superior" human civilizations and used for expansion and conquest.</p>
+            </div>
+
+            <div class="organization-info">
+              <h3>Known Activities</h3>
+              <p>Recent intelligence suggests the Combine has been operating in the Vanguard Reaches, seeking to acquire advanced weapon systems and ancient technology. They have been known to work with criminal organizations like the Void Vultures pirates, though such partnerships are typically short-lived due to the Combine's policy of eliminating witnesses.</p>
+              <p>Their current focus appears to be on acquiring the Nova Core device, which they refer to as "Project Morningstar." This has brought them into conflict with various factions in the region, including the Ghenani and potentially the IGS.</p>
+            </div>
+
+            <div class="organization-info">
+              <h3>Threat Assessment</h3>
+              <p>The Tyrannus Combine represents a significant threat to regional stability. Their militaristic expansionist policies, combined with their willingness to use extreme violence to achieve their goals, make them a dangerous adversary. Their human-centric ideology and disdain for other cultures could lead to widespread conflict if they gain a foothold in the Vanguard Reaches.</p>
+              <p>As one observer noted: "Do you really trust the Tyrannus Combine? Fanatics like that don't leave witnesses. Once they have their toy, what's stopping them from 'sanitizing' the deal by destroying The Nest? You'll never see a single credit."</p>
+            </div>
+
+            <div class="organization-links">
+              <a href="locations.html#the-nest">Recent Activity: The Nest</a>
+              <a href="npcs.html#vayne">Associated: Captain Vayne</a>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const filterButtons = document.querySelectorAll('.filter-button');
+      const organizationEntries = document.querySelectorAll('.organization-entry');
+      let activeFilters = new Set();
+
+      // Function to update visibility
+      function updateVisibility() {
+        organizationEntries.forEach(entry => {
+          const tags = entry.getAttribute('data-tags').split(',');
+          const shouldShow = activeFilters.size === 0 || 
+            Array.from(activeFilters).every(filter => tags.includes(filter));
+          entry.classList.toggle('hidden', !shouldShow);
+        });
+      }
+
+      // Add click handlers to filter buttons
+      filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const tag = this.getAttribute('data-tag');
+          if (activeFilters.has(tag)) {
+            activeFilters.delete(tag);
+            this.classList.remove('active');
+          } else {
+            activeFilters.add(tag);
+            this.classList.add('active');
+          }
+          updateVisibility();
+        });
+      });
+
+      // Show all entries initially
+      updateVisibility();
+    });
+  </script>
+</body>
+</html> 

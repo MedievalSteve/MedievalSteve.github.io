@@ -99,90 +99,13 @@
       left: 100%;
     }
 
-    .nav-panel {
+    #nav-placeholder {
       width: 100%;
-      background: var(--header-bg);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
       position: fixed;
       top: 0;
+      left: 0;
       z-index: 1000;
     }
-
-    .nav-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 60px;
-    }
-
-    .main-links {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-    }
-
-    .main-links a {
-      color: var(--accent-color);
-      text-decoration: none;
-      font-weight: bold;
-      font-family: 'Orbitron', sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      padding: 8px 16px;
-      border-radius: 4px;
-      background: rgba(41, 98, 255, 0.1);
-      transition: all 0.3s ease;
-    }
-
-    .main-links a:hover {
-      background: rgba(41, 98, 255, 0.2);
-      color: #64b5f6;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 20px;
-    }
-
-    .nav-links a {
-      color: var(--text-color);
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      padding: 8px 16px;
-      border-radius: 4px;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .nav-links a:hover {
-      color: var(--accent-color);
-      background: rgba(41, 98, 255, 0.1);
-    }
-
-    .nav-links a.active {
-      color: var(--accent-color);
-      border-bottom: 2px solid var(--accent-color);
-    }
-
-    @media (max-width: 768px) {
-      .nav-content {
-        flex-direction: column;
-        height: auto;
-        padding: 1rem;
-      }
-
-      .nav-links {
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-        margin-top: 1rem;
-      }
 
       .section-link {
         padding: 16px;
@@ -195,22 +118,26 @@
   </style>
 </head>
 <body>
-  <nav class="nav-panel">
-    <div class="nav-content">
-      <div class="main-links">
-        <a href="index.html">Main Page</a>
-        <a href="big-space-travel-far.html">Campaign Hub</a>
-      </div>
-      <div class="nav-links">
-        <a href="characters.html">Characters</a>
-        <a href="npcs.html">NPCs</a>
-        <a href="locations.html">Locations</a>
-        <a href="ships.html">Ships</a>
-        <a href="logs.html">Logs</a>
-        <a href="flora-fauna.html">Flora & Fauna</a>
-      </div>
-    </div>
-  </nav>
+  <!-- Include Navigation -->
+  <div id="nav-placeholder"></div>
+  <script>
+    fetch('navigation.html?v=' + Date.now())
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('nav-placeholder').innerHTML = data;
+        // Set active state after navigation is loaded
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+        const navLinks = document.querySelectorAll('.nav-links a');
+        navLinks.forEach(link => {
+          const linkPage = link.getAttribute('href');
+          if (linkPage === currentPage) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+      });
+  </script>
 
   <header>
     <h1>Campaign Hub</h1>
@@ -225,6 +152,9 @@
     </a>
     <a href="locations.html" class="section-link">
       Places Visited
+    </a>
+    <a href="organizations.html" class="section-link">
+      Organizations
     </a>
     <a href="ships.html" class="section-link">
       Ships

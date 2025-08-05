@@ -126,76 +126,7 @@
       margin-bottom: 0.5rem;
     }
 
-    .nav-panel {
-      width: 100%;
-      background: var(--header-bg);
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-      position: fixed;
-      top: 0;
-      z-index: 1000;
-    }
 
-    .nav-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      height: 60px;
-    }
-
-    .main-links {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-    }
-
-    .main-links a {
-      color: var(--accent-color);
-      text-decoration: none;
-      font-weight: bold;
-      font-family: 'Orbitron', sans-serif;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      padding: 8px 16px;
-      border-radius: 4px;
-      background: rgba(41, 98, 255, 0.1);
-      transition: all 0.3s ease;
-    }
-
-    .main-links a:hover {
-      background: rgba(41, 98, 255, 0.2);
-      color: #64b5f6;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 20px;
-    }
-
-    .nav-links a {
-      color: var(--text-color);
-      text-decoration: none;
-      font-weight: 500;
-      transition: all 0.3s ease;
-      padding: 8px 16px;
-      border-radius: 4px;
-      font-family: 'Orbitron', sans-serif;
-      font-size: 0.9rem;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-
-    .nav-links a:hover {
-      color: var(--accent-color);
-      background: rgba(41, 98, 255, 0.1);
-    }
-
-    .nav-links a.active {
-      color: var(--accent-color);
-      border-bottom: 2px solid var(--accent-color);
-    }
 
     .filter-title {
       margin-top: 0;
@@ -277,6 +208,15 @@
       object-fit: cover;
       border-radius: 8px;
       border: 1px solid var(--accent-color);
+    }
+
+    .npc-image {
+      width: 300px;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 1px solid var(--accent-color);
+      margin-bottom: 20px;
     }
 
     .npc-flex-content {
@@ -388,22 +328,26 @@
   </style>
 </head>
 <body>
-  <nav class="nav-panel">
-    <div class="nav-content">
-      <div class="main-links">
-        <a href="index.html">Main Page</a>
-        <a href="big-space-travel-far.html">Campaign Hub</a>
-      </div>
-      <div class="nav-links">
-        <a href="characters.html">Characters</a>
-        <a href="npcs.html" class="active">NPCs</a>
-        <a href="locations.html">Locations</a>
-        <a href="ships.html">Ships</a>
-        <a href="logs.html">Logs</a>
-        <a href="flora-fauna.html">Flora & Fauna</a>
-      </div>
-    </div>
-  </nav>
+  <!-- Include Navigation -->
+  <div id="nav-placeholder"></div>
+  <script>
+    fetch('navigation.html?v=' + Date.now())
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('nav-placeholder').innerHTML = data;
+        // Set active state after navigation is loaded
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+        const navLinks = document.querySelectorAll('.nav-links a');
+        navLinks.forEach(link => {
+          const linkPage = link.getAttribute('href');
+          if (linkPage === currentPage) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+      });
+  </script>
 
   <div class="content-wrapper">
     <header>
@@ -423,24 +367,46 @@
         <div class="filter-group">
           <h3>Location</h3>
           <button class="filter-button" data-tag="university">University</button>
-          <button class="filter-button" data-tag="collonades">Collonades</button>
+          
           <button class="filter-button" data-tag="nielkladlief">Nielkladlief</button>
           <button class="filter-button" data-tag="drenalch">Drenalch</button>
+          <button class="filter-button" data-tag="tiffanye">Tiffanye</button>
         </div>
 
         <div class="filter-group">
           <h3>Race</h3>
           <button class="filter-button" data-tag="zhodani">Zhodani</button>
           <button class="filter-button" data-tag="ghenani">Ghenani</button>
+          <button class="filter-button" data-tag="imperial-human">Imperial Human</button>
+        </div>
+
+        <div class="filter-group">
+          <h3>Status</h3>
+          <button class="filter-button" data-tag="deceased">Deceased</button>
+        </div>
+
+        <div class="filter-group">
+          <h3>Organization</h3>
+          <button class="filter-button" data-tag="igs">IGS</button>
+                          <button class="filter-button" data-tag="university">Colonnade University</button>
+          <button class="filter-button" data-tag="pirate">Void Vultures Pirates</button>
+          <button class="filter-button" data-tag="corporate">Hyperion Lines</button>
+          <button class="filter-button" data-tag="independent">Independent</button>
         </div>
 
         <div class="filter-group">
           <h3>Role</h3>
+          <button class="filter-button" data-tag="academic">Academic</button>
+          <button class="filter-button" data-tag="aslan">Aslan</button>
+          <button class="filter-button" data-tag="commercial">Commercial</button>
+          <button class="filter-button" data-tag="corporate">Corporate</button>
           <button class="filter-button" data-tag="employer">Employer</button>
-          <button class="filter-button" data-tag="crew">Crew</button>
           <button class="filter-button" data-tag="engineer">Engineer</button>
           <button class="filter-button" data-tag="bureaucrat">Bureaucrat</button>
           <button class="filter-button" data-tag="diplomat">Diplomat</button>
+          <button class="filter-button" data-tag="industrial">Industrial</button>
+          <button class="filter-button" data-tag="liaison">Liaison</button>
+          <button class="filter-button" data-tag="media">Media</button>
           <button class="filter-button" data-tag="prole">Prole</button>
           <button class="filter-button" data-tag="overseer">Overseer</button>
           <button class="filter-button" data-tag="guardian">Guardian</button>
@@ -448,7 +414,7 @@
       </div>
 
       <div class="npc-section">
-        <section id="professor" class="npc-entry" data-tags="university,zhodani,collonades,nielkladlief,employer,act1,mission1">
+        <section id="professor" class="npc-entry" data-tags="university,zhodani,nielkladlief,employer,act1,mission1">
           <div class="npc-flex">
             <img src="Images/npcs/Prof Albericiepr.jpg" alt="Professor Albericiepr" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Prof+Albericiepr';">
             <div class="npc-flex-content">
@@ -456,7 +422,6 @@
               <div class="npc-tags">
                 <span class="npc-tag">University</span>
                 <span class="npc-tag">Zhodani</span>
-                <span class="npc-tag">Collonades</span>
                 <span class="npc-tag">Nielkladlief</span>
                 <span class="npc-tag">Employer</span>
                 <span class="npc-tag">Act I: Shadows of the Past</span>
@@ -469,14 +434,13 @@
           </div>
         </section>
 
-        <section id="nanak" class="npc-entry" data-tags="zhodani,crew,prole,engineer,act1,mission1">
+        <section id="nanak" class="npc-entry" data-tags="zhodani,prole,engineer,act1,mission1">
           <div class="npc-flex">
             <img src="Images/npcs/Nanak.jpg" alt="Nanak Bahadur" onerror="this.onerror=null;this.src='https://placehold.co/210x210/eeeeee/333333?text=Nanak+Bahadur';">
             <div class="npc-flex-content">
               <h2 class="npc-title">Nanak Bahadur</h2>
               <div class="npc-tags">
                 <span class="npc-tag">Zhodani</span>
-                <span class="npc-tag">Crew</span>
                 <span class="npc-tag">Prole</span>
                 <span class="npc-tag">Engineer</span>
                 <span class="npc-tag">Act I: Shadows of the Past</span>
@@ -504,7 +468,7 @@
           </div>
         </section>
 
-        <section id="intendant" class="npc-entry" data-tags="university,zhodani,collonades,drenalch,act1,mission1">
+        <section id="intendant" class="npc-entry" data-tags="university,zhodani,drenalch,act1,mission1">
           <div class="npc-flex">
             <img src="Images/npcs/Voriepr.jpg" alt="Intendant Voriepr" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Intendant+Voriepr';">
             <div class="npc-flex-content">
@@ -512,7 +476,6 @@
               <div class="npc-tags">
                 <span class="npc-tag">University</span>
                 <span class="npc-tag">Zhodani</span>
-                <span class="npc-tag">Collonades</span>
                 <span class="npc-tag">Drenalch</span>
                 <span class="npc-tag">Postgraduate Leader</span>
                 <span class="npc-tag">Act I: Shadows of the Past</span>
@@ -525,7 +488,7 @@
           </div>
         </section>
 
-        <section id="researcher" class="npc-entry" data-tags="university,zhodani,collonades,drenalch,act1,mission1">
+        <section id="researcher" class="npc-entry" data-tags="university,zhodani,drenalch,act1,mission1">
           <div class="npc-flex">
             <img src="Images/npcs/Taeliepr.jpg" alt="Researcher Taeliepr" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Researcher+Taeliepr';">
             <div class="npc-flex-content">
@@ -533,7 +496,6 @@
               <div class="npc-tags">
                 <span class="npc-tag">University</span>
                 <span class="npc-tag">Zhodani</span>
-                <span class="npc-tag">Collonades</span>
                 <span class="npc-tag">Drenalch</span>
                 <span class="npc-tag">Xenoanthropology</span>
                 <span class="npc-tag">Act I: Shadows of the Past</span>
@@ -546,7 +508,7 @@
           </div>
         </section>
 
-        <section id="technician" class="npc-entry" data-tags="university,zhodani,collonades,drenalch,act1,mission1">
+        <section id="technician" class="npc-entry" data-tags="university,zhodani,drenalch,act1,mission1">
           <div class="npc-flex">
             <img src="Images/npcs/Renniepr.jpg" alt="Technician Renniepr" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Technician+Renniepr';">
             <div class="npc-flex-content">
@@ -554,7 +516,6 @@
               <div class="npc-tags">
                 <span class="npc-tag">University</span>
                 <span class="npc-tag">Zhodani</span>
-                <span class="npc-tag">Collonades</span>
                 <span class="npc-tag">Drenalch</span>
                 <span class="npc-tag">Ancient Technology</span>
                 <span class="npc-tag">Act I: Shadows of the Past</span>
@@ -633,13 +594,14 @@
           </div>
         </section>
 
-        <section id="voristlas" class="npc-entry" data-tags="zhodani,drenalch,diplomat,act1,mission1,mission2">
+        <section id="voristlas" class="npc-entry" data-tags="zhodani,zhodani-consulate,drenalch,diplomat,act1,mission1,mission2">
           <div class="npc-flex">
             <img src="Images/npcs/ambassador_voristlas.jpg" alt="Ambassador Voristlas" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Ambassador+Voristlas';">
             <div class="npc-flex-content">
               <h2 class="npc-title">Ambassador Voristlas</h2>
               <div class="npc-tags">
                 <span class="npc-tag">Zhodani</span>
+                <span class="npc-tag">Zhodani Consulate</span>
                 <span class="npc-tag">Drenalch</span>
                 <span class="npc-tag">Diplomat</span>
                 <span class="npc-tag">Act I: Shadows of the Past</span>
@@ -655,31 +617,7 @@
           </div>
         </section>
 
-        <section id="echo-keepers" class="npc-entry" data-tags="ghenani,guardian,act1,mission1">
-          <div class="npc-flex">
-            <img src="Images/npcs/EchoKeeper.png" alt="The Echo Keepers" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Echo+Keepers';">
-            <div class="npc-flex-content">
-              <h2 class="npc-title">The Echo Keepers</h2>
-              <div class="npc-tags">
-                <span class="npc-tag">Ghenani</span>
-                <span class="npc-tag">Guardian</span>
-                <span class="npc-tag">Act I: Shadows of the Past</span>
-                <span class="npc-tag">Mission 1: The Seeds of Curiosity</span>
-              </div>
-              <div class="npc-content">
-                <p>Also known as "The Keepers of the Echoes" or "Ghenani Echo Keepers," this faction serves as guardians of ancient Ghenani sites and technology. They are deeply committed to preserving and protecting their sacred heritage.</p>
-                <p><strong>Key Characteristics:</strong></p>
-                <ul>
-                  <li>Guardians of Ancient Sites/Technology: Primary protectors of Ancients' sites and technology of Ghenani significance</li>
-                  <li>Isolationist Tendencies: Generally wary of outsiders and external interference</li>
-                  <li>Reverence for Cosmic Balance: Particularly concerned with maintaining cosmic harmony</li>
-                  <li>Protection of Guardian Worlds: Dedicated to safeguarding planets with significant ancient ruins and sacred sites</li>
-                  <li>Strict Justice: Known for their severity, especially regarding thefts of Ancients' technology</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </section>
+
 
         <section id="lobon" class="npc-entry" data-tags="ghenani,guardian,act1,mission1">
           <div class="npc-flex">
@@ -700,13 +638,14 @@
           </div>
         </section>
 
-        <section id="lyraviepr" class="npc-entry" data-tags="zhodani,drenalch,diplomat,act1,mission1,mission2">
+        <section id="lyraviepr" class="npc-entry" data-tags="zhodani,zhodani-consulate,drenalch,diplomat,act1,mission1,mission2">
           <div class="npc-flex">
             <img src="Images/npcs/ambassadors_intendant.jpg" alt="Intendent Lyraviepr" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Intendent+Lyraviepr';">
             <div class="npc-flex-content">
               <h2 class="npc-title">Intendent Lyraviepr</h2>
               <div class="npc-tags">
                 <span class="npc-tag">Zhodani</span>
+                <span class="npc-tag">Zhodani Consulate</span>
                 <span class="npc-tag">Drenalch</span>
                 <span class="npc-tag">Diplomat</span>
                 <span class="npc-tag">Act I: Shadows of the Past</span>
@@ -722,13 +661,14 @@
           </div>
         </section>
 
-        <section id="wadden" class="npc-entry" data-tags="zhodani,drenalch,prole,act1,mission1,mission2">
+        <section id="wadden" class="npc-entry" data-tags="zhodani,zhodani-consulate,drenalch,prole,act1,mission1,mission2">
           <div class="npc-flex">
             <img src="Images/npcs/wadden_prole.jpg" alt="Controller Wadden" onerror="this.onerror=null;this.src='https://placehold.co/180x180/eeeeee/333333?text=Controller+Wadden';">
             <div class="npc-flex-content">
               <h2 class="npc-title">Controller Wadden</h2>
               <div class="npc-tags">
                 <span class="npc-tag">Zhodani</span>
+                <span class="npc-tag">Zhodani Consulate</span>
                 <span class="npc-tag">Drenalch</span>
                 <span class="npc-tag">Prole</span>
                 <span class="npc-tag">Act I: Shadows of the Past</span>
@@ -742,23 +682,358 @@
           </div>
         </section>
 
-        <section id="vayne" class="npc-entry" data-tags="pirate,humani,the-nest,deceased,act1,mission2">
+
+
+        <section id="arden-kincaid" class="npc-entry" data-tags="igs,media,liaison,tiffanye,imperial-human">
+          <h2>Arden Kincaid</h2>
+          <img src="Images/npcs/arden_kincaid.jpg" alt="Arden Kincaid" class="npc-image" onerror="this.onerror=null;this.src='https://placehold.co/400x600/eeeeee/333333?text=Arden+Kincaid';">
+          <div class="npc-tags">
+            <span class="npc-tag">IGS</span>
+            <span class="npc-tag">Media</span>
+            <span class="npc-tag">Liaison</span>
+            <span class="npc-tag">Tiffanye</span>
+            <span class="npc-tag">Imperial Human</span>
+          </div>
+          <div class="npc-content">
+            <p>Arden Kincaid is the charismatic media personality and 'faceman' of the Institute for Geophysical Studies (IGS). As the party's IGS liaison upon arrival at Tiffanye, he serves as their primary contact with the organization.</p>
+            
+            <div class="npc-stats">
+              <div class="stat-box">
+                <div class="stat-label">Role</div>
+                <div>IGS Media Liaison</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Location</div>
+                <div>Tiffanye</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Status</div>
+                <div>Active</div>
+              </div>
+            </div>
+
+            <div class="npc-info">
+              <h3>Appearance</h3>
+              <p>Arden is a charismatic media personality in his 40s with a warm, trustworthy smile and sharp, intelligent eyes. He wears a stylish, dark grey IGS-branded media jacket over a casual shirt.</p>
+            </div>
+
+            <div class="npc-info">
+              <h3>Role</h3>
+              <p>Arden serves as the IGS's primary media personality and liaison, managing public relations, coordinating with expedition teams, and navigating Tiffanye's complex bureaucratic landscape. He oversees the production of IGS documentaries and educational content.</p>
+            </div>
+
+            <div class="npc-info">
+              <h3>Personality</h3>
+              <p>Arden combines media savvy with genuine concern for the IGS's mission. He's charming and persuasive, able to put people at ease while delivering difficult news. His background in media gives him excellent communication skills.</p>
+            </div>
+
+            <div class="npc-links">
+              <a href="organizations.html#igs">Organization: IGS</a>
+              <a href="locations.html#tiffanye">Location: Tiffanye</a>
+            </div>
+          </div>
+        </section>
+
+        <section id="quartermaster-valerius" class="npc-entry" data-tags="pirate,the-nest,independent,commercial,mission2,void-vultures,imperial-human">
+          <h2>Quartermaster Valerius ("Val")</h2>
+          <img src="Images/npcs/Pirates/heavy_pirate.jpg" alt="Quartermaster Valerius" class="npc-image" onerror="this.onerror=null;this.src='https://placehold.co/400x600/eeeeee/333333?text=Quartermaster+Valerius';">
+          <div class="npc-tags">
+            <span class="npc-tag">The Nest</span>
+            <span class="npc-tag">Pirate</span>
+            <span class="npc-tag">Independent</span>
+            <span class="npc-tag">Commercial</span>
+            <span class="npc-tag">Mission 2: The Shadows of the Past</span>
+            <span class="npc-tag">Void Vultures</span>
+            <span class="npc-tag">Imperial Human</span>
+          </div>
+          <div class="npc-content">
+            <p>Quartermaster Valerius ("Val") is the pragmatic logistical chief of The Nest, with ambitions that extend far beyond simple piracy. Val's long-term goal is not to escape the criminal life, but to transform The Nest into a legitimate operation.</p>
+            
+            <div class="npc-stats">
+              <div class="stat-box">
+                <div class="stat-label">Role</div>
+                <div>Quartermaster</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Location</div>
+                <div>The Nest</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Status</div>
+                <div>Active</div>
+              </div>
+            </div>
+
+            <div class="npc-info">
+              <h3>Appearance</h3>
+              <p>Val is sharp, calm, and appraising, with a neat appearance that stands in stark contrast to the station's grime. Their professional demeanor suggests a background in legitimate business or logistics.</p>
+            </div>
+
+            <div class="npc-info">
+              <h3>Ambitions</h3>
+              <p>Val sees The Nest not as a pirate den, but as a potential legitimate, independent freeport and trade hub in the chaotic Vanguard Reaches. The sale of the Nova Core to the Tyrannus Combine was intended as seed money for this grand ambition. Val plans to use the massive payment to buy political legitimacy from a minor local faction, systematically repair and upgrade The Nest's systems, and oust Vayne and his violent cronies, replacing them with a paid security force.</p>
+            </div>
+
+            <div class="npc-info">
+              <h3>Recent Activities</h3>
+              <p>Val assisted the party in securing the Nova Core and escaping the Nest, in return for a promise to turn over 90% of the funds acquired by returning the Ancients device back to the Ghenani (which, in this case, was nothing). Last seen in the vicinity of The Nest.</p>
+            </div>
+
+            <div class="npc-links">
+              <a href="locations.html#the-nest">Location: The Nest</a>
+            </div>
+          </div>
+        </section>
+
+        <section id="dockmaster-gristle" class="npc-entry" data-tags="pirate,the-nest,industrial,mission2,void-vultures,imperial-human">
+          <h2>Dockmaster "Gristle"</h2>
+          <img src="Images/npcs/Pirates/greasey_engineer_pirate.jpg" alt="Dockmaster Gristle" class="npc-image" onerror="this.onerror=null;this.src='https://placehold.co/400x600/eeeeee/333333?text=Dockmaster+Gristle';">
+          <div class="npc-tags">
+            <span class="npc-tag">The Nest</span>
+            <span class="npc-tag">Pirate</span>
+            <span class="npc-tag">Industrial</span>
+            <span class="npc-tag">Mission 2: The Shadows of the Past</span>
+            <span class="npc-tag">Void Vultures</span>
+            <span class="npc-tag">Imperial Human</span>
+          </div>
+          <div class="npc-content">
+            <p>Dockmaster "Gristle" is a massive, grease-stained man with a cybernetic arm that whirs loudly. He oversees the docking operations at The Nest and is known for his corrupt practices and demands for tribute from visiting ships.</p>
+            
+            <div class="npc-stats">
+              <div class="stat-box">
+                <div class="stat-label">Role</div>
+                <div>Dock Master</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Location</div>
+                <div>The Nest</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Status</div>
+                <div>Active</div>
+              </div>
+            </div>
+
+            <div class="npc-info">
+              <h3>Appearance</h3>
+              <p>Gristle is a massive, grease-stained man with a cybernetic arm that whirs loudly. He typically sits on a crate, scratching a grimy beard, and eyes visitors with bored avarice.</p>
+            </div>
+
+            <div class="npc-info">
+              <h3>Personality</h3>
+              <p>Gristle is corrupt and opportunistic, using his position as dock master to extract tribute from visiting ships. He's known for his demands for "discretion fees" and threats to file reports with the Enforcers if his demands aren't met.</p>
+            </div>
+
+            <div class="npc-info">
+              <h3>Typical Demands</h3>
+              <p>"Another run for Vayne's little parcel service," he grunts. "Tribute's due. A bottle of something that burns, or a few hundred creds for my 'discretion fund'. Unless you'd rather I file a full 'Unexpected Mass Signature' report with the Enforcers?"</p>
+            </div>
+
+            <div class="npc-links">
+              <a href="locations.html#the-nest">Location: The Nest</a>
+            </div>
+          </div>
+        </section>
+
+        <!-- HIDDEN NPCs - To be revealed after game session encounters -->
+        <!--
+        <section id="councillor-elara-vance" class="npc-entry" data-tags="tiffanye,academic,bureaucrat,independent">
+          <h2>Councillor Elara Vance</h2>
+          <img src="Images/npcs/Councillor_Elara_Vance.jpg" alt="Councillor Elara Vance" class="npc-image" onerror="this.onerror=null;this.src='https://placehold.co/400x600/eeeeee/333333?text=Councillor+Elara+Vance';">
+          <div class="npc-tags">
+            <span class="npc-tag">Tiffanye</span>
+            <span class="npc-tag">Academic</span>
+            <span class="npc-tag">Bureaucrat</span>
+            <span class="npc-tag">Independent</span>
+          </div>
+          <div class="npc-content">
+            <p>Councillor Elara Vance is the representative for the Independent Artisans Guild on Tiffanye's Collective Council. A former academic from Tiffanye University, she brings a scholarly perspective to the council's deliberations.</p>
+            
+            <div class="npc-stats">
+              <div class="stat-box">
+                <div class="stat-label">Role</div>
+                <div>Council Representative</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Location</div>
+                <div>Tiffanye</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Status</div>
+                <div>Active</div>
+              </div>
+            </div>
+
+            <div class="npc-info">
+              <h3>Background</h3>
+              <p>As a former academic from Tiffanye University, Councillor Vance represents the Independent Artisans Guild, an organization that values traditional craftsmanship and academic integrity. Her position gives her influence over research funding and institutional policies.</p>
+            </div>
+
+            <div class="npc-info">
+              <h3>Personality</h3>
+              <p>Councillor Vance is principled but cautious. She values academic integrity and fair play, and responds well to logical, evidence-based arguments rather than emotional appeals.</p>
+            </div>
+
+            <div class="npc-links">
+              <a href="locations.html#tiffanye">Location: Tiffanye</a>
+            </div>
+          </div>
+        </section>
+
+        <section id="seneschal-torvin-rhys" class="npc-entry" data-tags="tiffanye,bureaucrat,industrial,independent">
+          <h2>Seneschal Torvin Rhys</h2>
+          <img src="Images/npcs/Seneschal_Torvin_Rhys.jpg" alt="Seneschal Torvin Rhys" class="npc-image" onerror="this.onerror=null;this.src='https://placehold.co/400x600/eeeeee/333333?text=Seneschal+Torvin+Rhys';">
+          <div class="npc-tags">
+            <span class="npc-tag">Tiffanye</span>
+            <span class="npc-tag">Bureaucrat</span>
+            <span class="npc-tag">Industrial</span>
+            <span class="npc-tag">Independent</span>
+          </div>
+          <div class="npc-content">
+            <p>Seneschal Torvin Rhys is the chief aide to the head of the Startown Industrial Combine on Tiffanye. A pragmatist through and through, his primary concern is the flow of trade and credits in the system.</p>
+            
+            <div class="npc-stats">
+              <div class="stat-box">
+                <div class="stat-label">Role</div>
+                <div>Industrial Aide</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Location</div>
+                <div>Tiffanye</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Status</div>
+                <div>Active</div>
+              </div>
+            </div>
+
+            <div class="npc-info">
+              <h3>Position</h3>
+              <p>As the chief aide to the head of the Startown Industrial Combine, Seneschal Rhys wields significant influence over industrial policy and trade regulations on Tiffanye. The Combine represents the major manufacturing and industrial interests in the system.</p>
+            </div>
+
+            <div class="npc-info">
+              <h3>Personality</h3>
+              <p>Rhys is pragmatic and focused on economic benefits. He's open to arguments about how research and discoveries can create new markets and opportunities, and prefers concrete benefits over emotional appeals.</p>
+            </div>
+
+            <div class="npc-links">
+              <a href="locations.html#tiffanye">Location: Tiffanye</a>
+            </div>
+          </div>
+        </section>
+
+        <section id="lady-fyerla" class="npc-entry" data-tags="aslan,commercial,independent,tiffanye">
+          <h2>Lady Fyerla of the Hlyueawi</h2>
+          <img src="Images/npcs/Lady_Fyerla.jpg" alt="Lady Fyerla of the Hlyueawi" class="npc-image" onerror="this.onerror=null;this.src='https://placehold.co/400x600/eeeeee/333333?text=Lady+Fyerla';">
+          <div class="npc-tags">
+            <span class="npc-tag">Aslan</span>
+            <span class="npc-tag">Commercial</span>
+            <span class="npc-tag">Independent</span>
+            <span class="npc-tag">Tiffanye</span>
+          </div>
+          <div class="npc-content">
+            <p>Lady Fyerla of the Hlyueawi is a sharp, pragmatic Aslan female who holds the commercial reins for her clan's interests in the Vanguard Reaches subsector. In Aslan society, females handle commerce and finance.</p>
+            
+            <div class="npc-stats">
+              <div class="stat-box">
+                <div class="stat-label">Role</div>
+                <div>Commercial Representative</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Location</div>
+                <div>Vanguard Reaches</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Status</div>
+                <div>Active</div>
+              </div>
+            </div>
+
+            <div class="npc-info">
+              <h3>Cultural Context</h3>
+              <p>In Aslan society, females traditionally handle commerce, finance, and trade, while males focus on military and political leadership. This makes Lady Fyerla the primary decision-maker for her clan's economic interests in the region.</p>
+            </div>
+
+            <div class="npc-info">
+              <h3>Personality</h3>
+              <p>Lady Fyerla is direct and results-oriented in her negotiations. She values efficiency and clear communication in business dealings, and prefers to focus on practical benefits and mutual advantage.</p>
+            </div>
+
+            <div class="npc-links">
+              <a href="locations.html#vanguard-reaches">Region: Vanguard Reaches</a>
+            </div>
+          </div>
+        </section>
+
+        <section id="kaelen-lupeski" class="npc-entry" data-tags="hyperion,corporate,independent">
+          <h2>Kaelen Lupeski</h2>
+          <img src="Images/npcs/Kaelen_Lupeski.jpg" alt="Kaelen Lupeski" class="npc-image" onerror="this.onerror=null;this.src='https://placehold.co/400x600/eeeeee/333333?text=Kaelen+Lupeski';">
+          <div class="npc-tags">
+            <span class="npc-tag">Hyperion</span>
+            <span class="npc-tag">Corporate</span>
+            <span class="npc-tag">Independent</span>
+          </div>
+          <div class="npc-content">
+            <p>Kaelen Lupeski is a member of the influential Lupeski family that controls Hyperion Lines and the Hyperion League. As part of the family that has effectively taken over the government of Hyperion, Kaelen represents the corporate interests that dominate the system.</p>
+            
+            <div class="npc-stats">
+              <div class="stat-box">
+                <div class="stat-label">Role</div>
+                <div>Corporate Representative</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Location</div>
+                <div>Hyperion</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Status</div>
+                <div>Active</div>
+              </div>
+            </div>
+
+            <div class="npc-info">
+              <h3>Family Position</h3>
+              <p>As a member of the Lupeski family, Kaelen is part of the corporate dynasty that controls Hyperion Lines and, through it, the Hyperion League. The family's control extends beyond Hyperion to include holdings on multiple worlds.</p>
+            </div>
+
+            <div class="npc-info">
+              <h3>Personality</h3>
+              <p>Kaelen represents the corporate interests that have effectively replaced traditional government on Hyperion. The family's expansionist policies have created tensions with other systems in the Vanguard Reaches.</p>
+            </div>
+
+            <div class="npc-links">
+              <a href="organizations.html#hyperion-lines">Organization: Hyperion Lines</a>
+              <a href="locations.html#hyperion">Location: Hyperion</a>
+            </div>
+          </div>
+        </section>
+
+
+        -->
+      </div>
+
+      <!-- Deceased NPCs Section -->
+      <div class="npc-section" id="deceased-section" style="display: none;">
+        <h2 style="color: #f55; margin-bottom: 30px; text-align: center;">Deceased NPCs</h2>
+        
+        <section id="vayne-deceased" class="npc-entry" data-tags="pirate,imperial-human,the-nest,deceased,act1,mission2">
           <div class="npc-flex">
             <img src="Images/npcs/Pirates/captain_roric_ironjaw_vayne.jpg" alt="Captain Roric 'Ironjaw' Vayne" onerror="this.onerror=null;this.src='https://placehold.co/210x210/eeeeee/333333?text=Ironjaw+Vayne';">
             <div class="npc-flex-content">
               <h2 class="npc-title">Captain Roric "Ironjaw" Vayne <span style='color:#f55;'>(DECEASED)</span></h2>
               <div class="npc-tags">
                 <span class="npc-tag">Pirate</span>
-                <span class="npc-tag">Humani</span>
+                <span class="npc-tag">Imperial Human</span>
                 <span class="npc-tag">The Nest</span>
                 <span class="npc-tag">Deceased</span>
                 <span class="npc-tag">Act I: Shadows of the Past</span>
                 <span class="npc-tag">Mission 2: The Shadows of the Past</span>
               </div>
               <div class="npc-content">
-                <p>Captain Roric "Ironjaw" Vayne is the ruthless and battle-hardened leader of the Void Vultures. He rules his pirate gang through a potent combination of fear, cunning, and the promise of immense plunder, demanding absolute loyalty from his subordinates. His authority is unquestioned within The Nest, and his reputation is punctuated by his most distinct physical feature: a crude, menacing cybernetic jaw replacement, the source of his moniker and a constant, visible reminder of his violent past.</p>
-                <p>Vayne is a tactically astute but brutally direct commander, preferring to overwhelm his enemies with focused, aggressive force. This confidence, however, borders on arrogance, particularly concerning his flagship, the "Void Reaper", which he considers a flawless extension of his own power. Any perceived slight against his ship or his personal honor is met with disproportionate rage.</p>
-                <p>Beneath his aggressive exterior lies a deep-seated paranoia. He is notoriously distrustful of modern wireless technology and is especially wary of psionics, which he views as a tool for spies and assassins. This forces him to rely on older, hard-wired systems for his most sensitive operations, creating a unique operational vulnerability. He is a dangerous and unpredictable antagonist, driven by a relentless desire for power and a profound fear of betrayal.</p>
+                <p>Captain Roric "Ironjaw" Vayne was the ruthless and battle-hardened leader of the Void Vultures. He ruled his pirate gang through a potent combination of fear, cunning, and the promise of immense plunder, demanding absolute loyalty from his subordinates. His authority was unquestioned within The Nest, and his reputation was punctuated by his most distinct physical feature: a crude, menacing cybernetic jaw replacement, the source of his moniker and a constant, visible reminder of his violent past.</p>
+                <p>Vayne was a tactically astute but brutally direct commander, preferring to overwhelm his enemies with focused, aggressive force. This confidence, however, bordered on arrogance, particularly concerning his flagship, the "Void Reaper", which he considered a flawless extension of his own power. Any perceived slight against his ship or his personal honor was met with disproportionate rage.</p>
+                <p>Beneath his aggressive exterior lay a deep-seated paranoia. He was notoriously distrustful of modern wireless technology and was especially wary of psionics, which he viewed as a tool for spies and assassins. This forced him to rely on older, hard-wired systems for his most sensitive operations, creating a unique operational vulnerability.</p>
                 <p><strong>Fate:</strong> Vayne was killed in a skirmish on his Space Station when a Stun Grenade he was using went off in his hand and he was executed by Lucius Vin Geitenhoven.</p>
               </div>
             </div>
@@ -772,16 +1047,31 @@
     document.addEventListener('DOMContentLoaded', function() {
       const filterButtons = document.querySelectorAll('.filter-button');
       const npcEntries = document.querySelectorAll('.npc-entry');
+      const deceasedSection = document.getElementById('deceased-section');
+      const mainNpcSection = document.querySelector('.npc-section:not(#deceased-section)');
       let activeFilters = new Set();
 
       // Function to update visibility
       function updateVisibility() {
-        npcEntries.forEach(entry => {
-          const tags = entry.getAttribute('data-tags').split(',');
-          const shouldShow = activeFilters.size === 0 || 
-            Array.from(activeFilters).every(filter => tags.includes(filter));
-          entry.classList.toggle('visible', shouldShow);
-        });
+        // Check if deceased filter is active
+        const showDeceased = activeFilters.has('deceased');
+        
+        // Show/hide sections based on deceased filter
+        if (showDeceased) {
+          deceasedSection.style.display = 'block';
+          mainNpcSection.style.display = 'none';
+        } else {
+          deceasedSection.style.display = 'none';
+          mainNpcSection.style.display = 'block';
+          
+          // Update regular NPC visibility
+          npcEntries.forEach(entry => {
+            const tags = entry.getAttribute('data-tags').split(',');
+            const shouldShow = activeFilters.size === 0 || 
+              Array.from(activeFilters).every(filter => tags.includes(filter));
+            entry.classList.toggle('visible', shouldShow);
+          });
+        }
       }
 
       // Add click handlers to filter buttons

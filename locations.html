@@ -326,7 +326,7 @@
   <!-- Include Navigation -->
   <div id="nav-placeholder"></div>
   <script>
-    fetch('navigation.html')
+    fetch('navigation.html?v=' + Date.now())
       .then(response => response.text())
       .then(data => {
         document.getElementById('nav-placeholder').innerHTML = data;
@@ -352,6 +352,26 @@
       <div class="filter-section">
         <h2>Filters</h2>
         <div class="filter-group">
+          <h3>Sector</h3>
+          <button class="filter-button" data-tag="vanguard-reaches">Vanguard Reaches</button>
+        </div>
+
+        <div class="filter-group">
+          <h3>Sub-sector</h3>
+          <button class="filter-button" data-tag="dlieblafia">Dlieblafia</button>
+          <button class="filter-button" data-tag="yavakrbi">Yavakrbi</button>
+          <button class="filter-button" data-tag="diadem">Diadem</button>
+        </div>
+
+        <div class="filter-group">
+          <h3>System</h3>
+          <button class="filter-button" data-tag="nielkladlief">Nielkladlief</button>
+          <button class="filter-button" data-tag="drenalch">Drenalch</button>
+          <button class="filter-button" data-tag="tiffanye">Tiffanye</button>
+          <button class="filter-button" data-tag="damrong">Damrong</button>
+        </div>
+
+        <div class="filter-group">
           <h3>Type</h3>
           <button class="filter-button" data-tag="planet">Planet</button>
           <button class="filter-button" data-tag="station">Station</button>
@@ -360,33 +380,31 @@
         </div>
 
         <div class="filter-group">
-          <h3>System</h3>
-          <button class="filter-button" data-tag="nielkladlief">Nielkladlief</button>
-          <button class="filter-button" data-tag="drenalch">Drenalch</button>
-        </div>
-
-        <div class="filter-group">
           <h3>Faction</h3>
-          <button class="filter-button" data-tag="zhodani-colonnades">Zhodani Colonnades</button>
+                          <button class="filter-button" data-tag="zhodani-colonnade">Zhodani Colonnade</button>
           <button class="filter-button" data-tag="ghenani">Ghenani</button>
           <button class="filter-button" data-tag="pirate">Pirate</button>
+          <button class="filter-button" data-tag="igs">IGS</button>
         </div>
 
         <div class="filter-group">
           <h3>Mission</h3>
           <button class="filter-button" data-tag="mission1">Mission 1</button>
           <button class="filter-button" data-tag="mission2">Mission 2</button>
+          <button class="filter-button" data-tag="mission3">Mission 3</button>
         </div>
       </div>
 
       <div class="location-section">
-        <section id="nielkladlief" class="location-entry" data-tags="planet,zhodani-colonnades,nielkladlief,mission1">
+        <section id="nielkladlief" class="location-entry" data-tags="planet,zhodani-colonnade,nielkladlief,mission1,vanguard-reaches,dlieblafia">
           <h2>Nielkladlief</h2>
           <iframe class="location-map" src="https://travellermap.com/?options=50175&p=-162.757!29.365!7.25&dimunofficial=1" frameborder="0"></iframe>
           <div class="location-tags">
             <span class="location-tag">Planet</span>
-            <span class="location-tag">Zhodani Colonnades</span>
+            <span class="location-tag">Zhodani Colonnade</span>
             <span class="location-tag">Mission 1</span>
+            <span class="location-tag">Vanguard Reaches</span>
+            <span class="location-tag">Dlieblafia</span>
           </div>
           <div class="location-content">
             <p>Nielkladlief is a high-population world with over a billion sophonts, serving as the sector capital of the Zhodani Consulate's Colonnade Province. As the administrative center for 88 Colonnade systems, it enjoys considerable trade and prestige. The world is part of the Dlieblafia Subsector in the Vanguard Reaches Sector.</p>
@@ -445,9 +463,9 @@
             </div>
 
             <div class="location-info">
-              <h3>The Colonnades University</h3>
-              <img src="Images/locations/University.jpg" alt="The Colonnades University" class="location-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=Colonnades+University';">
-              <p>The Colonnades University stands as one of the most prestigious institutions of higher learning in the Vanguard Reaches. Founded in 1023, it has grown to become a center of academic excellence and cultural exchange, attracting students and scholars from across the sector.</p>
+              <h3>The Colonnade University</h3>
+              <img src="Images/locations/University.jpg" alt="The Colonnade University" class="location-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=Colonnade+University';">
+              <p>The Colonnade University stands as one of the most prestigious institutions of higher learning in the Vanguard Reaches. Founded in 1023, it has grown to become a center of academic excellence and cultural exchange, attracting students and scholars from across the sector.</p>
               <ul>
                 <li><strong>Academic Programs:</strong> Offers comprehensive studies in sciences, humanities, and technical fields</li>
                 <li><strong>Research Facilities:</strong> State-of-the-art laboratories and research centers</li>
@@ -463,13 +481,15 @@
           </div>
         </section>
 
-        <section id="drenalch" class="location-entry" data-tags="planet,ghenani,drenalch,mission1">
+        <section id="drenalch" class="location-entry" data-tags="planet,ghenani,drenalch,mission1,vanguard-reaches,yavakrbi">
           <h2>Drenalch</h2>
           <iframe class="location-map" src="https://travellermap.com/?p=-160.852!17.782!7.5&options=58367&dimunofficial=1" frameborder="0"></iframe>
           <div class="location-tags">
             <span class="location-tag">Planet</span>
             <span class="location-tag">Ghenani</span>
             <span class="location-tag">Mission 1</span>
+            <span class="location-tag">Vanguard Reaches</span>
+            <span class="location-tag">Yavakrbi</span>
           </div>
           <div class="location-content">
             <p>Drenalch is a rich, agricultural world with improving living conditions due to a bustling agro-economy. As the homeworld of the Ghenani (a Minor Human Race), it is a Non-Aligned world located in the Yavakrbi Subsector of Vanguard Reaches Sector. The world offers high-grade living conditions, a good climate, and a non-harmful environment, making immigration registration highly sought after.</p>
@@ -544,13 +564,15 @@
           </div>
         </section>
 
-        <section id="whisper-point" class="location-entry" data-tags="space-coordinate,zhodani-colonnades,whisper-point,mission1">
+        <section id="whisper-point" class="location-entry" data-tags="space-coordinate,zhodani-colonnade,whisper-point,mission1,vanguard-reaches,yavakrbi">
           <h2>Whisper Point</h2>
-          <iframe class="location-map" src="https://travellermap.com/?options=50175&p=-162.757!29.365!7.25&dimunofficial=1" frameborder="0"></iframe>
+          <iframe class="location-map" src="https://travellermap.com/?p=-161.147!18.014!7.5&options=58367&dimunofficial=1" frameborder="0"></iframe>
           <div class="location-tags">
             <span class="location-tag">Space Coordinate</span>
-            <span class="location-tag">Zhodani Colonnades</span>
+            <span class="location-tag">Zhodani Colonnade</span>
             <span class="location-tag">Mission 1</span>
+            <span class="location-tag">Vanguard Reaches</span>
+            <span class="location-tag">Yavakrbi</span>
           </div>
           <div class="location-content">
             <p>Whisper Point is a remote coordinate in deep space, approximately one parsec from Drenalch. This unassuming location has gained significance as both a strategic refueling point and a clandestine meeting ground for illicit activities.</p>
@@ -572,7 +594,7 @@
 
             <div class="location-info">
               <h3>Legitimate Use</h3>
-              <p>Originally established as a deep-space refueling point for the Colonnades University research mission to Drenalch, Whisper Point was intended to support vessels making the long journey to the remote world. The Ambassador facilitated the setup of a supply dump here, providing crucial support for scientific expeditions.</p>
+              <p>Originally established as a deep-space refueling point for the Colonnade University research mission to Drenalch, Whisper Point was intended to support vessels making the long journey to the remote world. The Ambassador facilitated the setup of a supply dump here, providing crucial support for scientific expeditions.</p>
             </div>
 
             <div class="location-info">
@@ -597,23 +619,282 @@
           </div>
         </section>
 
-        <section id="the-nest" class="location-entry" data-tags="station,pirate,the-nest,mission2">
+        <section id="the-nest" class="location-entry" data-tags="station,pirate,the-nest,mission2,vanguard-reaches,yavakrbi">
           <h2>The Nest</h2>
-          <iframe class="location-map" src="https://travellermap.com/?options=50175&p=-162.757!29.365!7.25&dimunofficial=1" frameborder="0"></iframe>
+          <iframe class="location-map" src="https://travellermap.com/?p=-161.147!18.014!7.5&options=58367&dimunofficial=1" frameborder="0"></iframe>
+          <img src="Images/locations/the-nest.png" alt="The Nest - Pirate Hideout" class="location-image" onerror="this.onerror=null;this.src='https://placehold.co/800x400/eeeeee/333333?text=The+Nest';">
           <div class="location-tags">
             <span class="location-tag">Station</span>
             <span class="location-tag">Pirate</span>
             <span class="location-tag">Mission 2</span>
+            <span class="location-tag">Vanguard Reaches</span>
+            <span class="location-tag">Yavakrbi</span>
+          </div>
+          <div class="location-content">
+            <p>The Nest is the primary hideout of the Void Vultures pirate gang, located in the Yavakrbi sub-sector. This large, older ex-military derelict ship serves as their base of operations and is currently undergoing a major refit to accommodate the Nova Core device.</p>
+            
+            <div class="location-stats">
+              <div class="stat-box">
+                <div class="stat-label">Type</div>
+                <div>Ex-Military Station</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Status</div>
+                <div>Pirate Controlled</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Notable Feature</div>
+                <div>Nova Core Refit</div>
+              </div>
+            </div>
+
+            <div class="location-info">
+              <h3>The Station</h3>
+              <p>The Nest is a large, older ex-military derelict ship that has been converted into a pirate base. The station is currently undergoing a major refit, with the pirates working to integrate the Nova Core device into its systems. This refit requires specific Imperial Navy-grade components, including K-73H series coolant and Mark IV Naval spec fusion containment coils.</p>
+            </div>
+
+            <div class="location-info">
+              <h3>Technical Issues</h3>
+              <p>The station's systems are showing signs of strain, with reports of the "old girl" being "thirsty and her heart running hot." The pirates are desperately seeking high-grade military components to complete the refit and stabilize the Nova Core integration. The technical crew, led by figures like Silas Thorne, are working around the clock to keep the station operational.</p>
+            </div>
+
+            <div class="location-info">
+              <h3>Strategic Location</h3>
+              <p>The Nest is positioned near "The Murk," a local anomaly cluster designation (AZ-203-Delta) that serves as both protection and hazard. The asteroid field and derelict graveyard surrounding the station is prone to sensor anomalies and "sensor ghosts," making it difficult for authorities to locate and approach the pirate base.</p>
+            </div>
+
+            <div class="location-info">
+              <h3>Pirate Operations</h3>
+              <p>The Void Vultures use The Nest as their primary base for coordinating raids, storing loot, and conducting the complex logistics required for their operations. The station houses their leadership, including Captain Roric "Ironjaw" Vayne, and serves as a hub for their criminal activities throughout the Vanguard Reaches.</p>
+            </div>
           </div>
         </section>
 
-        <section id="the-murk" class="location-entry" data-tags="debris-field,pirate,the-murk,mission2">
+        <section id="the-murk" class="location-entry" data-tags="debris-field,pirate,the-murk,mission2,vanguard-reaches,yavakrbi">
           <h2>The Murk</h2>
-          <iframe class="location-map" src="https://travellermap.com/?options=50175&p=-162.757!29.365!7.25&dimunofficial=1" frameborder="0"></iframe>
+          <img src="Images/locations/Anomaly 1.jpg" alt="The Murk - Anomaly Cluster" class="location-image" onerror="this.onerror=null;this.src='https://placehold.co/800x400/eeeeee/333333?text=The+Murk';">
           <div class="location-tags">
             <span class="location-tag">Debris Field</span>
             <span class="location-tag">Pirate</span>
             <span class="location-tag">Mission 2</span>
+            <span class="location-tag">Vanguard Reaches</span>
+            <span class="location-tag">Yavakrbi</span>
+          </div>
+          <div class="location-content">
+            <p>The Murk (AZ-203-Delta) is a local anomaly cluster designation for an asteroid field and derelict graveyard located in the Yavakrbi sub-sector. This hazardous region serves as both protection and hazard for the nearby pirate base, The Nest.</p>
+            
+            <div class="location-stats">
+              <div class="stat-box">
+                <div class="stat-label">Designation</div>
+                <div>AZ-203-Delta</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Type</div>
+                <div>Anomaly Cluster</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Notable Feature</div>
+                <div>Sensor Ghosts</div>
+              </div>
+            </div>
+
+            <div class="location-info">
+              <h3>The Anomaly</h3>
+              <p>The Murk is characterized by persistent sensor anomalies and "sensor ghosts" that make navigation and detection extremely difficult. These anomalies interfere with ship sensors and communications, creating a natural barrier that helps protect the nearby pirate operations at The Nest.</p>
+            </div>
+
+            <div class="location-info">
+              <h3>Strategic Significance</h3>
+              <p>The Void Vultures pirates have learned to navigate the anomalies of The Murk, using their knowledge of the region's peculiarities to their advantage. The sensor interference makes it nearly impossible for authorities to approach The Nest without being detected, while the pirates can use the anomalies to mask their own movements and activities.</p>
+            </div>
+
+            <div class="location-info">
+              <h3>Technical Challenges</h3>
+              <p>Silas Thorne and the technical crew at The Nest have reported ongoing issues with "sensor ghosts in 'The Murk,'" indicating that even the pirates struggle with the region's unpredictable nature. The anomalies may be related to the Nova Core device or other ancient technology hidden within the debris field.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="damrong" class="location-entry" data-tags="planet,igs,damrong,mission3,vanguard-reaches,diadem">
+          <h2>Damrong (Diadem 1316)</h2>
+          <iframe class="location-map" src="https://travellermap.com/?p=-156.406!24.483!7.75&options=58367&dimunofficial=1" frameborder="0"></iframe>
+          <div class="location-tags">
+            <span class="location-tag">Planet</span>
+            <span class="location-tag">IGS</span>
+            <span class="location-tag">Mission 3</span>
+            <span class="location-tag">Vanguard Reaches</span>
+            <span class="location-tag">Diadem</span>
+          </div>
+          <div class="location-content">
+            <p>Damrong is a paradox: an idyllic, Earth-like garden world with a technologically backward society that is paradoxically bound by a highly structured and restrictive government. It is a moon orbiting a massive gas giant, creating breathtaking skyscapes. The world's tiny population lives in a state of deliberate simplicity, exporting small amounts of high-quality agricultural goods to worlds like Tiffanye in exchange for the technology they cannot produce themselves. It is the perfect place for an organization like the IGS to study something in isolation, and the perfect place for a secret to remain hidden.</p>
+            
+            <div class="location-stats">
+              <div class="stat-box">
+                <div class="stat-label">UWP</div>
+                <div>D867489-5</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Trade Codes</div>
+                <div>Ga, Lt, Ni</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Bases</div>
+                <div>S</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Travel Zone</div>
+                <div>Green</div>
+              </div>
+            </div>
+
+            <div class="location-info">
+              <h3>At a Glance</h3>
+              <p>Damrong is a paradox: an idyllic, Earth-like garden world with a technologically backward society that is paradoxically bound by a highly structured and restrictive government. It is a moon orbiting a massive gas giant, creating breathtaking skyscapes. The world's tiny population lives in a state of deliberate simplicity, exporting small amounts of high-quality agricultural goods to worlds like Tiffanye in exchange for the technology they cannot produce themselves. It is the perfect place for an organization like the IGS to study something in isolation, and the perfect place for a secret to remain hidden.</p>
+            </div>
+
+            <div class="location-info">
+              <h3>The View from Orbit</h3>
+              <h4>A Terrestrial Moon</h4>
+              <p>From orbit, Damrong is a stunning blue-and-white marble, a near-perfect twin of ancient Terra. Its Size 8 and 70% hydrographics mean vast oceans and large, green continents are clearly visible.</p>
+              
+              <h4>The Gas Giant "Jove's Eye"</h4>
+              <p>Damrong is not a planet, but a moon. It orbits a colossal, rust-coloured gas giant that dominates the sky. This parent world, nicknamed "Jove's Eye" by spacers for a prominent cyclonic storm, provides a constant and spectacular backdrop, its swirling cloud bands and faint rings visible even during the day.</p>
+              
+              <h4>Binary Suns</h4>
+              <p>The system's primary is a bright, orange K-class star that gives the light a warm, golden hue. Far more distant is its companion, a tiny, dim M-class red dwarf that is only visible as a faint, ruddy star during the deepest parts of the night.</p>
+            </div>
+
+            <div class="location-info">
+              <h3>On the Surface</h3>
+              <h4>A Garden World (Ga)</h4>
+              <p>The environment is lush, fertile, and largely untamed. Think vast, ancient forests, sprawling grasslands teeming with alien flora and fauna, and crystal-clear oceans. The air is clean and the weather is generally mild, making it a comfortable, if wild, place to be.</p>
+              
+              <h4>Pre-Agricultural & Non-Industrial (Ni)</h4>
+              <p>There are no sprawling cities, no factory smoke, and no mega-farms. The 40,000 inhabitants live in small, isolated towns and settlements, practicing small-scale farming and horticulture. The lack of industrialization means the natural beauty of the world is almost entirely unspoiled, but it also means the colonists are completely dependent on off-world technology.</p>
+              
+              <h4>The IGS Presence (S)</h4>
+              <p>The IGS Base Camp Epsilon is a stark anomaly. It's a cluster of prefabricated, high-tech modules that stand in sharp contrast to the rustic, low-tech settlements of the colonists. To the locals, it's a mysterious outpost of a world they can barely comprehend.</p>
+            </div>
+
+            <div class="location-info">
+              <h3>Society & Culture</h3>
+              <h4>The Tiffanye Compact</h4>
+              <p>Damrong was settled several generations ago by a group from Tiffanye seeking a utopian, low-technology lifestyle. However, they brought their bureaucratic social structures with them. The government (Gov 8: Civil Service Bureaucracy) is a complex web of committees, regulations, and officials that manages every aspect of colonial life, from trade quotas to land use.</p>
+              
+              <h4>High Law, Low Tech (LL9, TL5)</h4>
+              <p>This is the core contradiction of Damrong. The society has the technological level of 20th-century Earth (combustion engines, radio, early aircraft) but the legal structure of a high-tech, authoritarian state. Law enforcement is ever-present but low-tech, relying on constables and strict community policing rather than advanced surveillance.</p>
+              
+              <h4>Weapon Laws</h4>
+              <p>All manufactured weapons are heavily regulated. While a colonist might have a simple slug-thrower for hunting, carrying advanced weaponry like laser rifles or gauss pistols would attract immediate and serious attention from the local constabulary. The PCs' high-tech gear will make them stand out.</p>
+              
+              <h4>The People</h4>
+              <p>The human colonists are generally hardworking and proud of their simple life, though some of the younger generation may be curious about the wider galaxy. They are likely wary of outsiders who represent the complex, high-tech universe they chose to leave behind.</p>
+            </div>
+
+            <div class="location-info">
+              <h3>For Travellers</h3>
+              <h4>The Starport (D-Class)</h4>
+              <p>"Starport" is a generous term. It's little more than a flattened, reinforced landing field of packed earth and a single control tower. There is a small office for the bureaucracy to handle customs and trade paperwork. Unrefined fuel is available, but any significant ship repairs are impossible.</p>
+              
+              <h4>The Economy (Lt)</h4>
+              <p>Anything not made of wood, stone, or simple forged metal has to be imported. This makes high-tech goods incredibly expensive and rare. A simple datapad might be worth a small fortune here. The colonists pay for these imports with their only export: carefully cultivated, high-quality agricultural goods and foodstuffs that are prized on worlds like Tiffanye.</p>
+            </div>
+
+            <div class="location-links">
+              <a href="https://travellermap.com/?p=-156.406!24.483!7.75&options=58367&dimunofficial=1" target="_blank">TravellerMap</a>
+            </div>
+          </div>
+        </section>
+
+        <section id="tiffanye" class="location-entry" data-tags="planet,igs,tiffanye,mission3,vanguard-reaches,diadem">
+          <h2>Tiffanye (Diadem 1619)</h2>
+          <img src="Images/locations/tiffanye_downport.jpg" alt="Tiffanye Downport" class="location-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=Tiffanye';">
+          <iframe class="location-map" src="https://travellermap.com/?p=-156.406!24.483!7.75&options=58367&dimunofficial=1" frameborder="0"></iframe>
+          <div class="location-tags">
+            <span class="location-tag">Planet</span>
+            <span class="location-tag">IGS</span>
+            <span class="location-tag">Mission 3</span>
+            <span class="location-tag">Vanguard Reaches</span>
+            <span class="location-tag">Diadem</span>
+          </div>
+          <div class="location-content">
+            <p>Tiffanye is the unlikely, yet undeniable, heart of the Diadem Main. A tiny, airless rockball orbiting a dim red dwarf, its billion-plus inhabitants live in sprawling, interconnected domed cities. What it lacks in natural resources it makes up for in cultural and intellectual capital. Tiffanye is a world of artists, academics, and bureaucrats, home to the prestigious Tiffanye University System and the headquarters of the crew's patron, the Institute for Geophysical Studies (IGS). Its shabby starport and slow-moving government hide a vibrant society that punches far above its weight in subsector politics.</p>
+            
+            <div class="location-stats">
+              <div class="stat-box">
+                <div class="stat-label">UWP</div>
+                <div>C200999-A</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Trade Codes</div>
+                <div>Hi, In, Na, Va</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Bases</div>
+                <div>S</div>
+              </div>
+              <div class="stat-box">
+                <div class="stat-label">Travel Zone</div>
+                <div>Green</div>
+              </div>
+            </div>
+
+            <div class="location-info">
+              <h3>At a Glance</h3>
+              <p>Tiffanye is the unlikely, yet undeniable, heart of the Diadem Main. A tiny, airless rockball orbiting a dim red dwarf, its billion-plus inhabitants live in sprawling, interconnected domed cities. What it lacks in natural resources it makes up for in cultural and intellectual capital. Tiffanye is a world of artists, academics, and bureaucrats, home to the prestigious Tiffanye University System and the headquarters of the crew's patron, the Institute for Geophysical Studies (IGS). Its shabby starport and slow-moving government hide a vibrant society that punches far above its weight in subsector politics.</p>
+            </div>
+
+            <div class="location-info">
+              <h3>The View from Orbit</h3>
+              <h4>A Tiny, Pockmarked World</h4>
+              <p>Tiffanye is a small, Size 2 rockball, only 3,200 km in diameter. It has no atmosphere or surface water (Atmosphere 0, Hydrographics 0), and its surface is a cratered wasteland, constantly bombarded by debris from a nearby asteroid belt.</p>
+              
+              <h4>Tidally Locked</h4>
+              <p>The world is tidally locked to its dim, M5-class red dwarf star. This means one side of the planet is in perpetual, faint daylight, while the other is in eternal night, lit only by the brilliant starfields of deep space.</p>
+              
+              <h4>City Lights</h4>
+              <p>The most prominent feature from orbit is the web of lights spreading across the surface. These are the massive, interconnected domed cities that house the planet's entire population. The largest of these is the capital, Quentin.</p>
+            </div>
+
+            <div class="location-info">
+              <h3>On the Surface</h3>
+              <h4>Vacuum and Low Gravity (Va)</h4>
+              <p>Outside the domes, it's a lethal vacuum. Inside, the cities maintain a breathable atmosphere and comfortable 0.8G gravity, a significant enhancement over the world's natural 0.2G.</p>
+              
+              <h4>Industrial Scars and Domed Cities (In)</h4>
+              <p>The landscape is a testament to its history. The surface is scarred by depleted open-cast mines, many of which have been converted into industrial factory sites or foundations for new city domes. Life is entirely contained within these massive structures, which range from gleaming academic arcologies to grimy industrial complexes.</p>
+              
+              <h4>The IGS Headquarters (S)</h4>
+              <p>The IGS maintains a significant presence here, with its main administrative headquarters and media production studios located in the University district of Quentin. This Exploration Base is the nerve center for all their operations in the Vanguard Reaches.</p>
+            </div>
+
+            <div class="location-info">
+              <h3>Society & Culture</h3>
+              <h4>The Educated Masses (Hi)</h4>
+              <p>Tiffanye boasts a massive population of over a billion souls (Population 9). Thanks to a history of social investment and free higher education, this is a highly educated and cultured populace. It is a world renowned for its artists, social scientists, and philosophers.</p>
+              
+              <h4>The Tiffanye Collective</h4>
+              <p>The government (Gov 9: Inflexible Bureaucracy) is a complex, slow-moving machine run by the "Collective Council of Experts." While this system ensures stability and provides a universal basic income, it stifles innovation and makes business dealings a nightmare of red tape. This is the "Tiffanye Tangle" the crew must navigate.</p>
+              
+              <h4>High Law, High Tech (LL9, TL-A)</h4>
+              <p>Law enforcement is ubiquitous and efficient. The world's technology level is TL-10 (A), making it advanced but, as noted, more focused on practical industry and arts than cutting-edge theoretical science. They can build good machinery, but they rely on others for groundbreaking new tech.</p>
+              
+              <h4>A World of Imports (Na)</h4>
+              <p>As a non-agricultural vacuum world, Tiffanye imports 100% of its food and relies heavily on imported raw materials now that its own mines are depleted. This makes it a vital trade hub, but also vulnerable to blockades or trade disputes.</p>
+            </div>
+
+            <div class="location-info">
+              <h3>For Travellers</h3>
+              <h4>The Starport (C-Class)</h4>
+              <p>The Quentin Downport is functional but shabby. It can handle repairs and refueling, but it's overcrowded and bogged down by bureaucratic inefficiency. Getting through customs can be an adventure in itself.</p>
+              
+              <h4>The Economy</h4>
+              <p>Tiffanye's economy is driven by its industrial output and, more importantly, its intellectual property. It exports manufactured goods, but its most valuable products are media (like the IGS's documentaries), art, and the expertise of its graduates.</p>
+            </div>
+
+            <div class="location-links">
+              <a href="https://travellermap.com/?p=-156.406!24.483!7.75&options=58367&dimunofficial=1" target="_blank">TravellerMap</a>
+            </div>
           </div>
         </section>
       </div>
