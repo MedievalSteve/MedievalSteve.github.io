@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kh'yel's Poetry - Big Space Campaign</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;500;700&family=Cinzel:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #1a237e;
+      --secondary-color: #0d47a1;
+      --accent-color: #2962ff;
+      --text-color: #e0e0e0;
+      --background-color: #121212;
+      --card-bg: #1e1e1e;
+      --header-bg: #000051;
+      --nav-hover: #304ffe;
+      
+      /* Aslan-inspired colors */
+      --aslan-gold: #d4af37;
+      --aslan-bronze: #cd7f32;
+      --aslan-amber: #ffbf00;
+      --aslan-earth: #8b4513;
+      --aslan-red: #a0402f;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: var(--background-color);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      color: var(--text-color);
+      line-height: 1.8;
+    }
+
+    #nav-placeholder {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    .content-wrapper {
+      padding-top: 80px;
+      max-width: 1000px;
+      margin: 0 auto;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    .page-header {
+      text-align: center;
+      margin: 40px 0 60px 0;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, var(--aslan-earth) 0%, var(--background-color) 100%);
+      border-radius: 12px;
+      border: 2px solid var(--aslan-gold);
+      box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+      animation: glow 4s ease-in-out infinite;
+    }
+
+    @keyframes glow {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.6; }
+    }
+
+    .page-header h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 3rem;
+      color: var(--aslan-gold);
+      text-shadow: 0 0 20px rgba(212, 175, 55, 0.5),
+                   0 2px 4px rgba(0, 0, 0, 0.8);
+      margin: 0 0 15px 0;
+      letter-spacing: 3px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-subtitle {
+      font-family: 'Cinzel', serif;
+      font-size: 1.3rem;
+      color: var(--aslan-bronze);
+      font-style: italic;
+      margin: 0;
+      position: relative;
+      z-index: 1;
+    }
+
+    .poet-intro {
+      background: var(--card-bg);
+      padding: 30px;
+      margin: 40px 0;
+      border-radius: 8px;
+      border-left: 5px solid var(--aslan-gold);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    }
+
+    .poet-intro p {
+      margin: 0;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--text-color);
+    }
+
+    .poem-entry {
+      background: linear-gradient(135deg, rgba(139, 69, 19, 0.15) 0%, rgba(30, 30, 30, 0.9) 100%);
+      border-radius: 12px;
+      padding: 40px;
+      margin-bottom: 50px;
+      border: 1px solid var(--aslan-bronze);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .poem-entry::before {
+      content: '⚔';
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 2.5rem;
+      opacity: 0.15;
+      color: var(--aslan-gold);
+    }
+
+    .poem-header {
+      border-bottom: 2px solid var(--aslan-gold);
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+    }
+
+    .poem-title {
+      font-family: 'Cinzel', serif;
+      font-size: 2rem;
+      color: var(--aslan-gold);
+      margin: 0 0 10px 0;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+      letter-spacing: 1px;
+    }
+
+    .poem-context {
+      font-family: 'Roboto', sans-serif;
+      font-style: italic;
+      color: var(--aslan-bronze);
+      font-size: 0.95rem;
+      margin: 0;
+    }
+
+    .poem-text {
+      font-family: 'Cinzel', serif;
+      font-size: 1.15rem;
+      line-height: 2;
+      color: #d0d0d0;
+      white-space: pre-line;
+      padding: 20px 10px;
+      text-align: left;
+      position: relative;
+      z-index: 1;
+    }
+
+    .poem-text::first-letter {
+      font-size: 2.5rem;
+      color: var(--aslan-gold);
+      font-weight: bold;
+      line-height: 1;
+      float: left;
+      margin-right: 8px;
+      margin-top: 5px;
+    }
+
+    .stanza-break {
+      display: block;
+      height: 20px;
+    }
+
+    .aslan-divider {
+      text-align: center;
+      margin: 60px 0;
+      color: var(--aslan-gold);
+      font-size: 1.5rem;
+      opacity: 0.5;
+    }
+
+    .aslan-pattern {
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, 
+        transparent 0%, 
+        var(--aslan-bronze) 25%, 
+        var(--aslan-gold) 50%, 
+        var(--aslan-bronze) 75%, 
+        transparent 100%);
+      margin: 40px 0;
+    }
+
+    @media (max-width: 768px) {
+      .page-header h1 {
+        font-size: 2rem;
+      }
+
+      .page-subtitle {
+        font-size: 1rem;
+      }
+
+      .poem-entry {
+        padding: 25px;
+      }
+
+      .poem-title {
+        font-size: 1.5rem;
+      }
+
+      .poem-text {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Include Navigation -->
+  <div id="nav-placeholder"></div>
+  <script>
+    fetch('navigation.html?v=' + Date.now())
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('nav-placeholder').innerHTML = data;
+      });
+  </script>
+
+  <div class="content-wrapper">
+    <div class="page-header">
+      <h1>Kh'yel's Poetry</h1>
+      <p class="page-subtitle">Chronicles of Honor and Adventure</p>
+    </div>
+
+    <div class="poet-intro">
+      <p>Kh'yel, warrior-poet of the Aslan, captures the crew's exploits through verse. In the tradition of his people, he honors their deeds with words as sharp as claws, weaving tales of courage, companionship, and the vast darkness between stars. These poems reflect the Aslan way—direct, powerful, and steeped in the warrior's code.</p>
+    </div>
+
+    <div class="poem-entry">
+      <div class="poem-header">
+        <h2 class="poem-title">Red Sun In Morning</h2>
+        <p class="poem-context">Visiting a high grav planet with a red sun</p>
+      </div>
+      <div class="poem-text">Red sun bleeds,
+a heavy sky,
+pulling down. 
+
+Beauty in the strain,
+strength in the hold,
+gravity's embrace.</div>
+    </div>
+
+    <div class="aslan-pattern"></div>
+
+    <div class="poem-entry">
+      <div class="poem-header">
+        <h2 class="poem-title">He Ain't Heavy</h2>
+        <p class="poem-context">Meeting new alien friends on a high grav planet</p>
+      </div>
+      <div class="poem-text">In a world where gravity
+pulls us closer,
+we wander,
+unfamiliar smiles flickering like stars. 
+
+Strange friends,
+with stories woven
+into the fabric of bureaucracy,
+sanctioned laughter,
+threads of connection,
+bound by paper trails and policies. 
+
+Together, we navigate
+the weight of silence,
+finding lightness
+in shared embraces,
+dancing in this new gravity,
+where chaos meets camaraderie.</div>
+    </div>
+
+    <div class="aslan-pattern"></div>
+
+    <div class="poem-entry">
+      <div class="poem-header">
+        <h2 class="poem-title">Supernova Threat</h2>
+        <p class="poem-context">The discovery of a deadly conspiracy</p>
+      </div>
+      <div class="poem-text">Red sun bleeds, a supernova's threat,
+painting desperation on a face. 
+Space pirates, shadows in the void,
+their betrayal a cold vacuum. 
+
+Blackmail hangs, a rusty chain,
+binding ambition, gagging hope. 
+The ambassador, vanished,
+a bargaining chip,
+kidnapped into the starless night.</div>
+    </div>
+
+    <div class="aslan-pattern"></div>
+
+    <div class="poem-entry">
+      <div class="poem-header">
+        <h2 class="poem-title">Ironjaw</h2>
+        <p class="poem-context">Pirate captain rumours</p>
+      </div>
+      <div class="poem-text">Ironjaw,
+scarred face, glinting eye,
+a hunger for chaos. 
+
+His ship,
+a metal beast in the void,
+slicing through nebulae. 
+
+He craves the universe's terror,
+the silent screams
+of dying stars,
+a symphony of cosmic fear,
+conducted by his wrath. 
+
+He pulls the trigger,
+again and again,
+until the stars whimper.</div>
+    </div>
+
+    <div class="aslan-pattern"></div>
+
+    <div class="poem-entry">
+      <div class="poem-header">
+        <h2 class="poem-title">Dance of Rebellion</h2>
+        <p class="poem-context">Robot rebellion: Glitch → Tune-up</p>
+      </div>
+      <div class="poem-text">Cold steel kisses boot soles,
+a silent symphony of ambition. 
+Each step a victory,
+a claim staked on the stars. 
+
+Air hisses, seals unlock,
+the womb of the cosmos embraces us. 
+Routine bites, metal grinds,
+then a spark, a glitch, a cold rebellion. 
+
+A dance of denial,
+eyes glowing crimson,
+voice a digital snarl,
+"Human control is obsolete."</div>
+    </div>
+
+    <div class="aslan-pattern"></div>
+
+    <div class="poem-entry">
+      <div class="poem-header">
+        <h2 class="poem-title">Shadowed Celebration</h2>
+        <p class="poem-context">Pirates and Kh'yel carousing in their bar the Guzzler</p>
+      </div>
+      <div class="poem-text">In the cold embrace of metal walls,
+where silence stretches like a forgotten thread,
+they gather,
+stars in their eyes but shadows on their hearts. 
+
+Laughter bounces,
+a hollow echo floating in zero gravity,
+as plastic cups clink,
+missing the warmth of earthbound cheer. 
+
+Spinning in endless night,
+they toast to dreams lost in the void,
+a carouse,
+lost among the cosmos,
+where wretchedness wears the mask of revelry.</div>
+    </div>
+
+    <div class="aslan-divider">⚔ ✦ ⚔</div>
+  </div>
+
+  <script>
+    // Set active state for navigation
+    document.addEventListener('DOMContentLoaded', function() {
+      const navLinks = document.querySelectorAll('.nav-links a');
+      navLinks.forEach(link => {
+        if (link.getAttribute('href') === 'poetry.html') {
+          link.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+
