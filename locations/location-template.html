@@ -1,0 +1,117 @@
+<!-- Location Template File -->
+<!-- Copy this file when creating new locations and customize the content -->
+<!-- File naming convention: location-[name-with-hyphens].html -->
+
+<section id="location-id" class="location-entry" data-tags="tag1,tag2,tag3">
+  <h2>Location Name</h2>
+  
+  <!-- Optional: TravellerMap iframe for star systems/planets -->
+  <iframe class="location-map" src="https://travellermap.com/?options=50175&p=COORDINATES&dimunofficial=1" frameborder="0"></iframe>
+  
+  <!-- Optional: Location image for stations/specific locations -->
+  <!-- <img src="Images/locations/path-to-image.jpg" alt="Location Name" class="location-image"> -->
+  
+  <div class="location-tags">
+    <span class="location-tag">Tag1</span>
+    <span class="location-tag">Tag2</span>
+    <span class="location-tag">Tag3</span>
+    <!-- Add more tags as needed -->
+  </div>
+  
+  <div class="location-content">
+    <p>Brief description of the location, its significance, and role in the campaign.</p>
+    
+    <div class="location-stats">
+      <div class="stat-box">
+        <div class="stat-label">Type</div>
+        <div>Planet/Station/System/etc.</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Population</div>
+        <div>Population level or N/A</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Faction</div>
+        <div>Controlling faction</div>
+      </div>
+      <!-- Add more stat boxes as needed -->
+    </div>
+
+    <!-- Optional sections - add as needed -->
+    <div class="location-info">
+      <h3>World Characteristics</h3>
+      <ul>
+        <li><strong>Climate:</strong> Description</li>
+        <li><strong>Gravity:</strong> Description</li>
+        <li><strong>Atmosphere:</strong> Description</li>
+        <!-- Add more characteristics as needed -->
+      </ul>
+    </div>
+
+    <div class="location-info">
+      <h3>Points of Interest</h3>
+      <p>Notable locations, facilities, or features within this location.</p>
+      <ul>
+        <li>Point of interest 1</li>
+        <li>Point of interest 2</li>
+        <!-- Add more as needed -->
+      </ul>
+    </div>
+
+    <div class="location-info">
+      <h3>History</h3>
+      <p>Historical background and significance of the location.</p>
+    </div>
+
+    <!-- Optional links section -->
+    <div class="location-links">
+      <a href="organizations.html#org-id">Related Organization</a>
+      <a href="npcs.html#npc-id">Key NPC</a>
+      <!-- Add more links as needed -->
+    </div>
+  </div>
+</section>
+
+<!-- 
+TEMPLATE USAGE INSTRUCTIONS:
+
+1. COPY this file to create new locations
+2. REPLACE the following placeholders:
+   - "location-id" with a unique ID (e.g., "nielkladlief", "tiffanye-station")
+   - "Location Name" with the actual location name
+   - Update the data-tags attribute with relevant tags
+   - Customize all content sections
+   - Add TravellerMap iframe for systems/planets OR image for stations/specific locations
+
+3. FILE NAMING: Use format "location-[name-with-hyphens].html"
+   Examples: location-nielkladlief.html, location-tiffanye-station.html
+
+4. TAGS: Use consistent tag names for filtering:
+   - Sector tags: "vanguard-reaches", etc.
+   - Sub-sector tags: "dlieblafia", "yavakrbi", "diadem"
+   - System tags: "nielkladlief", "drenalch", "tiffanye", "damrong"
+   - Type tags: "planet", "station", "space-coordinate", "debris-field"
+   - Faction tags: "zhodani-colonnade", "ghenani", "pirate", "igs"
+   - Mission tags: "mission1", "mission2", "mission3"
+
+5. TRAVELLER MAP COORDINATES: For TravellerMap iframes:
+   - Use the format: https://travellermap.com/?options=50175&p=X!Y!ZOOM&dimunofficial=1
+   - Adjust coordinates (X, Y) and zoom level as needed
+
+6. IMAGES: For non-planet locations (stations, etc.):
+   - Place images in Images/locations/ with appropriate subdirectories
+   - Use descriptive filenames in lowercase with underscores
+   - Comment out the iframe and uncomment the img tag
+
+7. CONTENT GUIDELINES:
+   - Keep descriptions concise but informative
+   - Include relevant game information (stats, characteristics)
+   - Use consistent formatting and structure
+   - Include only information relevant to the campaign
+   - Add links to related NPCs, organizations, or other locations
+
+8. STAT BOXES: Customize based on location type:
+   - Planets: Population, Starport, Tech Level, etc.
+   - Stations: Operator, Capacity, Services, etc.
+   - Space Coordinates: Purpose, Hazards, etc.
+-->

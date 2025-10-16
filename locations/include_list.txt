@@ -1,0 +1,8 @@
+locations/location-damrong.html
+locations/location-drenalch.html
+locations/location-nielkladlief.html
+locations/location-the-murk.html
+locations/location-the-nest.html
+locations/location-tiffanye.html
+locations/location-vivaldi.html
+locations/location-whisper-point.html
