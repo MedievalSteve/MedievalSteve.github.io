@@ -69,6 +69,42 @@
       overflow-y: auto;
     }
 
+    .search-container {
+      margin-bottom: 20px;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--background-color);
+      color: var(--text-color);
+      border: 1px solid var(--accent-color);
+      border-radius: 4px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--nav-hover);
+      box-shadow: 0 0 8px rgba(41, 98, 255, 0.3);
+    }
+
+    .search-input::placeholder {
+      color: rgba(224, 224, 224, 0.6);
+    }
+
+    .search-results {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: var(--accent-color);
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
     .filter-section::-webkit-scrollbar {
       width: 8px;
     }
@@ -329,6 +365,10 @@
 
     <div class="main-content">
       <div class="filter-section">
+        <div class="search-container">
+          <input type="text" id="location-search" class="search-input" placeholder="Search locations...">
+          <div class="search-results" id="search-results"></div>
+        </div>
         <h2>Filters</h2>
         <div class="filter-group">
           <h3>Sector</h3>
@@ -430,6 +470,62 @@
           filterLocations();
         });
       });
+      
+      // Initialize search functionality
+      initializeSearch();
+    }
+
+    // Search functionality
+    function initializeSearch() {
+      const searchInput = document.getElementById('location-search');
+      const searchResults = document.getElementById('search-results');
+      
+      if (!searchInput) return;
+      
+      searchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase().trim();
+        searchLocations(searchTerm);
+      });
+      
+      // Clear search on Escape key
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          searchInput.value = '';
+          searchLocations('');
+        }
+      });
+    }
+
+    function searchLocations(searchTerm) {
+      const locationEntries = document.querySelectorAll('.location-entry');
+      const searchResults = document.getElementById('search-results');
+      let visibleCount = 0;
+      
+      if (!searchTerm) {
+        // Show all locations when search is empty
+        locationEntries.forEach(entry => {
+          entry.style.display = '';
+          if (!entry.classList.contains('hidden')) {
+            visibleCount++;
+          }
+        });
+        searchResults.textContent = visibleCount > 0 ? `${visibleCount} locations shown` : '';
+        return;
+      }
+      
+      locationEntries.forEach(entry => {
+        const locationName = entry.querySelector('h2').textContent.toLowerCase();
+        const locationContent = entry.textContent.toLowerCase();
+        
+        if (locationName.includes(searchTerm) || locationContent.includes(searchTerm)) {
+          entry.style.display = '';
+          visibleCount++;
+        } else {
+          entry.style.display = 'none';
+        }
+      });
+      
+      searchResults.textContent = visibleCount > 0 ? `${visibleCount} locations found` : 'No locations found';
     }
 
     function filterLocations() {

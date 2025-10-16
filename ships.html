@@ -100,6 +100,47 @@
       padding: 0 40px;
     }
 
+    .search-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      padding: 0 40px;
+    }
+
+    .search-input {
+      width: 100%;
+      max-width: 400px;
+      padding: 12px 16px;
+      background: var(--background-color);
+      color: var(--text-color);
+      border: 1px solid var(--accent-color);
+      border-radius: 4px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--nav-hover);
+      box-shadow: 0 0 8px rgba(41, 98, 255, 0.3);
+    }
+
+    .search-input::placeholder {
+      color: rgba(224, 224, 224, 0.6);
+    }
+
+    .search-results {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: var(--accent-color);
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
     .ship-nav button {
       background: var(--card-bg);
       color: var(--text-color);
@@ -246,13 +287,18 @@
       <h1>Ships</h1>
     </header>
 
+    <div class="search-container">
+      <input type="text" id="ship-search" class="search-input" placeholder="Search ships...">
+      </div>
+    <div class="search-results" id="search-results"></div>
+
     <div class="ship-nav" id="ship-nav">
       <!-- Ship navigation buttons will be loaded here -->
-    </div>
+          </div>
 
     <div id="ship-container">
       <!-- Ships will be loaded here via JavaScript -->
-    </div>
+        </div>
   </div>
 
   <script>
@@ -265,6 +311,7 @@
     ];
 
     let currentShip = 'varyrthar'; // Default ship
+    let isSearchActive = false;
 
     // Load all ships
     async function loadShips() {
@@ -309,6 +356,11 @@
 
     // Show specific ship
     function showShip(shipId) {
+      // Don't interfere with search results
+      if (isSearchActive) {
+        return;
+      }
+      
       // Hide all ships
       const allShips = document.querySelectorAll('.ship-section');
       allShips.forEach(ship => {
@@ -340,8 +392,94 @@
       currentShip = shipId;
     }
 
+    // Search functionality
+    function initializeSearch() {
+      const searchInput = document.getElementById('ship-search');
+      const searchResults = document.getElementById('search-results');
+      
+      if (!searchInput) return;
+      
+      searchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase().trim();
+        searchShips(searchTerm);
+      });
+      
+      // Clear search on Escape key
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          searchInput.value = '';
+          searchShips('');
+        }
+      });
+    }
+
+    function searchShips(searchTerm) {
+      const shipSections = document.querySelectorAll('.ship-section');
+      const searchResults = document.getElementById('search-results');
+      const navButtons = document.querySelectorAll('.ship-nav button');
+      let visibleCount = 0;
+      
+      if (!searchTerm) {
+        // Show all ships when search is empty - restore normal behavior
+        isSearchActive = false;
+        shipSections.forEach(section => {
+          section.style.display = '';
+        });
+        navButtons.forEach(button => {
+          button.style.display = '';
+        });
+        searchResults.textContent = '';
+        // Restore the normal active ship display
+        showShip(currentShip);
+        return;
+      }
+      
+      // Set search active flag
+      isSearchActive = true;
+      
+      // Find matching ships
+      const matchingShipIds = [];
+      shipSections.forEach(section => {
+        const shipName = section.querySelector('h2').textContent.toLowerCase();
+        const shipContent = section.textContent.toLowerCase();
+        
+        if (shipName.includes(searchTerm) || shipContent.includes(searchTerm)) {
+          matchingShipIds.push(section.id);
+          visibleCount++;
+        }
+      });
+      
+      // Hide all ships first
+      shipSections.forEach(section => {
+        section.style.display = 'none';
+      });
+      
+      // Show only matching ships
+      matchingShipIds.forEach(id => {
+        const section = document.getElementById(id);
+        if (section) {
+          section.style.display = 'block';
+        }
+      });
+      
+      // Hide/show navigation buttons based on search results
+      navButtons.forEach(button => {
+        const buttonText = button.textContent.toLowerCase();
+        if (buttonText.includes(searchTerm)) {
+          button.style.display = '';
+        } else {
+          button.style.display = 'none';
+        }
+      });
+      
+      searchResults.textContent = visibleCount > 0 ? `${visibleCount} ships found` : 'No ships found';
+    }
+
     // Load ships when page loads
     document.addEventListener('DOMContentLoaded', function() {
+      // Initialize search functionality first
+      initializeSearch();
+      
       // Create navigation buttons immediately
       createShipNavigation();
       
@@ -350,4 +488,4 @@
     });
   </script>
 </body>
-</html>
+</html> 

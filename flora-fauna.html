@@ -75,6 +75,47 @@
       border: 1px solid var(--accent-color);
     }
 
+    .search-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+      padding: 0 40px;
+    }
+
+    .search-input {
+      width: 100%;
+      max-width: 400px;
+      padding: 12px 16px;
+      background: var(--background-color);
+      color: var(--text-color);
+      border: 1px solid var(--accent-color);
+      border-radius: 4px;
+      font-family: 'Roboto', sans-serif;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--nav-hover);
+      box-shadow: 0 0 8px rgba(41, 98, 255, 0.3);
+    }
+
+    .search-input::placeholder {
+      color: rgba(224, 224, 224, 0.6);
+    }
+
+    .search-results {
+      text-align: center;
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: var(--accent-color);
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
     .content-section h2 {
       margin-top: 0;
       margin-bottom: 20px;
@@ -161,6 +202,11 @@
       <h1>Flora & Fauna</h1>
     </header>
 
+    <div class="search-container">
+      <input type="text" id="species-search" class="search-input" placeholder="Search species...">
+    </div>
+    <div class="search-results" id="search-results"></div>
+
     <div id="species-container">
       <!-- Species will be loaded here via JavaScript -->
     </div>
@@ -187,8 +233,64 @@
       }
     }
 
+    // Search functionality
+    function initializeSearch() {
+      const searchInput = document.getElementById('species-search');
+      const searchResults = document.getElementById('search-results');
+      
+      if (!searchInput) return;
+      
+      searchInput.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase().trim();
+        searchSpecies(searchTerm);
+      });
+      
+      // Clear search on Escape key
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          searchInput.value = '';
+          searchSpecies('');
+        }
+      });
+    }
+
+    function searchSpecies(searchTerm) {
+      const speciesSections = document.querySelectorAll('.content-section');
+      const searchResults = document.getElementById('search-results');
+      let visibleCount = 0;
+      
+      if (!searchTerm) {
+        // Show all species when search is empty
+        speciesSections.forEach(section => {
+          section.style.display = '';
+        });
+        searchResults.textContent = '';
+        return;
+      }
+      
+      speciesSections.forEach(section => {
+        const speciesName = section.querySelector('h2').textContent.toLowerCase();
+        const speciesContent = section.textContent.toLowerCase();
+        
+        if (speciesName.includes(searchTerm) || speciesContent.includes(searchTerm)) {
+          section.style.display = '';
+          visibleCount++;
+        } else {
+          section.style.display = 'none';
+        }
+      });
+      
+      searchResults.textContent = visibleCount > 0 ? `${visibleCount} species found` : 'No species found';
+    }
+
     // Load species when page loads
-    document.addEventListener('DOMContentLoaded', loadSpecies);
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize search functionality first
+      initializeSearch();
+      
+      // Then load species
+      loadSpecies();
+    });
   </script>
 </body>
 </html>
