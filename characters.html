@@ -76,7 +76,7 @@
       border: 1px solid var(--accent-color);
       display: none;
     }
-    
+
     .character-section:first-child {
       display: block;
     }
@@ -223,7 +223,7 @@
     <div id="character-container">
       <!-- Characters will be loaded here via JavaScript -->
           </div>
-        </div>
+          </div>
 
   <script>
     // List of character files to load
@@ -240,7 +240,11 @@
     // Load all characters
     async function loadCharacters() {
       const container = document.getElementById('character-container');
-      const navContainer = document.getElementById('character-nav');
+      
+      if (!container) {
+        console.error('Character container not found!');
+        return;
+      }
       
       // Load characters
       for (const file of characterFiles) {
@@ -253,9 +257,6 @@
         }
       }
       
-      // Create navigation buttons
-      createCharacterNavigation();
-      
       // Show default character after a short delay to ensure DOM is updated
       setTimeout(() => {
         showCharacter(currentCharacter);
@@ -265,6 +266,12 @@
     // Create character navigation buttons
     function createCharacterNavigation() {
       const navContainer = document.getElementById('character-nav');
+      
+      if (!navContainer) {
+        console.error('Navigation container not found!');
+        return;
+      }
+      
       const characters = [
         { id: 'lucius', name: 'Lucius' },
         { id: 'quin', name: 'Quin' },
@@ -316,7 +323,13 @@
     }
 
     // Load characters when page loads
-    document.addEventListener('DOMContentLoaded', loadCharacters);
+    document.addEventListener('DOMContentLoaded', function() {
+      // Create navigation buttons immediately
+      createCharacterNavigation();
+      
+      // Then load characters
+      loadCharacters();
+    });
   </script>
 </body>
 </html> 
