@@ -284,7 +284,9 @@
         const button = document.createElement('button');
         button.textContent = character.name;
         button.onclick = () => showCharacter(character.id);
-        button.classList.add(character.id === currentCharacter ? 'active' : '');
+        if (character.id === currentCharacter) {
+          button.classList.add('active');
+        }
         navContainer.appendChild(button);
       });
     }

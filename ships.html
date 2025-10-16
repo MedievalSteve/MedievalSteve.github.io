@@ -282,9 +282,6 @@
         }
       }
       
-      // Create navigation buttons
-      createShipNavigation();
-      
       // Show default ship
       showShip(currentShip);
     }
@@ -303,7 +300,9 @@
         const button = document.createElement('button');
         button.textContent = ship.name;
         button.onclick = () => showShip(ship.id);
-        button.classList.add(ship.id === currentShip ? 'active' : '');
+        if (ship.id === currentShip) {
+          button.classList.add('active');
+        }
         navContainer.appendChild(button);
       });
     }
@@ -342,7 +341,13 @@
     }
 
     // Load ships when page loads
-    document.addEventListener('DOMContentLoaded', loadShips);
+    document.addEventListener('DOMContentLoaded', function() {
+      // Create navigation buttons immediately
+      createShipNavigation();
+      
+      // Then load ships
+      loadShips();
+    });
   </script>
 </body>
 </html>
