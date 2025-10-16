@@ -76,6 +76,10 @@
       border: 1px solid var(--accent-color);
       display: none;
     }
+    
+    .character-section:first-child {
+      display: block;
+    }
 
     .character-section.active {
       display: block;
@@ -218,8 +222,8 @@
 
     <div id="character-container">
       <!-- Characters will be loaded here via JavaScript -->
-    </div>
-  </div>
+          </div>
+        </div>
 
   <script>
     // List of character files to load
@@ -252,8 +256,10 @@
       // Create navigation buttons
       createCharacterNavigation();
       
-      // Show default character
-      showCharacter(currentCharacter);
+      // Show default character after a short delay to ensure DOM is updated
+      setTimeout(() => {
+        showCharacter(currentCharacter);
+      }, 100);
     }
 
     // Create character navigation buttons
@@ -313,4 +319,4 @@
     document.addEventListener('DOMContentLoaded', loadCharacters);
   </script>
 </body>
-</html>
+</html> 
