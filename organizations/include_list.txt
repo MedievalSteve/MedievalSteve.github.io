@@ -1,0 +1,8 @@
+organizations/organization-colonnade-university.html
+organizations/organization-diadem-trade-league.html
+organizations/organization-echo-keepers.html
+organizations/organization-hyperion-lines.html
+organizations/organization-igs.html
+organizations/organization-tyrannus-combine.html
+organizations/organization-void-vultures.html
+organizations/organization-zhodani-consulate.html

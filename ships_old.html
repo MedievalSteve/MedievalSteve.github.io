@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Ships - Big Space Campaign</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #1a237e;
+      --secondary-color: #0d47a1;
+      --accent-color: #2962ff;
+      --text-color: #e0e0e0;
+      --background-color: #121212;
+      --card-bg: #1e1e1e;
+      --header-bg: #000051;
+      --nav-hover: #304ffe;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: var(--background-color);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    #nav-placeholder {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    #nav-placeholder .nav-panel {
+      width: 100%;
+      background: var(--header-bg);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    #nav-placeholder .nav-content {
+      max-width: none;
+      margin: 0;
+      padding: 0 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 60px;
+    }
+
+    .content-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      margin-top: 60px; /* Height of the navigation bar */
+    }
+
+    header {
+      margin-top: 40px;
+      margin-bottom: 40px;
+      text-align: center;
+      width: 100%;
+      background: linear-gradient(to bottom, var(--header-bg), var(--background-color));
+      padding: 2rem 0;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--accent-color);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(41, 98, 255, 0.3);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .ship-section {
+      background: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      padding: 24px;
+      margin: 20px 40px;
+      max-width: none;
+      width: calc(100% - 80px);
+      border: 1px solid var(--accent-color);
+      display: none; /* Hide all ships by default */
+    }
+
+    .ship-section.active {
+      display: block; /* Show active ship */
+    }
+
+    .ship-nav {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+
+    .ship-nav button {
+      background: var(--card-bg);
+      color: var(--text-color);
+      border: 1px solid var(--accent-color);
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-family: 'Orbitron', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: all 0.3s ease;
+    }
+
+    .ship-nav button:hover {
+      background: rgba(41, 98, 255, 0.1);
+      color: var(--accent-color);
+    }
+
+    .ship-nav button.active {
+      background: var(--accent-color);
+      color: var(--background-color);
+    }
+
+    .ship-content {
+      margin-top: 20px;
+    }
+
+    .ship-info {
+      margin-bottom: 20px;
+      padding: 15px;
+      background: rgba(41, 98, 255, 0.1);
+      border-radius: 4px;
+      border: 1px solid var(--accent-color);
+    }
+
+    .ship-info h3 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    .ship-info p {
+      margin: 0;
+    }
+
+    .ship-info ul {
+      margin: 10px 0;
+      padding-left: 20px;
+    }
+
+    .ship-info li {
+      margin-bottom: 5px;
+    }
+
+    .ship-image {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      border-radius: 8px;
+      margin: 20px 0;
+      border: 1px solid var(--accent-color);
+    }
+
+    .ship-image-container {
+      display: flex;
+      justify-content: center;
+      margin: 20px 0;
+    }
+
+    .ship-stats-table th, .ship-stats-table td {
+      border: 1px solid rgba(224,224,224,0.12); /* Faint gridlines */
+      font-weight: normal;
+    }
+    .ship-stats-table {
+      border: 1px solid rgba(224,224,224,0.12); /* Faint outer border */
+    }
+    .ship-stats-table td:first-child {
+      font-weight: bold;
+    }
+    .ship-stats-table .no-row-border > td {
+      border-top: none !important;
+    }
+
+    @media (max-width: 768px) {
+      .ship-section {
+        margin: 10px;
+        padding: 16px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Include Navigation -->
+  <div id="nav-placeholder"></div>
+  <script>
+    fetch('navigation.html?v=' + Date.now())
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('nav-placeholder').innerHTML = data;
+        // Set active state after navigation is loaded
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+        const navLinks = document.querySelectorAll('.nav-links a');
+        navLinks.forEach(link => {
+          const linkPage = link.getAttribute('href');
+          if (linkPage === currentPage) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+      });
+  </script>
+  <div class="content-wrapper">
+    <header>
+      <h1>Ships</h1>
+    </header>
+
+    <main style="width: 100%; max-width: 800px; padding: 0 20px;">
+      <div class="ship-nav">
+        <button onclick="showShip('varyrthar')" class="active">Varyrthar</button>
+        <button onclick="showShip('errant-parcel')">Errant Parcel</button>
+        <button onclick="showShip('void-reaper')">The Void Reaper</button>
+        <button onclick="showShip('hyperion-security-cutter')">Hyperion Security Cutter</button>
+      </div>
+
+      <section id="varyrthar" class="ship-section active">
+        <h2>Varyrthar</h2>
+        <div class="ship-image-container">
+          <img src="Images/ships/varyrthar.png" alt="Varyrthar" class="ship-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=Varyrthar';">
+        </div>
+        <div class="ship-content">
+          <div class="ship-info">
+            <h3>Overview</h3>
+            <p>The "Varyrthar," a Ninz-class scout ship under the ownership of Quinstebr, is a vessel with a story etched into its well-worn hull. At roughly fifteen years of service, she's an older model, yet she carries her age with a rugged dignity born from considerable use across the star lanes. Her streamlined form, designed for atmospheric entry and function akin to a conventional aircraft, has weathered countless journeys, a testament to her Zhodani engineering.</p>
+          </div>
+
+          <div class="ship-info">
+            <h3>Bridge & Controls</h3>
+            <p>Stepping onto the bridge, one is struck by its surprisingly large and spacious layout for a scout ship of this class. From here, the pilot coaxes life from thrusters that, while diligently maintained, betray their age and wear; experienced hands know to compensate for a persistent subtle shudder, effectively a -1DM to all piloting checks.</p>
+          </div>
+
+          <div class="ship-info">
+            <h3>Technical Specifications</h3>
+            <ul>
+              <li>Class: Ninz-class Scout Ship</li>
+              <li>Age: ~15 years</li>
+              <li>Computer: Processing Score 5 (TL7)</li>
+              <li>Jump Drive: Jump-2 with "bis" enhancement package</li>
+              <li>Power Plant: TL12 Fusion (105 power units)</li>
+              <li>Fuel Capacity: 24 tons</li>
+              <li>Cargo Space: 6 tons</li>
+              <li>Armament: Single Double Laser Turret</li>
+              <li>Probe Drones: 10 units</li>
+              <li>Accommodation: 4 staterooms (double-occupancy)</li>
+            </ul>
+          </div>
+
+          <div class="ship-info">
+            <h3>HULL</h3>
+            <p>
+              <span style="font-weight:bold;">Total:</span> 40
+              <label style="margin-left: 20px; font-weight:bold;">Current:</label>
+              <input type="text" id="varyrthar-hull-current" style="width: 40px; text-align: center;" />
+            </p>
+          </div>
+
+          <div class="ship-info">
+            <h3>Ship Statistics</h3>
+            <table class="ship-stats-table" style="width:100%; border-collapse:collapse; margin: 16px 0; color: var(--text-color);">
+              <thead style="background: var(--header-bg); color: var(--accent-color);">
+                <tr>
+                  <th style="text-align:left; padding:6px;">Component</th>
+                  <th style="text-align:left; padding:6px;">Details</th>
+                  <th style="text-align:right; padding:6px;">Tons</th>
+                  <th style="text-align:right; padding:6px;">Cost (MCr)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><b>Crew</b></td><td>Pilot, Astrogator, Engineer</td><td></td><td></td></tr>
+                <tr><td>Hull</td><td>100 tons, Streamlined</td><td></td><td style="text-align:right;">6</td></tr>
+                <tr><td>Armour</td><td>Crystaliron, Armour 4</td><td style="text-align:right;">5</td><td style="text-align:right;">1.2</td></tr>
+                <tr><td>M-Drive</td><td>Thrust 2</td><td style="text-align:right;">2</td><td style="text-align:right;">4</td></tr>
+                <tr><td>J-Drive</td><td>Jump 2</td><td style="text-align:right;">10</td><td style="text-align:right;">15</td></tr>
+                <tr><td>Power Plant</td><td>Fusion (TL12), Power 105</td><td style="text-align:right;">7</td><td style="text-align:right;">7</td></tr>
+                <tr><td>Fuel Tanks</td><td>J-2, 20 weeks of operation</td><td style="text-align:right;">24</td><td></td></tr>
+                <tr><td>Bridge</td><td></td><td style="text-align:right;">10</td><td style="text-align:right;">0.5</td></tr>
+                <tr><td>Computer</td><td>Computer/5bis</td><td></td><td style="text-align:right;">0.045</td></tr>
+                <tr><td>Sensors</td><td>Military Grade<br>Life Scanner<br>Improved Signal Processing</td><td style="text-align:right;">2<br>1<br>1</td><td style="text-align:right;">4.1<br>2<br>4</td></tr>
+                <tr><td>Weapons</td><td>Double Turret (beam lasers)</td><td style="text-align:right;">1</td><td style="text-align:right;">1.5</td></tr>
+                <tr><td>Systems</td><td>Fuel Processor (20 tons/day)<br>Fuel Scoops<br>Probe Drones (10)</td><td style="text-align:right;">1<br>&nbsp;<br>2</td><td style="text-align:right;">0.05<br>&nbsp;<br>1</td></tr>
+                <tr><td>Staterooms</td><td>Standard x 4</td><td style="text-align:right;">16</td><td style="text-align:right;">2</td></tr>
+                <tr><td>Software</td><td>Manoeuvre/0<br>Jump Control/2<br>Library</td><td></td><td style="text-align:right;"><br>0.2<br></td></tr>
+                <tr><td>Common Areas</td><td>6-person Hot-Tub</td><td style="text-align:right;">12</td><td style="text-align:right;">1.2</td></tr>
+                <tr><td>Cargo</td><td></td><td style="text-align:right;">6</td><td></td></tr>
+              </tbody>
+            </table>
+            <div class="ship-info" style="margin-top: -8px;">
+              <h4 style="margin-bottom: 4px; color: var(--accent-color);">Running Costs</h4>
+              <ul style="margin: 0 0 0 18px; padding: 0;">
+                <li><b>Maintenance Cost:</b> Cr3735/month</li>
+                <li><b>Purchase Cost:</b> MCr49.795</li>
+              </ul>
+            </div>
+            <div class="ship-info" style="margin-top: 12px;">
+              <h4 style="margin-bottom: 4px; color: var(--accent-color);">Power Requirements</h4>
+              <ul style="margin: 0 0 0 18px; padding: 0;">
+                <li><b>Manoeuvre Drive:</b> 20</li>
+                <li><b>Basic Ship Systems:</b> 20</li>
+                <li><b>Fuel Processors:</b> 1</li>
+                <li><b>Jump Drive:</b> 20</li>
+                <li><b>Sensors:</b> 4</li>
+                <li><b>Weapons:</b> 9</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="ship-info">
+            <h3>Sensor Suite</h3>
+            <p>The ship's advanced sensor suite is a notable strength, outclassing most civilian vessels with its improved signal processing, inbuilt jamming capabilities, radar, lidar, and even a specialist suite of Life Scanners. However, this sophistication is somewhat undercut by the onboard computer. While functional, its Processing Score of 5 at Tech Level 7 is considered underpowered for a vessel with such advanced capabilities.</p>
+          </div>
+
+          <div class="ship-info">
+            <h3>Data Systems</h3>
+            <p>The ship's data library, though well-maintained physically, is a source of quiet frustration; it's riddled with erroneous information, a chaotic archive that automated systems fail to navigate, demanding manual, painstaking verification of any critical data.</p>
+          </div>
+
+          <div class="ship-info">
+            <h3>Endurance & Self-Sufficiency</h3>
+            <p>One of the "Varyrthar's" most prized assets is her impressive operational endurance. The ship is decidedly overpowered, with its TL12 Fusion Power Plant generating 105 power units while all systems typically draw a maximum of 74, leaving a comfortable surplus. Her fuel tankage (24 tons) is primarily geared to support her Jump-2 capability, allowing for at least one such jump with a reserve. However, her true extended endurance, allowing for up to 20 weeks of sub-jump operation, stems from her self-sufficiency. Equipped with efficient fuel scoops and an onboard processing plant capable of refining enough raw hydrogen (or water) in a single day for a day's operations, the "Varyrthar" can operate far from established supply lines, provided natural resources can be exploited.</p>
+          </div>
+
+          <div class="ship-info">
+            <h3>Accommodation</h3>
+            <p>Accommodation is typical for a scout of her era, comprising four standard staterooms, each fitted with double-occupancy bunkbeds. This usually translates to a room for the captain/owner, two for crew, and one for guests or mission specialists. The trade-off for this relative comfort on a compact hull is severely limited cargo space, with only a mere 6 tons available for any mission-specific samples or acquisitions beyond personal and food supplies.</p>
+          </div>
+
+          <div class="ship-info">
+            <h3>Character</h3>
+            <p>The "Varyrthar" is a ship of character: a veteran explorer, reliable if sometimes cantankerous, bearing the marks of her journeys and the quirks of her long service. She's a vessel that demands skill and understanding from her crew but repays it with resilience and the ability to venture far into the unknown.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="errant-parcel" class="ship-section">
+        <h2>Errant Parcel <span style='color:#f55;'>(SOLD FOR SALVAGE)</span></h2>
+        <img src="Images/ships/errant-parcel.png" alt="Errant Parcel" class="ship-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=Errant+Parcel';">
+        <div class="ship-content">
+          <div class="ship-info">
+            <h3>Background</h3>
+            <p>The "Errant Parcel," a 40-year-old vessel that was once a relatively unassuming 200-ton Type A Free Trader, has undergone further, more aggressive refits under Void Vulture command, transforming it into a potent long-range raider and high-value asset transport. While still maintaining the outward appearance of a heavily used 200-ton civilian vessel to aid in deception, its capabilities now far exceed its original design. The ship shows clear signs of its age, bearing the scars of past battles and the effects of a lackluster maintenance schedule, all of which contribute to its unique character and reputation among the Void Vultures.</p>
+          </div>
+
+          <div class="ship-info">
+            <h3>Technical Specifications</h3>
+            <ul>
+              <li>Class: Pirate Smuggler (with concealed smuggling compartments)</li>
+              <li>Nominal Hull Tonnage: 200 tons</li>
+              <li>Technology Level: 12</li>
+              <li>Jump Drive: J-3 (Jump 3)</li>
+              <li>Power Plant: TL12 Fusion (105 power units)</li>
+              <li>Fuel Capacity: 61 tons</li>
+              <li>Cargo Space: 61.5 tons (+10 tons concealed, discounted)</li>
+              <li>Armament: Turret 1 (Missile Rack & Sandcaster), Turret 2 (2x Pulse Lasers)</li>
+              <li>Accommodation: 3 staterooms (1 Captain, 2 Double Occupancy)</li>
+              <li>Quirks: DM-1 to all repair attempts, DM-1 to all Electronics (sensors) checks, -10% Hull (Hull Points: 72/80)</li>
+            </ul>
+          </div>
+
+          <div class="ship-info">
+            <h3>HULL</h3>
+            <p>
+              <span style="font-weight:bold;">Total:</span> 72
+              <label style="margin-left: 20px; font-weight:bold;">Current:</label>
+              <input type="text" id="errantparcel-hull-current" style="width: 40px; text-align: center;" />
+            </p>
+          </div>
+
+          <div class="ship-info">
+            <h3>Ship Statistics</h3>
+            <table class="ship-stats-table" style="width:100%; border-collapse:collapse; margin: 16px 0; color: var(--text-color);">
+              <thead style="background: var(--header-bg); color: var(--accent-color);">
+                <tr>
+                  <th style="text-align:left; padding:6px;">Component</th>
+                  <th style="text-align:left; padding:6px;">Details</th>
+                  <th style="text-align:right; padding:6px;">Tons</th>
+                  <th style="text-align:right; padding:6px;">Cost (MCr)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><b>Crew</b></td><td>1 Pilot (Astrogator), 1 Engineer, 2 Gunners</td><td></td><td></td></tr>
+                <tr><td>Hull</td><td>200 tons, Streamlined</td><td style="text-align:right;">200</td><td style="text-align:right;">13.2</td></tr>
+                <tr><td>Armour</td><td>Crystaliron, Armour 4</td><td></td><td style="text-align:right;">13.2</td></tr>
+                <tr><td>M-Drive</td><td>Thrust 1</td><td style="text-align:right;">2</td><td style="text-align:right;">4</td></tr>
+                <tr><td>J-Drive</td><td>Jump 3</td><td style="text-align:right;">20</td><td style="text-align:right;">30</td></tr>
+                <tr><td>Power Plant</td><td>Fusion (TL12), 105 Power</td><td style="text-align:right;">7</td><td style="text-align:right;">7</td></tr>
+                <tr><td>Fuel Tanks</td><td>J-3, 4 weeks operation</td><td style="text-align:right;">61</td><td></td></tr>
+                <tr><td>Bridge</td><td></td><td style="text-align:right;">10</td><td style="text-align:right;">1</td></tr>
+                <tr><td>Computer</td><td>Computer/15</td><td></td><td style="text-align:right;">2</td></tr>
+                <tr><td>Sensors</td><td>Military Grade</td><td style="text-align:right;">2</td><td style="text-align:right;">4.1</td></tr>
+                <tr><td>Weapons</td><td>Turret 1: Missile Rack & Sandcaster (1 ton, 1 Power)<br>Turret 2: 2x Pulse Lasers (1 ton, 9 Power)</td><td style="text-align:right;">2</td><td style="text-align:right;">4</td></tr>
+                <tr><td>Systems</td><td>Cargo Scoop (2 tons)<br>Cargo Crane (2.5 tons)</td><td style="text-align:right;">4.5</td><td style="text-align:right;">0.5<br>2.5</td></tr>
+                <tr><td>Staterooms</td><td>1 Captain's Quarters<br>2 Double Occupancy</td><td style="text-align:right;">12</td><td></td></tr>
+                <tr><td>Software</td><td>Manoeuvre (Included)<br>Intellect (Included)<br>Library (Included)<br>Jump Control/3 (15 Bandwidth)</td><td></td><td style="text-align:right;">0.3</td></tr>
+                <tr><td>Common Areas</td><td></td><td style="text-align:right;">3</td><td></td></tr>
+                <tr><td>Cargo</td><td>Standard (61.5 tons)<br>Concealed Compartment (10 tons)<br></td><td style="text-align:right;">71.5</td><td style="text-align:right;">0.2</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="ship-info" style="margin-top: -8px;">
+            <h4 style="margin-bottom: 4px; color: var(--accent-color);">Running Costs</h4>
+            <ul style="margin: 0 0 0 18px; padding: 0;">
+              <li><b>Monthly Maintenance Cost:</b> Cr5,950</li>
+              <li><b>Monthly Crew Salary:</b> Cr14,000</li>
+              <li><b>Age-Reduced Sale Price (20% off):</b> Cr57,040,000</li>
+              <li><b>Final Construction Cost (with Quirk 4 discount & Software):</b> Cr71,400,000</li>
+              <li><b>Final Sale Price (Age-reduced, Quirk 4 discounted & Software):</b> Cr57,140,000</li>
+            </ul>
+          </div>
+          <div class="ship-info" style="margin-top: 12px;">
+            <h4 style="margin-bottom: 4px; color: var(--accent-color);">Power Requirements</h4>
+            <ul style="margin: 0 0 0 18px; padding: 0;">
+              <li><b>Manoeuvre Drive:</b> 20</li>
+              <li><b>Basic Ships Systems:</b> 40</li>
+              <li><b>Jump Drive:</b> 60</li>
+              <li><b>Sensors:</b> 2</li>
+              <li><b>Weapons:</b> 9</li>
+            </ul>
+          </div>
+
+          <div class="ship-info">
+            <h3>Jump & Cargo</h3>
+            <p>The installation of a Jump-3 drive grants it significant strategic reach, allowing for rapid deployment across multiple systems or swift escapes from hostile territory. This enhanced jump capability, however, comes at the cost of extensive additonal fuel tankage, drastically reducing its original cargo capacity now reserved for only the most valuable plunder, critical supplies, or personnel.</p>
+          </div>
+
+          <div class="ship-info">
+            <h3>Armament & Defense</h3>
+            <p>Its defensive and offensive capabilities have been substantially boosted. In addition to its existing double laser turret, a second dual-purpose turret now houses a sandcaster for protection against energy weapons and a missile rack, giving it a respectable punch against more formidable opponents. The Armour-4 rating remains, providing a good degree of protection for a ship of its size.</p>
+          </div>
+
+          <div class="ship-info">
+            <h3>Specialised Sensors & Electronic Warfare</h3>
+            <p>The Errant Parcel is equipped with a military-grade sensor package consisting of visual sensors, jammers, lidar, and radar. These systems provide the ship with superior situational awareness and the ability to actively disrupt enemy communications and sensor locks.</p>
+            <ul>
+              <li><b>Jammers:</b> Can attempt to jam enemy communications or break sensor locks using opposed Electronics (comms) or (sensors) checks.</li>
+              <li><b>Lidar & Radar:</b> Detects physical objects and provides detailed targeting data. Active use increases the chance of being detected in return (DM+2 to be detected).</li>
+              <li><b>Visual:</b> Electronically-enhanced telescopes for long-range observation.</li>
+            </ul>
+            <p>These capabilities make the Errant Parcel a formidable opponent in electronic warfare, able to both evade detection and disrupt enemy operations.</p>
+          </div>
+
+          <div class="ship-info">
+            <h3>Role & Capabilities</h3>
+            <p>The "Errant Parcel" in this configuration is no longer just a simple transport for "diplomatic supplies." It's a well-armed long-range vessel capable of independent operations, and in-close hit-and-run attacks. The increased power demands and sophisticated systems mean it requires a skilled engineer to keep it running optimally, especially given the pirates' tendency for field expediency over proper maintenance. Its high operational cost and reduced cargo space signify its role as a specialized tool in the Void Vulture's arsenal, likely assigned to more critical and dangerous missions.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="void-reaper" class="ship-section">
+        <h2>The Void Reaper</h2>
+                     <div class="ship-image-container">
+               <img src="Images/ships/void_reaper.jpg" alt="The Void Reaper" class="ship-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=The+Void+Reaper';">
+             </div>
+        <div class="ship-content">
+          <div class="ship-info">
+            <h3>Overview</h3>
+            <p>The Void Reaper is a brutal testament to piracy in the Spinward Extents. At its core, it was once a respectable, hardworking merchant vessel, but those days are a distant memory, buried under layers of crude modifications, battle scars, and a terrifying reputation. The ship is not sleek or elegant; it is a blunt instrument of terror, a flying junkyard dog that has won far more fights than it should have. Its silhouette is familiar enough to lull a target into a moment of complacency, a fatal error the Vultures are quick to exploit.</p>
+          </div>
+
+          <div class="ship-info">
+            <h3>External Appearance</h3>
+            <h4>Hull & Armour</h4>
+            <p>The ship's hull is a chaotic patchwork of mismatched plates, welded-on slabs of salvaged armour, and the puckered scars of countless plasma impacts. The original corporate paint job has been almost entirely obliterated by atmospheric re-entry burns, micrometeoroid pitting, and the Vultures' own crude attempts at rebranding.</p>
+            
+            <h4>Paint & Insignia</h4>
+            <p>What little paint remains is a faded, peeling blue, likely from its former life with a minor shipping line. Over this, the Void Vultures have spray-painted their insignia in stark white: a stylized vulture's skull with a starburst in one eye socket. The paint is sloppy, dripping in places, and already flaking off.</p>
+            
+            <h4>Weaponry</h4>
+            <p>The Reaper's lethality comes from its non-standard armament. Its original twin turrets remain, but they have been supplemented by a host of additional weapon systems bolted directly onto the hull. Two oversized, ugly particle beam cannons sit on external mounts near the bow, their power conduits crudely shielded and exposed. A rack of military-grade missile tubes is welded to the ship's spine, looking dangerously like an afterthought. The ship bristles with weaponry in a way that is both intimidating and structurally unsound.</p>
+            
+            <h4>Drives & Sensors</h4>
+            <p>The maneuver drive engines are mismatched, one glowing with a steady blue light while the other flickers an angry orange, causing the ship to have a slight, almost imperceptible wobble when under thrust. The sensor array is a jagged, asymmetrical collection of different technologies—a standard civilian dish augmented with a scavenged military-grade sensor mast, giving the ship's "head" a lopsided, predatory look.</p>
+          </div>
+
+          <div class="ship-info">
+            <h3>Technical Specifications</h3>
+            <ul>
+              <li>Class: Heavily Modified Broadsword-class Mercenary Cruiser</li>
+              <li>Hull: 500 tons, Armour 6 (patched), 120 HP</li>
+              <li>Drives: M-Drive Thrust 2, J-Drive Jump 2</li>
+              <li>Allegiance: Void Vultures Pirate Gang</li>
+              <li>Role: Vayne's personal command ship</li>
+            </ul>
+          </div>
+
+          <div class="ship-info">
+            <h3>HULL</h3>
+            <p>
+              <span style="font-weight:bold;">Total:</span> 120
+              <label style="margin-left: 20px; font-weight:bold;">Current:</label>
+              <input type="text" id="void-reaper-hull-current" style="width: 40px; text-align: center;" />
+            </p>
+          </div>
+
+          <div class="ship-info">
+            <h3>Armament</h3>
+            <ul>
+              <li>1x Spinal Heavy Particle Barbette (5D)</li>
+              <li>1x Triple Laser Turret</li>
+              <li>1x Triple Missile Turret</li>
+              <li>1x Double Pulse Laser Turret</li>
+              <li>1x Double Sandcaster Turret</li>
+              <li>1x Plasma Gun Bay</li>
+              <li>1x Breaching Tube</li>
+            </ul>
+          </div>
+
+          <div class="ship-info">
+            <h3>Ship Statistics</h3>
+            <table class="ship-stats-table" style="width:100%; border-collapse:collapse; margin: 16px 0; color: var(--text-color);">
+              <thead style="background: var(--header-bg); color: var(--accent-color);">
+                <tr>
+                  <th style="text-align:left; padding:6px;">Component</th>
+                  <th style="text-align:left; padding:6px;">Details</th>
+                  <th style="text-align:right; padding:6px;">Tons</th>
+                  <th style="text-align:right; padding:6px;">Cost (MCr)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><b>Crew</b></td><td>Pilot, Astrogator, Engineer, Gunners</td><td></td><td></td></tr>
+                <tr><td>Hull</td><td>500 tons, Standard</td><td></td><td style="text-align:right;">30</td></tr>
+                <tr><td>Armour</td><td>Patched Crystaliron, Armour 6</td><td style="text-align:right;">30</td><td style="text-align:right;">7.2</td></tr>
+                <tr><td>M-Drive</td><td>Thrust 2</td><td style="text-align:right;">10</td><td style="text-align:right;">20</td></tr>
+                <tr><td>J-Drive</td><td>Jump 2</td><td style="text-align:right;">50</td><td style="text-align:right;">75</td></tr>
+                <tr><td>Power Plant</td><td>Fusion (TL12), Power 200</td><td style="text-align:right;">14</td><td style="text-align:right;">14</td></tr>
+                <tr><td>Fuel Tanks</td><td>J-2, 4 weeks of operation</td><td style="text-align:right;">100</td><td></td></tr>
+                <tr><td>Bridge</td><td></td><td style="text-align:right;">20</td><td style="text-align:right;">1</td></tr>
+                <tr><td>Computer</td><td>Computer/15</td><td></td><td style="text-align:right;">2</td></tr>
+                <tr><td>Sensors</td><td>Military Grade<br>Scavenged Components</td><td style="text-align:right;">4<br>2</td><td style="text-align:right;">4.1<br>1</td></tr>
+                <tr><td>Weapons</td><td>Spinal Heavy Particle Barbette<br>Triple Laser Turret<br>Triple Missile Turret<br>Double Pulse Laser Turret<br>Double Sandcaster Turret<br>Plasma Gun Bay<br>Breaching Tube</td><td style="text-align:right;">20<br>1<br>1<br>1<br>1<br>5<br>3</td><td style="text-align:right;">15<br>1.5<br>2<br>1.5<br>1<br>8<br>3</td></tr>
+                <tr><td>Systems</td><td>Fuel Scoops<br>Emergency Low Berths (4)</td><td style="text-align:right;">&nbsp;<br>4</td><td style="text-align:right;">&nbsp;<br>2</td></tr>
+                <tr><td>Staterooms</td><td>Captain's Quarters<br>Standard x 6</td><td style="text-align:right;">4<br>24</td><td style="text-align:right;">2<br>6</td></tr>
+                <tr><td>Software</td><td>Manoeuvre/2<br>Jump Control/2<br>Library<br>Fire Control/2</td><td></td><td style="text-align:right;">0.4<br>0.2<br>0.1<br>0.5</td></tr>
+                <tr><td>Cargo</td><td>Standard (200 tons)</td><td style="text-align:right;">200</td><td></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="ship-info" style="margin-top: -8px;">
+            <h4 style="margin-bottom: 4px; color: var(--accent-color);">Running Costs</h4>
+            <ul style="margin: 0 0 0 18px; padding: 0;">
+              <li><b>Monthly Maintenance Cost:</b> Cr15,000</li>
+              <li><b>Monthly Crew Salary:</b> Cr25,000</li>
+              <li><b>Estimated Construction Cost:</b> Cr180,000,000</li>
+            </ul>
+          </div>
+
+          <div class="ship-info" style="margin-top: 12px;">
+            <h4 style="margin-bottom: 4px; color: var(--accent-color);">Power Requirements</h4>
+            <ul style="margin: 0 0 0 18px; padding: 0;">
+              <li><b>Manoeuvre Drive:</b> 40</li>
+              <li><b>Basic Ships Systems:</b> 80</li>
+              <li><b>Jump Drive:</b> 100</li>
+              <li><b>Sensors:</b> 4</li>
+              <li><b>Weapons:</b> 45</li>
+              <li><b>Total Power Used:</b> 269</li>
+              <li><b>Power Available:</b> 200</li>
+              <li><b>Power Deficit:</b> 69 (Requires power management)</li>
+            </ul>
+          </div>
+
+          <div class="ship-info">
+            <h3>Combat Capabilities</h3>
+            <p>The Void Reaper is a heavily armed combat vessel designed for intimidation and overwhelming force. Its spinal-mounted heavy particle barbette provides devastating long-range firepower, while the multiple turret systems offer comprehensive coverage against various threats. The plasma gun bay and breaching tube make it particularly effective in close-quarters combat and boarding operations.</p>
+          </div>
+
+          <div class="ship-info">
+            <h3>Technical Issues</h3>
+            <p>The ship's mismatched drives and crude modifications create several operational challenges. The power deficit requires careful management during combat, often forcing the crew to choose between weapons and other systems. The patched armour, while providing good protection, is unevenly distributed and may have weak points. The sensor array's mixed components can lead to inconsistent detection capabilities.</p>
+          </div>
+
+          <div class="ship-info">
+            <h3>Role & Reputation</h3>
+            <p>As Captain Roric "Ironjaw" Vayne's personal command ship, The Void Reaper serves as the flagship of the Void Vultures pirate gang. Its terrifying appearance and overwhelming firepower are carefully cultivated to strike fear into potential targets and rivals alike. The ship's reputation for brutality and its captain's ruthless tactics have made it a symbol of terror throughout the Vanguard Reaches.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="hyperion-security-cutter" class="ship-section">
+        <h2>Hyperion Lines Security Cutter</h2>
+        <div class="ship-image-container">
+          <img src="Images/ships/hyperion-security-vesssel.jpg" alt="Hyperion Lines Security Cutter" class="ship-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=Hyperion+Security+Cutter';">
+        </div>
+        <div class="ship-content">
+          <div class="ship-info">
+            <h3>Overview</h3>
+            <p>The Hyperion Lines Security Cutter is a corporate security vessel designed for asset protection and recovery operations. While most details about this ship remain classified by Hyperion Lines, what is known suggests a vessel built for corporate enforcement rather than military engagement.</p>
+          </div>
+
+          <div class="ship-info">
+            <h3>Known Specifications</h3>
+            <ul>
+              <li>Operator: Hyperion Lines Security Division</li>
+              <li>Configuration: Semi-Streamlined hull (limited atmospheric capability)</li>
+              <li>Size: Larger than a 100-ton scout ship (estimated 200-400 tons)</li>
+              <li>Maneuver Drive: Thrust 2 or less (M-Drive ≤2)</li>
+              <li>Role: Corporate asset recovery and security enforcement</li>
+            </ul>
+          </div>
+
+          <div class="ship-info">
+            <h3>Design Philosophy</h3>
+            <p>The semi-streamlined configuration suggests a vessel optimized for space operations with limited atmospheric landing capability. This design choice likely prioritizes internal volume and operational systems over the ability to perform high-performance atmospheric maneuvers. The modest thrust rating indicates the ship relies more on positioning and firepower than speed and agility.</p>
+          </div>
+
+          <div class="ship-info">
+            <h3>Operational Profile</h3>
+            <p>Vessels of this class are typically deployed for high-value asset recovery missions, corporate security operations, and enforcement of Hyperion Lines contracts. The ship carries specialized security teams equipped for boarding operations and asset extraction in contested environments.</p>
+          </div>
+
+          <div class="ship-info">
+            <h3>Mission Status</h3>
+            <p>A vessel of this class was deployed to Damrong under the command of HSS Squad Leader Valerius for an artifact recovery operation. The outcome of that mission remains uncertain.</p>
+          </div>
+
+          <div class="ship-info">
+            <h3>Intelligence Assessment</h3>
+            <p>Much about the Hyperion Security Cutter's capabilities remains unknown. Armament, sensor capabilities, crew complement, and jump range are all classified by Hyperion Lines. Travelers encountering these vessels should proceed with extreme caution and assume they are well-armed and professionally crewed.</p>
+          </div>
+
+          <div class="ship-links">
+            <a href="organizations.html#hyperion">Organization: Hyperion Lines</a>
+            <a href="npcs.html#valerius-hss">Commander: HSS Squad Leader Valerius</a>
+            <a href="locations.html#damrong">Last Known Location: Damrong</a>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    function showShip(shipId) {
+      // Hide all ships
+      document.querySelectorAll('.ship-section').forEach(section => {
+        section.classList.remove('active');
+      });
+      
+      // Show selected ship
+      document.getElementById(shipId).classList.add('active');
+      
+      // Update button states
+      document.querySelectorAll('.ship-nav button').forEach(button => {
+        button.classList.remove('active');
+      });
+      event.target.classList.add('active');
+    }
+
+    // Save and load current hull values for each ship using localStorage
+    function setupHullInput(id, storageKey, defaultValue) {
+      const input = document.getElementById(id);
+      if (!input) return;
+      // Load saved value or default
+      input.value = localStorage.getItem(storageKey) || defaultValue;
+      // Save on change
+      input.addEventListener('input', function() {
+        localStorage.setItem(storageKey, input.value);
+      });
+    }
+    window.addEventListener('DOMContentLoaded', function() {
+      setupHullInput('varyrthar-hull-current', 'varyrthar-hull-current', '40');
+      setupHullInput('errantparcel-hull-current', 'errantparcel-hull-current', '72');
+      setupHullInput('void-reaper-hull-current', 'void-reaper-hull-current', '120');
+    });
+  </script>
+</body>
+</html> 

@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Flora & Fauna - Big Space Campaign</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary-color: #1a237e;
+      --secondary-color: #0d47a1;
+      --accent-color: #2962ff;
+      --text-color: #e0e0e0;
+      --background-color: #121212;
+      --card-bg: #1e1e1e;
+      --header-bg: #000051;
+      --nav-hover: #304ffe;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: var(--background-color);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+
+    #nav-placeholder {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+    }
+
+    .content-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      margin-top: 60px; /* Height of the navigation bar */
+    }
+
+    header {
+      margin-top: 40px;
+      margin-bottom: 40px;
+      text-align: center;
+      width: 100%;
+      background: linear-gradient(to bottom, var(--header-bg), var(--background-color));
+      padding: 2rem 0;
+    }
+
+    h1, h2, h3 {
+      font-family: 'Orbitron', sans-serif;
+      color: var(--accent-color);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(41, 98, 255, 0.3);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .content-section {
+      background: var(--card-bg);
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+      padding: 24px;
+      margin: 20px 40px;
+      max-width: none;
+      width: calc(100% - 80px);
+      border: 1px solid var(--accent-color);
+    }
+
+    .content-section h2 {
+      margin-top: 0;
+      margin-bottom: 20px;
+      font-size: 1.8rem;
+    }
+
+    .species-image {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      border-radius: 8px;
+      margin: 20px auto;
+      display: block;
+      border: 1px solid var(--accent-color);
+    }
+
+    .species-content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .species-info {
+      background: rgba(41, 98, 255, 0.1);
+      border-radius: 4px;
+      border: 1px solid var(--accent-color);
+      padding: 20px;
+    }
+
+    .species-info h3 {
+      margin-top: 0;
+      margin-bottom: 15px;
+      font-size: 1.4rem;
+    }
+
+    .species-info p {
+      margin-bottom: 15px;
+      line-height: 1.8;
+    }
+
+    .species-info ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .species-info li {
+      margin-bottom: 10px;
+      padding-left: 20px;
+      position: relative;
+    }
+
+    .species-info li:before {
+      content: "•";
+      color: var(--accent-color);
+      position: absolute;
+      left: 0;
+    }
+
+    .species-info li:last-child {
+      margin-bottom: 0;
+    }
+
+    @media (max-width: 768px) {
+      .content-section {
+        margin: 10px;
+        padding: 16px;
+      }
+
+      .species-info {
+        padding: 15px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Include Navigation -->
+  <div id="nav-placeholder"></div>
+  <script>
+    fetch('navigation.html?v=' + Date.now())
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('nav-placeholder').innerHTML = data;
+        // Set active state after navigation is loaded
+        const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+        const navLinks = document.querySelectorAll('.nav-links a');
+        navLinks.forEach(link => {
+          const linkPage = link.getAttribute('href');
+          if (linkPage === currentPage) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+      });
+  </script>
+  <div class="content-wrapper">
+    <header>
+      <h1>Flora & Fauna</h1>
+    </header>
+
+    <main style="width: 100%; max-width: none; padding: 0 40px;">
+      <section id="tklan-tick" class="content-section">
+        <h2>T'klan Tick</h2>
+        <img src="Images/creatures/tklan_tick.jpg" alt="T'klan Tick" class="species-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=T%27klan+Tick';">
+        <div class="species-content">
+          <div class="species-info">
+            <h3>Description</h3>
+            <p>A hexapedal arachnid, the T'klan Tick is roughly the size of a human hand. Its most notable feature is its bulbous abdomen, which houses a potent venom sac. The T'klan's ticks are ambush predators, lying in wait in dark, moist environments.</p>
+          </div>
+
+          <div class="species-info">
+            <h3>Characteristics</h3>
+            <ul>
+              <li>Size: Small (approximately 2-3 cm in length)</li>
+              <li>Color: Dark brown to black with iridescent markings</li>
+              <li>Habitat: Prefers dark, humid environments</li>
+              <li>Behavior: Aggressive when threatened, attracted to heat sources</li>
+              <li>Diet: Parasitic, feeds on blood and tissue fluids</li>
+              <li>Reproduction: Rapid breeding cycle, lays clusters of eggs in protected areas</li>
+            </ul>
+          </div>
+
+          <div class="species-info">
+            <h3>Danger Level</h3>
+            <p>High - The T'klan Tick's venom can cause severe neurological damage and death within hours if not treated. Immediate medical attention is required if bitten. The venom contains a complex mixture of neurotoxins and anticoagulants that can cause:</p>
+            <ul>
+              <li>Severe pain at the bite site</li>
+              <li>Progressive muscle paralysis</li>
+              <li>Respiratory distress</li>
+              <li>Neurological impairment</li>
+              <li>Systemic organ failure in severe cases</li>
+            </ul>
+          </div>
+
+          <div class="species-info">
+            <h3>Treatment</h3>
+            <p>Standard anti-venom treatments are effective if administered within the first hour of exposure. The treatment protocol includes:</p>
+            <ul>
+              <li>Immediate immobilization of the affected area</li>
+              <li>Administration of anti-venom serum</li>
+              <li>Supportive care for respiratory and neurological symptoms</li>
+              <li>Monitoring for secondary infections</li>
+              <li>Long-term follow-up for potential neurological complications</li>
+            </ul>
+          </div>
+
+          <div class="species-info">
+            <h3>Prevention</h3>
+            <p>When operating in areas known to harbor T'klan Ticks, the following precautions are recommended:</p>
+            <ul>
+              <li>Wear protective clothing covering all exposed skin</li>
+              <li>Use insect repellent specifically formulated for arachnids</li>
+              <li>Regular inspection of clothing and equipment</li>
+              <li>Maintain clean, well-lit living and working spaces</li>
+              <li>Carry emergency medical supplies including anti-venom</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html> 

@@ -44,16 +44,17 @@
 
     .main-content {
       display: flex;
-      justify-content: center;
+      justify-content: flex-start;
       width: 100%;
-      max-width: 1200px;
+      max-width: none;
       gap: 40px;
-      padding: 0 20px;
+      padding: 0 40px;
     }
 
     .filter-section {
-      width: 25%;
-      min-width: 250px;
+      width: 300px;
+      max-width: 300px;
+      flex-shrink: 0;
       background: var(--card-bg);
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.3);
@@ -86,8 +87,8 @@
     }
 
     .npc-section {
-      width: 50%;
-      min-width: 500px;
+      flex: 1;
+      min-width: 600px;
     }
 
     .npc-entry {
@@ -286,20 +287,28 @@
       text-decoration: underline;
     }
 
+    @media (max-width: 1024px) {
+      .main-content {
+        padding: 0 20px;
+        gap: 20px;
+      }
+    }
+
     @media (max-width: 768px) {
       .main-content {
         flex-direction: column;
         gap: 20px;
+        padding: 0 15px;
       }
 
       .filter-section {
         width: 100%;
+        max-width: none;
         position: static;
         max-height: none;
       }
 
       .npc-section {
-        width: 100%;
         min-width: auto;
       }
 
@@ -375,9 +384,9 @@
 
       <div class="npc-section" id="npc-container">
         <!-- NPCs will be loaded here via JavaScript -->
-      </div>
-    </div>
-  </div>
+              </div>
+              </div>
+            </div>
 
   <script>
     // List of NPC files to load
@@ -459,10 +468,10 @@
       if (activeButtons.length === 0) {
         // Show all if no filters active
         npcEntries.forEach(entry => entry.classList.add('visible'));
-      } else {
+        } else {
         const activeTags = Array.from(activeButtons).map(btn => btn.dataset.tag);
-        
-        npcEntries.forEach(entry => {
+          
+          npcEntries.forEach(entry => {
           const entryTags = entry.dataset.tags.split(',');
           const hasAnyTag = activeTags.some(tag => entryTags.includes(tag));
           

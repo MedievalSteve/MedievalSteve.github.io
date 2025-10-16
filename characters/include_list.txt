@@ -1,0 +1,5 @@
+characters/character-awang-vappu.html
+characters/character-glitch.html
+characters/character-khyel.html
+characters/character-lucius.html
+characters/character-quin.html

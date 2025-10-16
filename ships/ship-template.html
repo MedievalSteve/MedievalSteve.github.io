@@ -1,0 +1,141 @@
+<!-- Ship Template File -->
+<!-- Copy this file when creating new ships and customize the content -->
+<!-- File naming convention: ship-[name-with-hyphens].html -->
+
+<section id="ship-id" class="ship-section">
+  <h2>Ship Name</h2>
+  <div class="ship-image-container">
+    <img src="Images/ships/path-to-image.png" alt="Ship Name" class="ship-image" onerror="this.onerror=null;this.src='https://placehold.co/600x400/eeeeee/333333?text=Ship+Name';">
+  </div>
+  
+  <div class="ship-content">
+    <div class="ship-info">
+      <h3>Overview</h3>
+      <p>Brief description of the ship, its history, and role in the campaign.</p>
+    </div>
+
+    <div class="ship-info">
+      <h3>Bridge & Controls</h3>
+      <p>Description of the ship's bridge, controls, and piloting characteristics.</p>
+    </div>
+
+    <div class="ship-info">
+      <h3>Technical Specifications</h3>
+      <ul>
+        <li>Class: Ship Class</li>
+        <li>Age: Ship Age</li>
+        <li>Computer: Computer specifications</li>
+        <li>Jump Drive: Jump capabilities</li>
+        <li>Power Plant: Power specifications</li>
+        <li>Fuel Capacity: Fuel specifications</li>
+        <li>Cargo Space: Cargo capacity</li>
+        <li>Armament: Weapons and defenses</li>
+        <li>Accommodation: Crew and passenger capacity</li>
+      </ul>
+    </div>
+
+    <div class="ship-info">
+      <h3>HULL</h3>
+      <p>
+        <span style="font-weight:bold;">Total:</span> [Total Hull Points]
+        <label style="margin-left: 20px; font-weight:bold;">Current:</label>
+        <input type="text" id="ship-id-hull-current" style="width: 40px; text-align: center;" />
+      </p>
+    </div>
+
+    <div class="ship-info">
+      <h3>Ship Statistics</h3>
+      <table class="ship-stats-table" style="width:100%; border-collapse:collapse; margin: 16px 0; color: var(--text-color);">
+        <thead style="background: var(--header-bg); color: var(--accent-color);">
+          <tr>
+            <th style="text-align:left; padding:6px;">Component</th>
+            <th style="text-align:left; padding:6px;">Details</th>
+            <th style="text-align:right; padding:6px;">Tons</th>
+            <th style="text-align:right; padding:6px;">Cost (MCr)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><b>Crew</b></td><td>Crew requirements</td><td></td><td></td></tr>
+          <tr><td>Hull</td><td>Hull specifications</td><td></td><td style="text-align:right;">Cost</td></tr>
+          <tr><td>Armour</td><td>Armor specifications</td><td style="text-align:right;">Tons</td><td style="text-align:right;">Cost</td></tr>
+          <tr><td>M-Drive</td><td>Maneuver drive</td><td style="text-align:right;">Tons</td><td style="text-align:right;">Cost</td></tr>
+          <tr><td>J-Drive</td><td>Jump drive</td><td style="text-align:right;">Tons</td><td style="text-align:right;">Cost</td></tr>
+          <tr><td>Power Plant</td><td>Power specifications</td><td style="text-align:right;">Tons</td><td style="text-align:right;">Cost</td></tr>
+          <tr><td>Fuel Tanks</td><td>Fuel specifications</td><td style="text-align:right;">Tons</td><td></td></tr>
+          <tr><td>Bridge</td><td>Bridge specifications</td><td style="text-align:right;">Tons</td><td style="text-align:right;">Cost</td></tr>
+          <tr><td>Computer</td><td>Computer specifications</td><td></td><td style="text-align:right;">Cost</td></tr>
+          <tr><td>Sensors</td><td>Sensor specifications</td><td style="text-align:right;">Tons</td><td style="text-align:right;">Cost</td></tr>
+          <tr><td>Weapons</td><td>Weapon specifications</td><td style="text-align:right;">Tons</td><td style="text-align:right;">Cost</td></tr>
+          <!-- Add more components as needed -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Optional sections -->
+    <div class="ship-info">
+      <h3>History</h3>
+      <p>Ship's background, previous owners, notable events, etc.</p>
+    </div>
+
+    <div class="ship-info">
+      <h3>Notable Features</h3>
+      <p>Special modifications, unique characteristics, or campaign-specific details.</p>
+    </div>
+
+    <div class="ship-info">
+      <h3>Crew Quarters</h3>
+      <p>Description of living spaces, amenities, and accommodations.</p>
+    </div>
+
+    <div class="ship-info">
+      <h3>Performance Notes</h3>
+      <p>Piloting modifiers, special handling characteristics, or maintenance requirements.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 
+TEMPLATE USAGE INSTRUCTIONS:
+
+1. COPY this file to create new ships
+2. REPLACE the following placeholders:
+   - "ship-id" with a unique ID (e.g., "varyrthar", "errant-parcel")
+   - "Ship Name" with the actual ship name
+   - "path-to-image.png" with the correct image path
+   - Update all content sections with ship-specific information
+
+3. FILE NAMING: Use format "ship-[name-with-hyphens].html"
+   Examples: ship-varyrthar.html, ship-errant-parcel.html
+
+4. IMAGES: Place ship images in Images/ships/ with descriptive filenames
+   Recommended size: 600x400 pixels for consistency
+   Use PNG format for best quality
+
+5. HULL TRACKING: Update the input field ID to match ship ID:
+   - ID format: "[ship-id]-hull-current"
+   - Example: "varyrthar-hull-current"
+
+6. CONTENT GUIDELINES:
+   - Keep technical specifications accurate and detailed
+   - Include relevant game statistics and costs
+   - Add campaign-specific history and features
+   - Use consistent formatting for tables and lists
+   - Include piloting modifiers and special characteristics
+
+7. STATISTICS TABLE: Customize based on ship type:
+   - Include all major components with tons and costs
+   - Add weapons, sensors, and special equipment
+   - List crew requirements and accommodations
+   - Include any modifications or upgrades
+
+8. SHIP SECTIONS: Add or remove as needed:
+   - Overview: General description and role
+   - Bridge & Controls: Piloting characteristics
+   - Technical Specifications: Key stats and capabilities
+   - Hull: Damage tracking
+   - Ship Statistics: Detailed component breakdown
+   - History: Background and notable events
+   - Notable Features: Special modifications
+   - Crew Quarters: Living accommodations
+   - Performance Notes: Handling and maintenance
+-->
